@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour {
     #region STATE variables
     bool isPlayerVisible = false; // if true, move towards player to attack. If false, patrol the area
     bool isNearPlayer = false; // if true, stop to attack the player
-    //bool isAttacing = false;
+    bool isAttacking = false;
     #endregion
 
     #region MOVEMENT variables
@@ -48,16 +48,23 @@ public class EnemyController : MonoBehaviour {
     public void StandbyToAttackPlayer()
     {     
         isNearPlayer = true;
+        if (!isAttacking)
+        {
+            isAttacking = true;
+            StartCoroutine(AttackPlayer());
+        }
     }
 
     public void StopStandbyToAttackPlayer()
     {
         isNearPlayer = false;
+        isAttacking = false;
     }
 
     private IEnumerator AttackPlayer()
     {
-        while (isNearPlayer)
+        Debug.Log("yay");
+        while (isAttacking)
         {
             yield return new WaitForSeconds(attackCooldown);
             PlayerData.current.DamagePlayer(damagePerAttack);
