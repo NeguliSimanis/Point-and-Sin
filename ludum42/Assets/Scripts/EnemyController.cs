@@ -34,6 +34,8 @@ public class EnemyController : MonoBehaviour {
 	
 	void Update ()
     {
+        if (PlayerData.current.isGamePaused)
+            return;
         CheckIfPlayerVisible();
         if (!isPlayerVisible)
         {

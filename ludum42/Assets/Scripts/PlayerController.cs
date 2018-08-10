@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    #region DATA
-   // [SerializeField] private float moveSpeed;
+    #region CURRENT STATE
+    bool isAlive = true;
+    bool canPauseGame = true;
     #endregion
 
     #region MOVEMENT
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     #region UI
     [SerializeField] Image healthBar;
+    [SerializeField] GameObject defeatPanel;
     #endregion
 
     private void Awake()
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerData.current == null)
             PlayerData.current = new PlayerData();
+        PlayerData.current.isGamePaused = false;
     }
 
     void Start()
@@ -41,10 +44,19 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         UpdateHealthBar();
-
+        ListenForGamePause();
+        ListenForPlayerDefeat();
+        if (!isAlive)
+            Die();
+        if (PlayerData.current.isGamePaused)
+        {
+            Debug.Log("gam is fuck paue");
+            return;
+        }
         #region MOVEMENT
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("gsdade");
             GetTargetPositionAndDirection();
         }
         if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
@@ -56,6 +68,27 @@ public class PlayerController : MonoBehaviour
             MovePlayer(); 
         }
         #endregion
+    }
+
+    void Die()
+    {
+        canPauseGame = false;
+        PlayerData.current.isGamePaused = true;
+        defeatPanel.SetActive(true);    
+    }
+
+    void ListenForPlayerDefeat()
+    {
+        if (PlayerData.current.currentLife == 0)
+            isAlive = false;
+    }
+
+    void ListenForGamePause()
+    {
+        if (Input.GetKeyDown(KeyCode.P) && canPauseGame)
+        {
+            PlayerData.current.isGamePaused = !PlayerData.current.isGamePaused;
+        }
     }
 
     void UpdateHealthBar()
