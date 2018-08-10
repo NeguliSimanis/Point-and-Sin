@@ -6,12 +6,15 @@ public class EnemyController : MonoBehaviour {
 
     #region DATA variables
     float moveSpeed = 0.13f;
-    [SerializeField] float sightRadius = 3f; // if player moves closer than this, he will be noticed
+    [SerializeField] float sightRadius = 3f;    // if player moves closer than this, he will be noticed
+    [SerializeField] float attackCooldown = 1f; // deals damage to player once per this interval
+    [SerializeField] int damagePerAttack = 35;  // how much damage is dealt in one attack
     #endregion
 
     #region STATE variables
     bool isPlayerVisible = false; // if true, move towards player to attack. If false, patrol the area
     bool isNearPlayer = false; // if true, stop to attack the player
+    //bool isAttacing = false;
     #endregion
 
     #region MOVEMENT variables
@@ -42,17 +45,35 @@ public class EnemyController : MonoBehaviour {
         }
 	}
 
+    public void StandbyToAttackPlayer()
+    {     
+        isNearPlayer = true;
+    }
+
+    public void StopStandbyToAttackPlayer()
+    {
+        isNearPlayer = false;
+    }
+
+    private IEnumerator AttackPlayer()
+    {
+        while (isNearPlayer)
+        {
+            yield return new WaitForSeconds(attackCooldown);
+            PlayerData.current.DamagePlayer(damagePerAttack);
+            Debug.Log("attacking!");
+        }
+    }
+
     void CheckIfPlayerVisible()
     {
         if (Vector2.Distance(playerTransform.position, transform.position) <= sightRadius)
         {
             isPlayerVisible = true;
-            Debug.Log("near!");
         }
         else
         {
             isPlayerVisible = false;
-            Debug.Log("far!");
         }
     }
 
@@ -63,6 +84,8 @@ public class EnemyController : MonoBehaviour {
 
     void FollowPlayer()
     {
+        if (isNearPlayer)
+            return;
         targetPosition = playerTransform.position;
         GetTargetPositionAndDirection();
         MoveEnemy();
