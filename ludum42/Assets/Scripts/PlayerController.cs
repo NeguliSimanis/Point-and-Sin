@@ -50,6 +50,10 @@ public class PlayerController : MonoBehaviour
     EnemyController currentEnemy;
     #endregion
 
+    #region SPELLCASTING
+    [SerializeField] Transform fireballExitPoint;
+    #endregion
+
     private void Awake()
     {
         LoadPlayerData();
@@ -83,6 +87,11 @@ public class PlayerController : MonoBehaviour
             GetTargetPositionAndDirection();
             CheckIfPlayerIsWalking();
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("CAST SPELL");
+            GetSpellTargetLocation();
+        }
         if (isWalking)
         {
             CheckIfPlayerIsWalking();
@@ -93,6 +102,11 @@ public class PlayerController : MonoBehaviour
         {
             isAttacking = false;
         }
+    }
+
+    private void GetSpellTargetLocation()
+    {
+
     }
 
     void LateUpdate()
