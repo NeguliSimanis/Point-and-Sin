@@ -119,6 +119,7 @@ public class PlayerController : MonoBehaviour
         if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
         {
             Debug.Log("casting");
+            playerAnimator.SetTrigger("castSpellA");
             PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
         }
     }
