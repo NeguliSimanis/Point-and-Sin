@@ -219,6 +219,7 @@ public class PlayerController : MonoBehaviour
 
     void GetFireballTargetPosition()
     {
+        Debug.Log(fireballTargetPosition);
         fireballTargetPosition = Input.mousePosition;
         fireballTargetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
     }

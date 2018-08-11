@@ -5,9 +5,10 @@ using UnityEngine;
 public class Fireball : MonoBehaviour {
 
     private float fireBallDamage;
-    private float fireBallDuration = 2f;
+    private float fireBallDuration = 2.2f;
     private float fireBallDeathTime;
     private float fireBallMoveSpeed = 1f;
+    bool fireBallStarted = false;
 
     #region MOVEMENT variables
     public Vector2 targetPosition;
@@ -27,8 +28,15 @@ public class Fireball : MonoBehaviour {
         fireBallDeathTime = fireBallDuration + Time.time;
     }
 
+    public void StartFireball()
+    {
+        fireBallStarted = true;
+    }
+
     private void Update()
     {
+        if (!fireBallStarted)
+            return;
         MoveFireball();
         if (Time.time > fireBallDuration + fireBallDeathTime)
             Explode();
@@ -48,7 +56,6 @@ public class Fireball : MonoBehaviour {
 
     void MoveFireball()
     {
-        Debug.Log("moving");
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * fireBallMoveSpeed * Time.deltaTime;
     }
 }
