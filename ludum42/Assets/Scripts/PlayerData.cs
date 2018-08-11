@@ -28,7 +28,7 @@ public class PlayerData
     #endregion
 
     #region SPELLS
-    public float fireballDamage = 6f;
+    public int fireballDamage = 6;
     public int fireballManaCost = 20;
     public float fireballCastCooldown = 0.3f;
     #endregion
@@ -52,24 +52,15 @@ public class PlayerData
         GetManaRegenPerInterval();
     }
 
+    public void Pause(bool isPaused)
+    {
+        isGamePaused = isPaused;
+    }
+
     void GetManaRegenPerInterval()
     {
         manaRegenPerInterval = (int)(manaRegenPerSecond * (manaRegenInterval/1f));
     }
-
-   /* public IEnumerator RegenerateMana()
-    {
-        while (maxMana > currentMana)
-        {
-            Debug.Log("yay");
-            currentMana += manaRegenPerInterval;
-            if (currentMana >= maxMana)
-            {
-                currentMana = maxMana;
-            }
-            yield return new WaitForSeconds(manaRegenInterval);
-        }
-    }*/
 
     public void DamagePlayer(int damageAmount)
     {

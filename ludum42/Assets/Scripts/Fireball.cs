@@ -5,30 +5,31 @@ using UnityEngine;
 public class Fireball : MonoBehaviour {
 
     private float fireBallDamage;
-    private float fireBallDuration = 2f;
+    private float fireBallDuration = 0.3f;
     private float fireBallDeathTime;
     private float fireBallMoveSpeed = 1f;
+    bool fireBallStarted = false;
+    bool flyingRight;
+    bool isExploding = false;
 
-    #region MOVEMENT variables
-    public Vector2 targetPosition;
-    private Vector2 dirNormalized;
-    private Transform targetTransform;
-    #endregion
+    float explosionDuration;
+    [SerializeField] AnimationClip explosionAnimation;
+    [SerializeField] Animator animator; 
 
-   /* public Fireball(Transform target)
+    public void StartFireball(bool isFlyingRight)
     {
-        targetPosition = target.position;
-    }*/
-
-    private void Start()
-    {
-        //Debug.Log("FIRE!");
-        GetTargetPositionAndDirection();
+        fireBallStarted = true;
+        flyingRight = isFlyingRight;
         fireBallDeathTime = fireBallDuration + Time.time;
+        explosionDuration = explosionAnimation.length;
     }
 
     private void Update()
     {
+        if (!fireBallStarted)
+        {
+            return;
+        }
         MoveFireball();
         if (Time.time > fireBallDuration + fireBallDeathTime)
             Explode();
@@ -36,19 +37,35 @@ public class Fireball : MonoBehaviour {
 
     private void Explode()
     {
-       // Debug.Log("destroyed" + Time.time);
+        if (isExploding)
+            return;
+        isExploding = true;
+        animator.SetTrigger("explode");
+        StartCoroutine(SelfDestruct());
+    }
+
+    private IEnumerator SelfDestruct()
+    {
+        yield return new WaitForSeconds(explosionDuration);
         Destroy(gameObject);
     }
 
-    void GetTargetPositionAndDirection()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        dirNormalized = new Vector2(targetPosition.x - transform.position.x, targetPosition.y - transform.position.y);
-        dirNormalized = dirNormalized.normalized;
+        if (collision.gameObject.tag == "Enemy")
+        {
+            collision.gameObject.GetComponent<EnemyController>().TakeDamage(PlayerData.current.fireballDamage);
+            Explode();
+        }
     }
 
     void MoveFireball()
     {
-        Debug.Log("moving");
-        transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * fireBallMoveSpeed * Time.deltaTime;
+        if (isExploding)
+            return;
+        if (flyingRight)
+            transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.right * fireBallMoveSpeed * Time.deltaTime;
+        else
+            transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.left * fireBallMoveSpeed * Time.deltaTime;
     }
 }

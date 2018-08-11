@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private bool isAttackCooldown = false;
 
     private bool isRegeneratingMana = false;
+    private bool isCastingSpell = false;
     #endregion
 
     #region MOVEMENT
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
     float meleeAttackAnimStartTime;
     [SerializeField] Animator playerAnimator;
     [SerializeField] AnimationClip meleeAttackAnimation;
+    [SerializeField] AnimationClip spellcastAnimation;
     #endregion
 
     #region ATTACK and TARGETTING
@@ -56,7 +58,7 @@ public class PlayerController : MonoBehaviour
     #region SPELLCASTING
     [SerializeField] Transform fireballExitPoint;
     [SerializeField] GameObject fireBall;
-    Vector2 fireballTargetPosition;
+    private float spellcastEndTime;
     #endregion
 
     private void Awake()
@@ -94,7 +96,8 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            GetFireballTargetPosition();
+            GetTargetPositionAndDirection();
+            CheckWherePlayerIsFacing();
             StartSpellcasting();
         }
         if (isWalking)
@@ -103,10 +106,17 @@ public class PlayerController : MonoBehaviour
             MovePlayer(); 
         }
         CheckWherePlayerIsFacing();
+        // END MELEE ATTACK STATE
         if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length + 0.01f)
         {
             isAttacking = false;
         }
+        // END SPELL CAST STATE
+        if (isCastingSpell && Time.time > spellcastEndTime)
+        {
+            isCastingSpell = false;
+        }
+        // MANA REGEN
         if (PlayerData.current.maxMana > PlayerData.current.currentMana)
         {
             if (!isRegeneratingMana)
@@ -121,8 +131,10 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
         {
-            ShootFireBall();
+            isCastingSpell = true;
+            spellcastEndTime = Time.time + spellcastAnimation.length;
             playerAnimator.SetTrigger("castSpellA");
+            ShootFireBall();
             PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
         }
     }
@@ -130,7 +142,8 @@ public class PlayerController : MonoBehaviour
     private void ShootFireBall()
     {
         GameObject projectile = Instantiate(fireBall, fireballExitPoint.position, fireballExitPoint.rotation, fireballExitPoint);
-        projectile.AddComponent<Fireball>().targetPosition = fireballTargetPosition;
+        projectile.GetComponent<Fireball>().StartFireball(isFacingRight);
+        projectile.transform.parent = null;
     }
 
     public IEnumerator RegenerateMana()
@@ -173,8 +186,9 @@ public class PlayerController : MonoBehaviour
 
     void CheckWherePlayerIsFacing()
     {
-        if (isAttacking)
+        if (isAttacking || isCastingSpell)
             return;
+        Debug.Log("CHECKING ORIENT");
         if (isFacingRight && dirNormalized.x < 0)
         {
             isFacingRight = false;
@@ -217,17 +231,16 @@ public class PlayerController : MonoBehaviour
         manaBar.fillAmount = (PlayerData.current.currentMana * 1f) / PlayerData.current.maxMana;
     }
 
-    void GetFireballTargetPosition()
-    {
-        fireballTargetPosition = Input.mousePosition;
-        fireballTargetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-    }
-
     void GetTargetPositionAndDirection()
     {
         targetPosition = Input.mousePosition;
         targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-        dirNormalized = new Vector2(targetPosition.x - transform.position.x, targetPosition.y - transform.position.y);
+        GetDirNormalized(targetPosition);
+    }
+
+    void GetDirNormalized(Vector2 sourceVector)
+    {
+        dirNormalized = new Vector2(sourceVector.x - transform.position.x, sourceVector.y - transform.position.y);
         dirNormalized = dirNormalized.normalized;
     }
 
@@ -262,6 +275,11 @@ public class PlayerController : MonoBehaviour
         }
         // movement locked due to melee attack animation
         else if (isAttacking)
+        {
+            isWalking = false;
+        }
+        // movement locked due to fireball animation
+        else if (isCastingSpell)
         {
             isWalking = false;
         }
