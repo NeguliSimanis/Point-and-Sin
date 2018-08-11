@@ -96,6 +96,8 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
+            GetTargetPositionAndDirection();
+            CheckWherePlayerIsFacing();
             StartSpellcasting();
         }
         if (isWalking)
@@ -184,8 +186,9 @@ public class PlayerController : MonoBehaviour
 
     void CheckWherePlayerIsFacing()
     {
-        if (isAttacking)
+        if (isAttacking || isCastingSpell)
             return;
+        Debug.Log("CHECKING ORIENT");
         if (isFacingRight && dirNormalized.x < 0)
         {
             isFacingRight = false;
@@ -232,7 +235,12 @@ public class PlayerController : MonoBehaviour
     {
         targetPosition = Input.mousePosition;
         targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-        dirNormalized = new Vector2(targetPosition.x - transform.position.x, targetPosition.y - transform.position.y);
+        GetDirNormalized(targetPosition);
+    }
+
+    void GetDirNormalized(Vector2 sourceVector)
+    {
+        dirNormalized = new Vector2(sourceVector.x - transform.position.x, sourceVector.y - transform.position.y);
         dirNormalized = dirNormalized.normalized;
     }
 
