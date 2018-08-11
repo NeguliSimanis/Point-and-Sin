@@ -6,14 +6,16 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     #region CURRENT STATE
-    bool isAlive = true;
-    bool canPauseGame = true;
-    bool isFacingRight = true;
-    bool isWalking = false;
-    bool isWalkingInObstacle = false; // detected collision with background - player has to stop walking
-    bool isIdleA = false; // is in idle animation state A
-    bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
-    bool hasClickedOnBackground = false; 
+    private bool isAlive = true;
+    private bool canPauseGame = true;
+    private bool isFacingRight = true;
+    private bool isWalking = false;
+    private bool isWalkingInObstacle = false;     // detected collision with background - player has to stop walking
+    private bool isIdleA = false;                 // is in idle animation state A
+    private bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
+
+    public bool isNearEnemy = false;              // used to check if player can melee attack
+    public int nearEnemyID;
     #endregion
 
     #region MOVEMENT
@@ -165,6 +167,7 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = true;
         }
+        Debug.Log("checking " + isWalking);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -172,7 +175,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = true;
-            Debug.Log("COLLISION " + Time.deltaTime);
         }
     }
 
@@ -181,7 +183,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = false;
-            Debug.Log("EXIT " + Time.deltaTime);
         }
     }
 
