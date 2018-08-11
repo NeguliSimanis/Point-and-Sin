@@ -7,6 +7,8 @@ public class EnemyController : MonoBehaviour {
     #region DATA variables
     float moveSpeed = 0.13f;
     public int enemyID = 0;
+    private int maxHP = 12;
+    private int currentHP = 12;
     [SerializeField] float sightRadius = 3f;    // if player moves closer than this, he will be noticed
     [SerializeField] float attackCooldown = 1f; // deals damage to player once per this interval
     [SerializeField] int damagePerAttack = 35;  // how much damage is dealt in one attack
@@ -140,5 +142,17 @@ public class EnemyController : MonoBehaviour {
     void MoveEnemy()
     {
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * moveSpeed * Time.deltaTime;
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        currentHP = currentHP - damageAmount;
+        if (currentHP <= 0)
+            Die();
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
     }
 }

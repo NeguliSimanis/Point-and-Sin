@@ -20,7 +20,7 @@ public class PlayerEnemyDetector : MonoBehaviour {
 
             if (playerController.targetEnemyID == enemyID)
             {
-                playerController.TargetEnemy(enemyID);
+                playerController.TargetEnemy(enemyID, col.gameObject.GetComponent<EnemyController>());
             }
             //Debug.Log("entering melee zone of enemy " + enemyID);
         }

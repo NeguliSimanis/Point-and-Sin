@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private float attackCooldownResetTime;
     private bool isAttacking = false;
+    private bool isAttackCooldown = false;
     #endregion
 
     #region MOVEMENT
@@ -40,8 +41,13 @@ public class PlayerController : MonoBehaviour
     #region ANIMATION
     float waitTimeBeforeIdleA = 0.1f;
     float idleAnimAStartTime;
+    float meleeAttackAnimStartTime;
     [SerializeField] Animator playerAnimator;
-    [SerializeField] Animation meleeAttackAnimation;
+    [SerializeField] AnimationClip meleeAttackAnimation;
+    #endregion
+
+    #region ATTACK and TARGETTING
+    EnemyController currentEnemy;
     #endregion
 
     private void Awake()
@@ -83,6 +89,10 @@ public class PlayerController : MonoBehaviour
             MovePlayer(); 
         }
         CheckWherePlayerIsFacing();
+        if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length + 0.01f)
+        {
+            isAttacking = false;
+        }
     }
 
     void LateUpdate()
@@ -95,7 +105,6 @@ public class PlayerController : MonoBehaviour
             preparingIdleAnimationA = false;
             isIdleA = false;
         }
-
         // set start time for playing idle animation A
         if (!isWalking && !preparingIdleAnimationA)
         {
@@ -112,6 +121,8 @@ public class PlayerController : MonoBehaviour
 
     void CheckWherePlayerIsFacing()
     {
+        if (isAttacking)
+            return;
         if (isFacingRight && dirNormalized.x < 0)
         {
             isFacingRight = false;
@@ -158,23 +169,37 @@ public class PlayerController : MonoBehaviour
         dirNormalized = dirNormalized.normalized;
     }
 
-    public void TargetEnemy(int enemyID)
+    public void TargetEnemy(int enemyID, EnemyController target)
     {
-        //Debug.Log("target called");
+        if (isAttacking || isAttackCooldown)
+            return;
         targetEnemyID = enemyID;
-       // Debug.Log("Target enemy: " + enemyID);
-        //Debug.Log("Near enemy: " + nearEnemyID);
+        currentEnemy = target;
         if (nearEnemyID == enemyID)
         {
-            playerAnimator.SetTrigger("meleeAttack");   
-            Debug.Log("ATTACK!");
-            isWalking = false;
+            MeleeAttack();
         }
+    }
+
+    private void MeleeAttack()
+    {
+        isAttacking = true;
+        isWalking = false;
+        meleeAttackAnimStartTime = Time.time;
+        playerAnimator.SetTrigger("meleeAttack");
+
+        // deal damage
+        currentEnemy.TakeDamage(PlayerData.current.meleeDamage);
     }
 
     void CheckIfPlayerIsWalking()
     {
         if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
+        {
+            isWalking = false;
+        }
+        // movement locked due to melee attack animation
+        else if (isAttacking)
         {
             isWalking = false;
         }

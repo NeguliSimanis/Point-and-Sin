@@ -11,6 +11,6 @@ public class DetectPlayerInteraction : MonoBehaviour
     private void OnMouseDown()
     {
         //Debug.Log("Enemy " + enemyController.enemyID + " targeted");
-        playerController.TargetEnemy(enemyController.enemyID);
+        playerController.TargetEnemy(enemyController.enemyID, enemyController);
     }
 }
