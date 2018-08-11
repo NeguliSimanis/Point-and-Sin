@@ -654,7 +654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &218857394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1135,6 +1135,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 1334543376}
   meleeAttackAnimation: {fileID: 7400000, guid: f6661d68f167cf94ea805dd5e64b5ac9,
     type: 2}
+  spellcastAnimation: {fileID: 7400000, guid: 0894b2e88cc727e448ab77cae04bb8fa, type: 2}
   fireballExitPoint: {fileID: 421577456}
   fireBall: {fileID: 1144074662880994, guid: 4e0c2fe6184f15f4eb7a549f8a28eea7, type: 2}
 --- !u!50 &368055475

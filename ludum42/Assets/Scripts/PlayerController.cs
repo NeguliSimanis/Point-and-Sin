@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private bool isAttackCooldown = false;
 
     private bool isRegeneratingMana = false;
+    private bool isCastingSpell = false;
     #endregion
 
     #region MOVEMENT
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
     float meleeAttackAnimStartTime;
     [SerializeField] Animator playerAnimator;
     [SerializeField] AnimationClip meleeAttackAnimation;
+    [SerializeField] AnimationClip spellcastAnimation;
     #endregion
 
     #region ATTACK and TARGETTING
@@ -56,6 +58,7 @@ public class PlayerController : MonoBehaviour
     #region SPELLCASTING
     [SerializeField] Transform fireballExitPoint;
     [SerializeField] GameObject fireBall;
+    private float spellcastEndTime;
     #endregion
 
     private void Awake()
@@ -101,10 +104,17 @@ public class PlayerController : MonoBehaviour
             MovePlayer(); 
         }
         CheckWherePlayerIsFacing();
+        // END MELEE ATTACK STATE
         if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length + 0.01f)
         {
             isAttacking = false;
         }
+        // END SPELL CAST STATE
+        if (isCastingSpell && Time.time > spellcastEndTime)
+        {
+            isCastingSpell = false;
+        }
+        // MANA REGEN
         if (PlayerData.current.maxMana > PlayerData.current.currentMana)
         {
             if (!isRegeneratingMana)
@@ -119,6 +129,8 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
         {
+            isCastingSpell = true;
+            spellcastEndTime = Time.time + spellcastAnimation.length;
             playerAnimator.SetTrigger("castSpellA");
             ShootFireBall();
             PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
@@ -255,6 +267,11 @@ public class PlayerController : MonoBehaviour
         }
         // movement locked due to melee attack animation
         else if (isAttacking)
+        {
+            isWalking = false;
+        }
+        // movement locked due to fireball animation
+        else if (isCastingSpell)
         {
             isWalking = false;
         }
