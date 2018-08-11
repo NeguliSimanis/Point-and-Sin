@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private float attackCooldownResetTime;
     private bool isAttacking = false;
     private bool isAttackCooldown = false;
+
+    private bool isRegeneratingMana = false;
     #endregion
 
     #region MOVEMENT
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     #region UI
     [SerializeField] Image healthBar;
+    [SerializeField] Image manaBar;
     [SerializeField] GameObject defeatPanel;
     #endregion
 
@@ -48,6 +51,10 @@ public class PlayerController : MonoBehaviour
 
     #region ATTACK and TARGETTING
     EnemyController currentEnemy;
+    #endregion
+
+    #region SPELLCASTING
+    [SerializeField] Transform fireballExitPoint;
     #endregion
 
     private void Awake()
@@ -69,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        UpdateHealthBar();
+        UpdateHUD();
         ListenForGamePause();
         ListenForPlayerDefeat();
         if (!isAlive)
@@ -83,6 +90,10 @@ public class PlayerController : MonoBehaviour
             GetTargetPositionAndDirection();
             CheckIfPlayerIsWalking();
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            StartSpellcasting();
+        }
         if (isWalking)
         {
             CheckIfPlayerIsWalking();
@@ -92,6 +103,39 @@ public class PlayerController : MonoBehaviour
         if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length + 0.01f)
         {
             isAttacking = false;
+        }
+        if (PlayerData.current.maxMana > PlayerData.current.currentMana)
+        {
+            if (!isRegeneratingMana)
+            {
+                isRegeneratingMana = true;
+                StartCoroutine(RegenerateMana());
+            }
+        }
+    }
+
+    private void StartSpellcasting()
+    {
+        if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
+        {
+            Debug.Log("casting");
+            playerAnimator.SetTrigger("castSpellA");
+            PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
+        }
+    }
+
+    public IEnumerator RegenerateMana()
+    {
+        while (PlayerData.current.maxMana > PlayerData.current.currentMana)
+        {
+            Debug.Log("yay " + PlayerData.current.manaRegenPerInterval);
+            PlayerData.current.currentMana += PlayerData.current.manaRegenPerInterval;
+            if (PlayerData.current.currentMana >= PlayerData.current.maxMana)
+            {
+                PlayerData.current.currentMana = PlayerData.current.maxMana;
+                isRegeneratingMana = false;
+            }
+            yield return new WaitForSeconds(PlayerData.current.manaRegenInterval);
         }
     }
 
@@ -156,9 +200,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void UpdateHealthBar()
+    void UpdateHUD()
     {
+        // update hp bar
         healthBar.fillAmount = (PlayerData.current.currentLife * 1f) / PlayerData.current.maxLife;
+
+        // update mana bar
+        manaBar.fillAmount = (PlayerData.current.currentMana * 1f) / PlayerData.current.maxMana;
     }
 
     void GetTargetPositionAndDirection()
