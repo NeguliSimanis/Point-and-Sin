@@ -16,6 +16,8 @@ public class EnemyController : MonoBehaviour {
     bool isNearPlayer = false; // if true, stop to attack the player
     bool isAttacking = false;
     bool isFacingRight = true;
+    bool isWalking = false;
+    bool isIdleA = false; // is in idle animation state A
     #endregion
 
     #region MOVEMENT variables
@@ -26,6 +28,10 @@ public class EnemyController : MonoBehaviour {
 
     #region OTHER variables
     [SerializeField] Transform playerTransform;
+    #endregion
+
+    #region ANIMATION
+    [SerializeField] Animator enemyAnimator;
     #endregion
 
     void Start ()
@@ -48,6 +54,14 @@ public class EnemyController : MonoBehaviour {
         }
         CheckWhereEnemyIsFacing();
     }
+
+    void LateUpdate()
+    {
+        // ANIMATION
+        enemyAnimator.SetBool("isWalking", isWalking);
+        enemyAnimator.SetBool("startIdleA", isIdleA);
+    }
+
     void CheckWhereEnemyIsFacing()
     {
         if (isFacingRight && dirNormalized.x < 0)
@@ -61,7 +75,6 @@ public class EnemyController : MonoBehaviour {
             gameObject.transform.localScale = new Vector2(1f, 1f);
         }
     }
-
 
     public void StandbyToAttackPlayer()
     {     
@@ -81,12 +94,10 @@ public class EnemyController : MonoBehaviour {
 
     private IEnumerator AttackPlayer()
     {
-        Debug.Log("yay");
         while (isAttacking)
         {
             yield return new WaitForSeconds(attackCooldown);
             PlayerData.current.DamagePlayer(damagePerAttack);
-            Debug.Log("attacking!");
         }
     }
 
@@ -95,10 +106,13 @@ public class EnemyController : MonoBehaviour {
         if (Vector2.Distance(playerTransform.position, transform.position) <= sightRadius)
         {
             isPlayerVisible = true;
+            isWalking = true;
         }
         else
         {
             isPlayerVisible = false;
+            isIdleA = true;
+            isWalking = false;
         }
     }
 

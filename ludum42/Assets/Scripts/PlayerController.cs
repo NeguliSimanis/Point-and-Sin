@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     bool isAlive = true;
     bool canPauseGame = true;
     bool isFacingRight = true;
+    bool isWalking = false;
+    bool isIdleA = false; // is in idle animation state A
+    bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
     #endregion
 
     #region MOVEMENT
@@ -23,6 +26,12 @@ public class PlayerController : MonoBehaviour
     #region UI
     [SerializeField] Image healthBar;
     [SerializeField] GameObject defeatPanel;
+    #endregion
+
+    #region ANIMATION
+    float waitTimeBeforeIdleA = 0.1f;
+    float idleAnimAStartTime;
+    [SerializeField] Animator playerAnimator;
     #endregion
 
     private void Awake()
@@ -57,17 +66,41 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             GetTargetPositionAndDirection();
+            CheckIfPlayerIsWalking();
         }
-        if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
+        if (isWalking)
         {
-            return; 
-        }
-        else
-        {
+            CheckIfPlayerIsWalking();
             MovePlayer(); 
         }
         CheckWherePlayerIsFacing();
         #endregion
+    }
+
+    void LateUpdate()
+    {
+        Debug.Log("is walking " + isWalking);
+        // ANIMATION
+        playerAnimator.SetBool("isWalking", isWalking);
+
+        if (isWalking)
+        {
+            preparingIdleAnimationA = false;
+            isIdleA = false;
+        }
+
+        // set start time for playing idle animation A
+        if (!isWalking && !preparingIdleAnimationA)
+        {
+            preparingIdleAnimationA = true;
+            idleAnimAStartTime = Time.time + waitTimeBeforeIdleA;
+        }
+        // start playing idle animation A
+        if (Time.time > idleAnimAStartTime)
+        {
+            isIdleA = true;
+            playerAnimator.SetBool("startIdleA", isIdleA); 
+        }
     }
 
     void CheckWherePlayerIsFacing()
@@ -116,6 +149,18 @@ public class PlayerController : MonoBehaviour
         targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
         dirNormalized = new Vector2(targetPosition.x - transform.position.x, targetPosition.y - transform.position.y);
         dirNormalized = dirNormalized.normalized;
+    }
+
+    void CheckIfPlayerIsWalking()
+    {
+        if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
+        {
+            isWalking = false;
+        }
+        else
+        {
+            isWalking = true;
+        }
     }
 
     void MovePlayer()
