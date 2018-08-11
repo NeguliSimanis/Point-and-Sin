@@ -10,8 +10,10 @@ public class PlayerController : MonoBehaviour
     bool canPauseGame = true;
     bool isFacingRight = true;
     bool isWalking = false;
+    bool isWalkingInObstacle = false; // detected collision with background - player has to stop walking
     bool isIdleA = false; // is in idle animation state A
     bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
+    bool hasClickedOnBackground = false; 
     #endregion
 
     #region MOVEMENT
@@ -62,7 +64,6 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        #region MOVEMENT
         if (Input.GetMouseButtonDown(0))
         {
             GetTargetPositionAndDirection();
@@ -74,12 +75,10 @@ public class PlayerController : MonoBehaviour
             MovePlayer(); 
         }
         CheckWherePlayerIsFacing();
-        #endregion
     }
 
     void LateUpdate()
     {
-        Debug.Log("is walking " + isWalking);
         // ANIMATION
         playerAnimator.SetBool("isWalking", isWalking);
 
@@ -157,9 +156,32 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = false;
         }
+        else if (isWalkingInObstacle)
+        {
+            isWalking = false;
+            isWalkingInObstacle = false;
+        }
         else
         {
             isWalking = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Background")
+        {
+            isWalkingInObstacle = true;
+            Debug.Log("COLLISION " + Time.deltaTime);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Background")
+        {
+            isWalkingInObstacle = false;
+            Debug.Log("EXIT " + Time.deltaTime);
         }
     }
 
