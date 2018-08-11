@@ -28,7 +28,7 @@ public class PlayerData
     #endregion
 
     #region SPELLS
-    public float fireballDamage = 6f;
+    public int fireballDamage = 6;
     public int fireballManaCost = 20;
     public float fireballCastCooldown = 0.3f;
     #endregion

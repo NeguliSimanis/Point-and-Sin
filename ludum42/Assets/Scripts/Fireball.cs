@@ -40,7 +40,6 @@ public class Fireball : MonoBehaviour {
         if (isExploding)
             return;
         isExploding = true;
-        Debug.Log("EXPLODE");
         animator.SetTrigger("explode");
         StartCoroutine(SelfDestruct());
     }
@@ -49,6 +48,16 @@ public class Fireball : MonoBehaviour {
     {
         yield return new WaitForSeconds(explosionDuration);
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("enemy hit");
+            collision.gameObject.GetComponent<EnemyController>().TakeDamage(PlayerData.current.fireballDamage);
+            Explode();
+        }
     }
 
     void MoveFireball()
