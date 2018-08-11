@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 368055476}
   - component: {fileID: 368055477}
   - component: {fileID: 368055478}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -446,12 +446,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 368055471}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1, y: 0.372, z: 0}
+  m_LocalPosition: {x: -0.28, y: 0.305, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1334543375}
+  - {fileID: 1598953205}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &368055474
 MonoBehaviour:
@@ -465,10 +466,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isNearEnemy: 0
-  nearEnemyID: 0
+  nearEnemyID: -1
+  targetEnemyID: -2
   healthBar: {fileID: 672789731}
   defeatPanel: {fileID: 1349204676}
   playerAnimator: {fileID: 1334543376}
+  meleeAttackAnimation: {fileID: 0}
 --- !u!50 &368055475
 Rigidbody2D:
   serializedVersion: 4
@@ -1169,7 +1172,7 @@ Transform:
   - {fileID: 1886256132}
   - {fileID: 1804648231}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &970425817
 SpriteRenderer:
@@ -1359,9 +1362,11 @@ GameObject:
   - component: {fileID: 1186359304}
   - component: {fileID: 1186359303}
   - component: {fileID: 1186359306}
+  - component: {fileID: 1186359307}
+  - component: {fileID: 1186359308}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1458,11 +1463,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338b82d4fade49f48b58943dba3d79d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyID: 0
   sightRadius: 1.2
   attackCooldown: 1
   damagePerAttack: 35
   playerTransform: {fileID: 368055473}
   enemyAnimator: {fileID: 317622027}
+--- !u!61 &1186359307
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1186359302}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.010025561, y: -0.0015333444}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.01, y: 0.01}
+    newSize: {x: 0.01, y: 0.01}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.23803222, y: 0.33789232}
+  m_EdgeRadius: 0
+--- !u!114 &1186359308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1186359302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ed06a33a26e7ef40a3f62978c14745b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 368055474}
+  enemyController: {fileID: 1186359306}
 --- !u!1 &1197334334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,7 +1623,7 @@ GameObject:
   - component: {fileID: 1334543375}
   - component: {fileID: 1334543377}
   - component: {fileID: 1334543376}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PlayerSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1843,13 +1887,13 @@ GameObject:
   - component: {fileID: 1536976020}
   - component: {fileID: 1536976021}
   - component: {fileID: 1536976022}
-  m_Layer: 0
-  m_Name: CheckForPlayer
+  m_Layer: 2
+  m_Name: MeleeAttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1536976020
 Transform:
   m_ObjectHideFlags: 0
@@ -1875,7 +1919,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.10374135, y: -0.04788065}
+  m_Offset: {x: 0.025163144, y: -0.0159166}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1886,7 +1930,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.31371117, y: 0.26583052}
+  m_Size: {x: 0.15655476, y: 0.20190242}
   m_EdgeRadius: 0
 --- !u!114 &1536976022
 MonoBehaviour:
@@ -1900,6 +1944,73 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyController: {fileID: 1186359306}
+--- !u!1 &1598953204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1598953205}
+  - component: {fileID: 1598953207}
+  - component: {fileID: 1598953206}
+  m_Layer: 2
+  m_Name: MeleeAttackRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1598953205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1598953204}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 368055473}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1598953206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1598953204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c5613585a25ce24c9e232c485599e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 368055474}
+--- !u!61 &1598953207
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1598953204}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0689373, y: 0.0039660484}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.38113296, y: 0.26369444}
+  m_EdgeRadius: 0
 --- !u!1 &1804648230
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,7 +2156,7 @@ Transform:
   m_LocalScale: {x: -1.2, y: 1.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1881337612
 GameObject:

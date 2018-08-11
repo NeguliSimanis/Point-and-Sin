@@ -15,7 +15,14 @@ public class PlayerEnemyDetector : MonoBehaviour {
         if (col.gameObject.tag == "Enemy")
         {
             playerController.isNearEnemy = true;
-            Debug.Log("near enemy");
+            int enemyID = col.gameObject.GetComponent<EnemyController>().enemyID;
+            playerController.nearEnemyID = enemyID;
+
+            if (playerController.targetEnemyID == enemyID)
+            {
+                playerController.TargetEnemy(enemyID);
+            }
+            //Debug.Log("entering melee zone of enemy " + enemyID);
         }
     }
 
@@ -23,8 +30,9 @@ public class PlayerEnemyDetector : MonoBehaviour {
     {
         if (col.gameObject.tag == "Enemy")
         {
+            //Debug.Log("exiting melee zone");
             playerController.isNearEnemy = false;
-            Debug.Log("far enemy");
+            playerController.nearEnemyID = -1;
         }
     }
 }

@@ -19,6 +19,11 @@ public class PlayerData
     public int maxLife = 100;
     #endregion
 
+    #region MELEE ATTACK
+    public int meleeDamage = 10;
+    public float meleeAttackCooldown = 0.3f;
+    #endregion
+
     public PlayerData()
     {
         isGamePaused = false;

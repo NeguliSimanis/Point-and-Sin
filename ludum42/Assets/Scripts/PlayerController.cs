@@ -13,9 +13,14 @@ public class PlayerController : MonoBehaviour
     private bool isWalkingInObstacle = false;     // detected collision with background - player has to stop walking
     private bool isIdleA = false;                 // is in idle animation state A
     private bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
+    private bool isMovementLocked = false;        // happens when player atack anim plays
 
     public bool isNearEnemy = false;              // used to check if player can melee attack
-    public int nearEnemyID;
+    public int nearEnemyID = -1;
+    public int targetEnemyID = -2;
+
+    private float attackCooldownResetTime;
+    private bool isAttacking = false;
     #endregion
 
     #region MOVEMENT
@@ -36,6 +41,7 @@ public class PlayerController : MonoBehaviour
     float waitTimeBeforeIdleA = 0.1f;
     float idleAnimAStartTime;
     [SerializeField] Animator playerAnimator;
+    [SerializeField] Animation meleeAttackAnimation;
     #endregion
 
     private void Awake()
@@ -152,6 +158,20 @@ public class PlayerController : MonoBehaviour
         dirNormalized = dirNormalized.normalized;
     }
 
+    public void TargetEnemy(int enemyID)
+    {
+        //Debug.Log("target called");
+        targetEnemyID = enemyID;
+       // Debug.Log("Target enemy: " + enemyID);
+        //Debug.Log("Near enemy: " + nearEnemyID);
+        if (nearEnemyID == enemyID)
+        {
+            playerAnimator.SetTrigger("meleeAttack");   
+            Debug.Log("ATTACK!");
+            isWalking = false;
+        }
+    }
+
     void CheckIfPlayerIsWalking()
     {
         if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
@@ -167,7 +187,6 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = true;
         }
-        Debug.Log("checking " + isWalking);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
