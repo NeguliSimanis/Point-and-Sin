@@ -56,7 +56,6 @@ public class PlayerController : MonoBehaviour
     #region SPELLCASTING
     [SerializeField] Transform fireballExitPoint;
     [SerializeField] GameObject fireBall;
-    Vector2 fireballTargetPosition;
     #endregion
 
     private void Awake()
@@ -94,7 +93,6 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            GetFireballTargetPosition();
             StartSpellcasting();
         }
         if (isWalking)
@@ -121,8 +119,8 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
         {
-            ShootFireBall();
             playerAnimator.SetTrigger("castSpellA");
+            ShootFireBall();
             PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
         }
     }
@@ -130,7 +128,8 @@ public class PlayerController : MonoBehaviour
     private void ShootFireBall()
     {
         GameObject projectile = Instantiate(fireBall, fireballExitPoint.position, fireballExitPoint.rotation, fireballExitPoint);
-        projectile.AddComponent<Fireball>().targetPosition = fireballTargetPosition;
+        projectile.GetComponent<Fireball>().StartFireball(isFacingRight);
+        projectile.transform.parent = null;
     }
 
     public IEnumerator RegenerateMana()
@@ -215,13 +214,6 @@ public class PlayerController : MonoBehaviour
 
         // update mana bar
         manaBar.fillAmount = (PlayerData.current.currentMana * 1f) / PlayerData.current.maxMana;
-    }
-
-    void GetFireballTargetPosition()
-    {
-        Debug.Log(fireballTargetPosition);
-        fireballTargetPosition = Input.mousePosition;
-        fireballTargetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
     }
 
     void GetTargetPositionAndDirection()

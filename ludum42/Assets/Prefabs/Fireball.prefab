@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4026913118947704}
+  - component: {fileID: 114126765345650778}
   m_Layer: 2
   m_Name: Fireball
   m_TagString: Untagged
@@ -88,6 +89,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114126765345650778
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1144074662880994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60929815601188f40b3105a1b2cc29ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionAnimation: {fileID: 7400000, guid: ab815e2509cbada4595e6daf89450482, type: 2}
 --- !u!212 &212507953738829236
 SpriteRenderer:
   m_ObjectHideFlags: 1

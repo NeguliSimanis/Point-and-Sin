@@ -5,38 +5,30 @@ using UnityEngine;
 public class Fireball : MonoBehaviour {
 
     private float fireBallDamage;
-    private float fireBallDuration = 2.2f;
+    private float fireBallDuration = 1.4f;
     private float fireBallDeathTime;
     private float fireBallMoveSpeed = 1f;
     bool fireBallStarted = false;
+    bool flyingRight;
 
-    #region MOVEMENT variables
-    public Vector2 targetPosition;
-    private Vector2 dirNormalized;
-    private Transform targetTransform;
-    #endregion
+    float explosionDuration;
+    [SerializeField] AnimationClip explosionAnimation;
+    [SerializeField] Animator animator; 
 
-   /* public Fireball(Transform target)
-    {
-        targetPosition = target.position;
-    }*/
-
-    private void Start()
-    {
-        //Debug.Log("FIRE!");
-        GetTargetPositionAndDirection();
-        fireBallDeathTime = fireBallDuration + Time.time;
-    }
-
-    public void StartFireball()
+    public void StartFireball(bool isFlyingRight)
     {
         fireBallStarted = true;
+        flyingRight = isFlyingRight;
+        fireBallDeathTime = fireBallDuration + Time.time;
+        explosionDuration = explosionAnimation.length;
     }
 
     private void Update()
     {
         if (!fireBallStarted)
+        {
             return;
+        }
         MoveFireball();
         if (Time.time > fireBallDuration + fireBallDeathTime)
             Explode();
@@ -44,18 +36,20 @@ public class Fireball : MonoBehaviour {
 
     private void Explode()
     {
-       // Debug.Log("destroyed" + Time.time);
-        Destroy(gameObject);
+        
     }
 
-    void GetTargetPositionAndDirection()
+    private IEnumerator SelfDestruct()
     {
-        dirNormalized = new Vector2(targetPosition.x - transform.position.x, targetPosition.y - transform.position.y);
-        dirNormalized = dirNormalized.normalized;
+        yield return new WaitForSeconds(explosionDuration);
+        Destroy(gameObject);
     }
 
     void MoveFireball()
     {
-        transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * fireBallMoveSpeed * Time.deltaTime;
+        if (flyingRight)
+            transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.right * fireBallMoveSpeed * Time.deltaTime;
+        else
+            transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.left * fireBallMoveSpeed * Time.deltaTime;
     }
 }
