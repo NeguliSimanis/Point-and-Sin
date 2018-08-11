@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     #region CURRENT STATE
     bool isAlive = true;
     bool canPauseGame = true;
+    bool isFacingRight = true;
     #endregion
 
     #region MOVEMENT
@@ -50,13 +51,11 @@ public class PlayerController : MonoBehaviour
             Die();
         if (PlayerData.current.isGamePaused)
         {
-            Debug.Log("gam is fuck paue");
             return;
         }
         #region MOVEMENT
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("gsdade");
             GetTargetPositionAndDirection();
         }
         if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
@@ -67,7 +66,22 @@ public class PlayerController : MonoBehaviour
         {
             MovePlayer(); 
         }
+        CheckWherePlayerIsFacing();
         #endregion
+    }
+
+    void CheckWherePlayerIsFacing()
+    {
+        if (isFacingRight && dirNormalized.x < 0)
+        {
+            isFacingRight = false;
+            gameObject.transform.localScale = new Vector2(-1f, 1f);
+        }
+        else if (!isFacingRight && dirNormalized.x > 0)
+        {
+            isFacingRight = true;
+            gameObject.transform.localScale = new Vector2(1f, 1f);
+        }
     }
 
     void Die()
