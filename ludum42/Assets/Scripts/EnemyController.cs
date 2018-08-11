@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour {
     bool isPlayerVisible = false; // if true, move towards player to attack. If false, patrol the area
     bool isNearPlayer = false; // if true, stop to attack the player
     bool isAttacking = false;
+    bool isFacingRight = true;
     #endregion
 
     #region MOVEMENT variables
@@ -34,6 +35,8 @@ public class EnemyController : MonoBehaviour {
 	
 	void Update ()
     {
+        if (PlayerData.current.isGamePaused)
+            return;
         CheckIfPlayerVisible();
         if (!isPlayerVisible)
         {
@@ -43,7 +46,22 @@ public class EnemyController : MonoBehaviour {
         {
             FollowPlayer();
         }
-	}
+        CheckWhereEnemyIsFacing();
+    }
+    void CheckWhereEnemyIsFacing()
+    {
+        if (isFacingRight && dirNormalized.x < 0)
+        {
+            isFacingRight = false;
+            gameObject.transform.localScale = new Vector2(-1f, 1f);
+        }
+        else if (!isFacingRight && dirNormalized.x > 0)
+        {
+            isFacingRight = true;
+            gameObject.transform.localScale = new Vector2(1f, 1f);
+        }
+    }
+
 
     public void StandbyToAttackPlayer()
     {     

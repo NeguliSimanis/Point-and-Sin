@@ -6,6 +6,10 @@ public class PlayerData
 {
     public static PlayerData current;
 
+    #region GAME STATE
+    public bool isGamePaused = false;
+    #endregion
+
     #region MOVEMENT
     public float moveSpeed = 0.8f;
     #endregion
@@ -17,6 +21,14 @@ public class PlayerData
 
     public PlayerData()
     {
+        isGamePaused = false;
+        Reset();
+    }
+
+    public void Reset()
+    {
+        //Debug.Log("RESET");
+        isGamePaused = false;
         currentLife = maxLife;
     }
 

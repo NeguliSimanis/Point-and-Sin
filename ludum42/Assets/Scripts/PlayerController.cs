@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    #region DATA
-   // [SerializeField] private float moveSpeed;
+    #region CURRENT STATE
+    bool isAlive = true;
+    bool canPauseGame = true;
+    bool isFacingRight = true;
     #endregion
 
     #region MOVEMENT
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     #region UI
     [SerializeField] Image healthBar;
+    [SerializeField] GameObject defeatPanel;
     #endregion
 
     private void Awake()
@@ -31,6 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerData.current == null)
             PlayerData.current = new PlayerData();
+        PlayerData.current.isGamePaused = false;
     }
 
     void Start()
@@ -41,7 +45,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         UpdateHealthBar();
-
+        ListenForGamePause();
+        ListenForPlayerDefeat();
+        if (!isAlive)
+            Die();
+        if (PlayerData.current.isGamePaused)
+        {
+            return;
+        }
         #region MOVEMENT
         if (Input.GetMouseButtonDown(0))
         {
@@ -55,7 +66,43 @@ public class PlayerController : MonoBehaviour
         {
             MovePlayer(); 
         }
+        CheckWherePlayerIsFacing();
         #endregion
+    }
+
+    void CheckWherePlayerIsFacing()
+    {
+        if (isFacingRight && dirNormalized.x < 0)
+        {
+            isFacingRight = false;
+            gameObject.transform.localScale = new Vector2(-1f, 1f);
+        }
+        else if (!isFacingRight && dirNormalized.x > 0)
+        {
+            isFacingRight = true;
+            gameObject.transform.localScale = new Vector2(1f, 1f);
+        }
+    }
+
+    void Die()
+    {
+        canPauseGame = false;
+        PlayerData.current.isGamePaused = true;
+        defeatPanel.SetActive(true);    
+    }
+
+    void ListenForPlayerDefeat()
+    {
+        if (PlayerData.current.currentLife == 0)
+            isAlive = false;
+    }
+
+    void ListenForGamePause()
+    {
+        if (Input.GetKeyDown(KeyCode.P) && canPauseGame)
+        {
+            PlayerData.current.isGamePaused = !PlayerData.current.isGamePaused;
+        }
     }
 
     void UpdateHealthBar()
