@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private float attackCooldownResetTime;
     private bool isAttacking = false;
     private bool isAttackCooldown = false;
+
+    private bool isRegeneratingMana = false;
     #endregion
 
     #region MOVEMENT
@@ -102,13 +104,37 @@ public class PlayerController : MonoBehaviour
         {
             isAttacking = false;
         }
+        if (PlayerData.current.maxMana > PlayerData.current.currentMana)
+        {
+            if (!isRegeneratingMana)
+            {
+                isRegeneratingMana = true;
+                StartCoroutine(RegenerateMana());
+            }
+        }
     }
 
     private void StartSpellcasting()
     {
         if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
         {
+            Debug.Log("casting");
             PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
+        }
+    }
+
+    public IEnumerator RegenerateMana()
+    {
+        while (PlayerData.current.maxMana > PlayerData.current.currentMana)
+        {
+            Debug.Log("yay " + PlayerData.current.manaRegenPerInterval);
+            PlayerData.current.currentMana += PlayerData.current.manaRegenPerInterval;
+            if (PlayerData.current.currentMana >= PlayerData.current.maxMana)
+            {
+                PlayerData.current.currentMana = PlayerData.current.maxMana;
+                isRegeneratingMana = false;
+            }
+            yield return new WaitForSeconds(PlayerData.current.manaRegenInterval);
         }
     }
 

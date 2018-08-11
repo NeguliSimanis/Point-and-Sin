@@ -22,6 +22,9 @@ public class PlayerData
     #region MANA
     public int currentMana = 50;
     public int maxMana = 50;
+    public int manaRegenPerSecond = 5;
+    public float manaRegenInterval = 0.2f;
+    public int manaRegenPerInterval;
     #endregion
 
     #region SPELLS
@@ -43,11 +46,30 @@ public class PlayerData
 
     public void Reset()
     {
-        //Debug.Log("RESET");
         isGamePaused = false;
         currentLife = maxLife;
         currentMana = maxMana;
+        GetManaRegenPerInterval();
     }
+
+    void GetManaRegenPerInterval()
+    {
+        manaRegenPerInterval = (int)(manaRegenPerSecond * (manaRegenInterval/1f));
+    }
+
+   /* public IEnumerator RegenerateMana()
+    {
+        while (maxMana > currentMana)
+        {
+            Debug.Log("yay");
+            currentMana += manaRegenPerInterval;
+            if (currentMana >= maxMana)
+            {
+                currentMana = maxMana;
+            }
+            yield return new WaitForSeconds(manaRegenInterval);
+        }
+    }*/
 
     public void DamagePlayer(int damageAmount)
     {
