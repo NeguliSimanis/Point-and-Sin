@@ -52,6 +52,11 @@ public class PlayerData
         GetManaRegenPerInterval();
     }
 
+    public void Pause(bool isPaused)
+    {
+        isGamePaused = isPaused;
+    }
+
     void GetManaRegenPerInterval()
     {
         manaRegenPerInterval = (int)(manaRegenPerSecond * (manaRegenInterval/1f));
