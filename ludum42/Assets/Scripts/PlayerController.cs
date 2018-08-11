@@ -6,14 +6,22 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     #region CURRENT STATE
-    bool isAlive = true;
-    bool canPauseGame = true;
-    bool isFacingRight = true;
-    bool isWalking = false;
-    bool isWalkingInObstacle = false; // detected collision with background - player has to stop walking
-    bool isIdleA = false; // is in idle animation state A
-    bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
-    bool hasClickedOnBackground = false; 
+    private bool isAlive = true;
+    private bool canPauseGame = true;
+    private bool isFacingRight = true;
+    private bool isWalking = false;
+    private bool isWalkingInObstacle = false;     // detected collision with background - player has to stop walking
+    private bool isIdleA = false;                 // is in idle animation state A
+    private bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
+    private bool isMovementLocked = false;        // happens when player atack anim plays
+
+    public bool isNearEnemy = false;              // used to check if player can melee attack
+    public int nearEnemyID = -1;
+    public int targetEnemyID = -2;
+
+    private float attackCooldownResetTime;
+    private bool isAttacking = false;
+    private bool isAttackCooldown = false;
     #endregion
 
     #region MOVEMENT
@@ -33,7 +41,13 @@ public class PlayerController : MonoBehaviour
     #region ANIMATION
     float waitTimeBeforeIdleA = 0.1f;
     float idleAnimAStartTime;
+    float meleeAttackAnimStartTime;
     [SerializeField] Animator playerAnimator;
+    [SerializeField] AnimationClip meleeAttackAnimation;
+    #endregion
+
+    #region ATTACK and TARGETTING
+    EnemyController currentEnemy;
     #endregion
 
     private void Awake()
@@ -75,6 +89,10 @@ public class PlayerController : MonoBehaviour
             MovePlayer(); 
         }
         CheckWherePlayerIsFacing();
+        if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length + 0.01f)
+        {
+            isAttacking = false;
+        }
     }
 
     void LateUpdate()
@@ -87,7 +105,6 @@ public class PlayerController : MonoBehaviour
             preparingIdleAnimationA = false;
             isIdleA = false;
         }
-
         // set start time for playing idle animation A
         if (!isWalking && !preparingIdleAnimationA)
         {
@@ -104,6 +121,8 @@ public class PlayerController : MonoBehaviour
 
     void CheckWherePlayerIsFacing()
     {
+        if (isAttacking)
+            return;
         if (isFacingRight && dirNormalized.x < 0)
         {
             isFacingRight = false;
@@ -150,9 +169,37 @@ public class PlayerController : MonoBehaviour
         dirNormalized = dirNormalized.normalized;
     }
 
+    public void TargetEnemy(int enemyID, EnemyController target)
+    {
+        if (isAttacking || isAttackCooldown)
+            return;
+        targetEnemyID = enemyID;
+        currentEnemy = target;
+        if (nearEnemyID == enemyID)
+        {
+            MeleeAttack();
+        }
+    }
+
+    private void MeleeAttack()
+    {
+        isAttacking = true;
+        isWalking = false;
+        meleeAttackAnimStartTime = Time.time;
+        playerAnimator.SetTrigger("meleeAttack");
+
+        // deal damage
+        currentEnemy.TakeDamage(PlayerData.current.meleeDamage);
+    }
+
     void CheckIfPlayerIsWalking()
     {
         if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
+        {
+            isWalking = false;
+        }
+        // movement locked due to melee attack animation
+        else if (isAttacking)
         {
             isWalking = false;
         }
@@ -172,7 +219,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = true;
-            Debug.Log("COLLISION " + Time.deltaTime);
         }
     }
 
@@ -181,7 +227,6 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = false;
-            Debug.Log("EXIT " + Time.deltaTime);
         }
     }
 
