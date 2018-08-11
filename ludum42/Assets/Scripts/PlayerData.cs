@@ -8,6 +8,7 @@ public class PlayerData
 
     #region GAME STATE
     public bool isGamePaused = false;
+    public bool canPlayBackground = false;
     #endregion
 
     #region MOVEMENT
@@ -17,11 +18,13 @@ public class PlayerData
     #region LIFE
     public int currentLife;
     public int maxLife = 100;
+    private int lifePerLevel = 5;
     #endregion
 
     #region MANA
     public int currentMana = 50;
     public int maxMana = 50;
+    private int manaPerLevel = 3;
     public int manaRegenPerSecond = 5;
     public float manaRegenInterval = 0.2f;
     public int manaRegenPerInterval;
@@ -38,6 +41,18 @@ public class PlayerData
     public float meleeAttackCooldown = 0.3f;
     #endregion
 
+    #region LEVELLING
+    public int currentExp = 0;
+    public int currentLevel = 1;
+    public int requiredExp = 50;
+    #endregion
+
+    #region SKILLS
+    public int skillPoints = 0;
+    public int wrath = 1;
+    public int pride = 1;
+    public int lust = 1;
+    #endregion
     public PlayerData()
     {
         isGamePaused = false;
@@ -55,6 +70,27 @@ public class PlayerData
     public void Pause(bool isPaused)
     {
         isGamePaused = isPaused;
+    }
+
+    public void AddExp(int expGained)
+    {
+        currentExp += expGained;
+        if (currentExp >= requiredExp)
+        {
+            currentExp = currentExp - requiredExp; 
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        currentLevel++;
+        skillPoints += 2;
+        maxLife += lifePerLevel;
+        maxMana += manaPerLevel;
+        currentLife = maxLife;
+        currentMana = maxMana;
+        requiredExp = (int)(requiredExp * 1.3f);
     }
 
     void GetManaRegenPerInterval()

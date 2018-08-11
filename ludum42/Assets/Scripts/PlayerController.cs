@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isRegeneratingMana = false;
     private bool isCastingSpell = false;
+
+    private int lastKnownPlayerLevel;
     #endregion
 
     #region MOVEMENT
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
     #region UI
     [SerializeField] Image healthBar;
     [SerializeField] Image manaBar;
+    [SerializeField] Image expBar;
     [SerializeField] GameObject defeatPanel;
     #endregion
 
@@ -75,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        lastKnownPlayerLevel = PlayerData.current.currentLevel;
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -119,6 +123,12 @@ public class PlayerController : MonoBehaviour
         // MANA REGEN
         if (PlayerData.current.maxMana > PlayerData.current.currentMana)
         {
+            // this check is added to fix a bug where you dont regen mana after level up
+            if (lastKnownPlayerLevel != PlayerData.current.currentLevel)
+            {
+                lastKnownPlayerLevel = PlayerData.current.currentLevel;
+                isRegeneratingMana = false;
+            }
             if (!isRegeneratingMana)
             {
                 isRegeneratingMana = true;
@@ -188,7 +198,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isAttacking || isCastingSpell)
             return;
-        Debug.Log("CHECKING ORIENT");
         if (isFacingRight && dirNormalized.x < 0)
         {
             isFacingRight = false;
@@ -229,6 +238,9 @@ public class PlayerController : MonoBehaviour
 
         // update mana bar
         manaBar.fillAmount = (PlayerData.current.currentMana * 1f) / PlayerData.current.maxMana;
+
+        // update exp bar
+        expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
     }
 
     void GetTargetPositionAndDirection()
@@ -299,6 +311,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = true;
+            Debug.Log("walked into obstacle");
         }
     }
 
@@ -307,6 +320,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = false;
+            Debug.Log("walked OUT");
         }
     }
 
