@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
     #region UI
     [SerializeField] Image healthBar;
+    [SerializeField] Image manaBar;
     [SerializeField] GameObject defeatPanel;
     #endregion
 
@@ -73,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        UpdateHealthBar();
+        UpdateHUD();
         ListenForGamePause();
         ListenForPlayerDefeat();
         if (!isAlive)
@@ -89,8 +90,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("CAST SPELL");
-            GetSpellTargetLocation();
+            StartSpellcasting();
         }
         if (isWalking)
         {
@@ -104,9 +104,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void GetSpellTargetLocation()
+    private void StartSpellcasting()
     {
-
+        if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
+        {
+            PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
+        }
     }
 
     void LateUpdate()
@@ -170,9 +173,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void UpdateHealthBar()
+    void UpdateHUD()
     {
+        // update hp bar
         healthBar.fillAmount = (PlayerData.current.currentLife * 1f) / PlayerData.current.maxLife;
+
+        // update mana bar
+        manaBar.fillAmount = (PlayerData.current.currentMana * 1f) / PlayerData.current.maxMana;
     }
 
     void GetTargetPositionAndDirection()

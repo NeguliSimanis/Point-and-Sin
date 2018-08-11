@@ -19,6 +19,17 @@ public class PlayerData
     public int maxLife = 100;
     #endregion
 
+    #region MANA
+    public int currentMana = 50;
+    public int maxMana = 50;
+    #endregion
+
+    #region SPELLS
+    public float fireballDamage = 6f;
+    public int fireballManaCost = 20;
+    public float fireballCastCooldown = 0.3f;
+    #endregion
+
     #region MELEE ATTACK
     public int meleeDamage = 10;
     public float meleeAttackCooldown = 0.3f;
@@ -35,6 +46,7 @@ public class PlayerData
         //Debug.Log("RESET");
         isGamePaused = false;
         currentLife = maxLife;
+        currentMana = maxMana;
     }
 
     public void DamagePlayer(int damageAmount)
