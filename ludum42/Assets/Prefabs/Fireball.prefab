@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionAnimation: {fileID: 7400000, guid: ab815e2509cbada4595e6daf89450482, type: 2}
+  animator: {fileID: 95381244270966164}
 --- !u!212 &212507953738829236
 SpriteRenderer:
   m_ObjectHideFlags: 1

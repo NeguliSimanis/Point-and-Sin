@@ -57,20 +57,6 @@ public class PlayerData
         manaRegenPerInterval = (int)(manaRegenPerSecond * (manaRegenInterval/1f));
     }
 
-   /* public IEnumerator RegenerateMana()
-    {
-        while (maxMana > currentMana)
-        {
-            Debug.Log("yay");
-            currentMana += manaRegenPerInterval;
-            if (currentMana >= maxMana)
-            {
-                currentMana = maxMana;
-            }
-            yield return new WaitForSeconds(manaRegenInterval);
-        }
-    }*/
-
     public void DamagePlayer(int damageAmount)
     {
         if (damageAmount > currentLife)

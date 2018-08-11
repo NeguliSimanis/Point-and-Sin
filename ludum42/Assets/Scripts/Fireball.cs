@@ -5,11 +5,12 @@ using UnityEngine;
 public class Fireball : MonoBehaviour {
 
     private float fireBallDamage;
-    private float fireBallDuration = 1.4f;
+    private float fireBallDuration = 0.3f;
     private float fireBallDeathTime;
     private float fireBallMoveSpeed = 1f;
     bool fireBallStarted = false;
     bool flyingRight;
+    bool isExploding = false;
 
     float explosionDuration;
     [SerializeField] AnimationClip explosionAnimation;
@@ -36,7 +37,12 @@ public class Fireball : MonoBehaviour {
 
     private void Explode()
     {
-        
+        if (isExploding)
+            return;
+        isExploding = true;
+        Debug.Log("EXPLODE");
+        animator.SetTrigger("explode");
+        StartCoroutine(SelfDestruct());
     }
 
     private IEnumerator SelfDestruct()
@@ -47,6 +53,8 @@ public class Fireball : MonoBehaviour {
 
     void MoveFireball()
     {
+        if (isExploding)
+            return;
         if (flyingRight)
             transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.right * fireBallMoveSpeed * Time.deltaTime;
         else
