@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Image fireballCooldownBar;
     [SerializeField] GameObject skillPointsButton;
     [SerializeField] GameObject defeatPanel;
+    [SerializeField] GameObject skillPointNotification; // active if player has unspent skillpoints
     #endregion
 
     #region ANIMATION
@@ -271,6 +272,16 @@ public class PlayerController : MonoBehaviour
 
         // update exp bar
         expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
+
+        // update skill points notification
+        if (PlayerData.current.skillPoints > 0)
+        {
+            skillPointNotification.SetActive(true);
+        }
+        else
+        {
+            skillPointNotification.SetActive(false);
+        }
 
         // update fireball cooldown bar
         if (hasCastSpellAtLeastOnce)
