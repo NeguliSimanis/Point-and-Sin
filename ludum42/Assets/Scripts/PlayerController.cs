@@ -72,6 +72,11 @@ public class PlayerController : MonoBehaviour
     private float fireballCooldownStartTime; // when you can cast fireball again
     #endregion
 
+    #region AUDIO
+    [SerializeField] AudioClip meleeSFX;
+    AudioSource audioSource;
+    #endregion
+
     private void Awake()
     {
         LoadPlayerData();
@@ -88,6 +93,7 @@ public class PlayerController : MonoBehaviour
     {
         lastKnownPlayerLevel = PlayerData.current.currentLevel;
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
+        audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -328,6 +334,7 @@ public class PlayerController : MonoBehaviour
         isWalking = false;
         meleeAttackAnimStartTime = Time.time;
         playerAnimator.SetTrigger("meleeAttack");
+        audioSource.PlayOneShot(meleeSFX, 0.6F);
 
         int meleeDamage = PlayerData.current.meleeDamage;
 

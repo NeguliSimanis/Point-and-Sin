@@ -39,8 +39,13 @@ public class EnemyController : MonoBehaviour {
     [SerializeField] Animator enemyAnimator;
     [SerializeField] AnimationClip deathAnimation;
     #endregion
-	
-	void Update ()
+
+    #region AUDIO
+    [SerializeField] AudioSource audioControl;
+    [SerializeField] AudioClip deathSFX;
+    #endregion
+
+    void Update ()
     {
         if (PlayerData.current.isGamePaused)
             return;
@@ -80,7 +85,7 @@ public class EnemyController : MonoBehaviour {
     public void StandbyToAttackPlayer()
     {     
         isNearPlayer = true;
-        if (!isAttacking)
+        if (!isAttacking && !isDying)
         {
             isAttacking = true;
             StartCoroutine(AttackPlayer());
@@ -152,9 +157,12 @@ public class EnemyController : MonoBehaviour {
 
     void Die()
     {
-        PlayerData.current.AddExp(expDrop);
+        if (isDying)
+            return;
         isDying = true;
+        PlayerData.current.AddExp(expDrop);
         enemyAnimator.SetBool("isDead", true);
+        audioControl.PlayOneShot(deathSFX, 0.9F);
         StartCoroutine(DestroyAfterXSeconds(deathAnimation.length));
     }
 
