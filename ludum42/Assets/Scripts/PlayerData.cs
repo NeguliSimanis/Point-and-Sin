@@ -87,7 +87,6 @@ public class PlayerData
 
     public void Reset()
     {
-        Debug.Log("reset");
         isGamePaused = false;
         currentLife = defaultMaxLife;
         maxLife = defaultMaxLife;
@@ -168,7 +167,7 @@ public class PlayerData
 
         // increase melee critical chance
         meleeCritChance = defaultMeleeCritChance + (lust - 1) * lustMeleeCriticalIncrease;
-        Debug.Log("Melee crit chance " + meleeCritChance);
+        //Debug.Log("Melee crit chance " + meleeCritChance);
     }
 
     private void LevelUp()

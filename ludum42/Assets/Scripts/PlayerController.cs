@@ -26,8 +26,11 @@ public class PlayerController : MonoBehaviour
 
     private bool isRegeneratingMana = false;
     private bool isCastingSpell = false;
+    private bool isFireballCooldown = false;
+    private bool hasCastSpellAtLeastOnce = false;
 
     private int lastKnownPlayerLevel;
+    public bool isClickingOnUI = false; // don't allow movement when clicking on certain UI elements 
     #endregion
 
     #region MOVEMENT
@@ -43,8 +46,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Image healthBar;
     [SerializeField] Image manaBar;
     [SerializeField] Image expBar;
+    [SerializeField] Image fireballCooldownBar;
     [SerializeField] GameObject skillPointsButton;
     [SerializeField] GameObject defeatPanel;
+    [SerializeField] GameObject skillPointNotification; // active if player has unspent skillpoints
     #endregion
 
     #region ANIMATION
@@ -63,7 +68,8 @@ public class PlayerController : MonoBehaviour
     #region SPELLCASTING
     [SerializeField] Transform fireballExitPoint;
     [SerializeField] GameObject fireBall;
-    private float spellcastEndTime;
+    private float spellcastEndTime;          // when casting animation is over
+    private float fireballCooldownStartTime; // when you can cast fireball again
     #endregion
 
     private void Awake()
@@ -141,18 +147,28 @@ public class PlayerController : MonoBehaviour
 
     private void StartSpellcasting()
     {
+        // fireball cast cooldown still active
+        if (Time.time < fireballCooldownStartTime + PlayerData.current.fireballCastCooldown + spellcastAnimation.length)
+        {
+            return;
+        }
+
         if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
         {
+            hasCastSpellAtLeastOnce = true;
             isCastingSpell = true;
             spellcastEndTime = Time.time + spellcastAnimation.length;
+            fireballCooldownStartTime = Time.time;
             playerAnimator.SetTrigger("castSpellA");
-            ShootFireBall();
+            StartCoroutine(ShootFireBall());
             PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
         }
     }
 
-    private void ShootFireBall()
+    // shoots fireball after animation is over
+    private IEnumerator ShootFireBall()
     {
+        yield return new WaitForSeconds(spellcastAnimation.length);
         GameObject projectile = Instantiate(fireBall, fireballExitPoint.position, fireballExitPoint.rotation, fireballExitPoint);
         projectile.GetComponent<Fireball>().StartFireball(isFacingRight);
         projectile.transform.parent = null;
@@ -257,7 +273,28 @@ public class PlayerController : MonoBehaviour
         // update exp bar
         expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
 
-        // update skill points button
+        // update skill points notification
+        if (PlayerData.current.skillPoints > 0)
+        {
+            skillPointNotification.SetActive(true);
+        }
+        else
+        {
+            skillPointNotification.SetActive(false);
+        }
+
+        // update fireball cooldown bar
+        if (hasCastSpellAtLeastOnce)
+        {
+            // bar fill
+            fireballCooldownBar.fillAmount = (Time.time - fireballCooldownStartTime) / (PlayerData.current.fireballCastCooldown + spellcastAnimation.length);
+
+            // bar color changes if insufficient mana
+            if (PlayerData.current.currentMana < PlayerData.current.fireballManaCost)
+                fireballCooldownBar.color = new Color(0.613f, 0.362f, 0.362f);
+            else
+                fireballCooldownBar.color = Color.white;
+        }
     }
 
     void GetTargetPositionAndDirection()
@@ -305,6 +342,12 @@ public class PlayerController : MonoBehaviour
         currentEnemy.TakeDamage(meleeDamage);
     }
 
+    // called from buttons attached to UI elements
+    public void IgnoreMouseClick()
+    {
+        isClickingOnUI = true;
+    }
+
     void CheckIfPlayerIsWalking()
     {
         if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
@@ -325,6 +368,11 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = false;
             isWalkingInObstacle = false;
+        }
+        else if (isClickingOnUI)
+        {
+            isWalking = false;
+            isClickingOnUI = false;
         }
         else
         {

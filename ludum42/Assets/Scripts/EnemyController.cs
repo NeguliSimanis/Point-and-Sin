@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour {
     bool isFacingRight = true;
     bool isWalking = false;
     bool isIdleA = false; // is in idle animation state A
+    bool isDying = false; // can't move when dying
     #endregion
 
     #region MOVEMENT variables
@@ -36,12 +37,8 @@ public class EnemyController : MonoBehaviour {
 
     #region ANIMATION
     [SerializeField] Animator enemyAnimator;
+    [SerializeField] AnimationClip deathAnimation;
     #endregion
-
-    void Start ()
-    {
-		
-	}
 	
 	void Update ()
     {
@@ -142,6 +139,7 @@ public class EnemyController : MonoBehaviour {
 
     void MoveEnemy()
     {
+        if (!isDying)
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * moveSpeed * Time.deltaTime;
     }
 
@@ -155,6 +153,14 @@ public class EnemyController : MonoBehaviour {
     void Die()
     {
         PlayerData.current.AddExp(expDrop);
+        isDying = true;
+        enemyAnimator.SetBool("isDead", true);
+        StartCoroutine(DestroyAfterXSeconds(deathAnimation.length));
+    }
+
+    private IEnumerator DestroyAfterXSeconds(float xSeconds)
+    {
+        yield return new WaitForSeconds(xSeconds);
         Destroy(gameObject);
     }
 }
