@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool isWalkingInObstacle = false;     // detected collision with background - player has to stop walking
     private bool isIdleA = false;                 // is in idle animation state A
     private bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
+    private bool preparingIdleAnimationB = false;
     private bool isMovementLocked = false;        // happens when player atack anim plays
 
     public bool isNearEnemy = false;              // used to check if player can melee attack
@@ -54,7 +55,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ANIMATION
-    float waitTimeBeforeIdleA = 0.1f;
+    float waitTimeBeforeIdleB = 5f;
+    float idleAnimBStartTime;
+    float waitTimeBeforeIdleA = 0.2f;
     float idleAnimAStartTime;
     float meleeAttackAnimStartTime;
     [SerializeField] Animator playerAnimator;
@@ -227,7 +230,15 @@ public class PlayerController : MonoBehaviour
         if (Time.time > idleAnimAStartTime)
         {
             isIdleA = true;
+            if (!preparingIdleAnimationB)
+                idleAnimBStartTime = Time.time + waitTimeBeforeIdleB;
+            preparingIdleAnimationB = true;
             playerAnimator.SetBool("startIdleA", isIdleA); 
+        }
+        if (preparingIdleAnimationB && Time.time > idleAnimBStartTime)
+        {
+            playerAnimator.SetTrigger("playIdleB");
+            preparingIdleAnimationB = false;
         }
     }
 

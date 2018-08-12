@@ -73,7 +73,7 @@ public class EnemyProjectile : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             //collision.gameObject.GetComponent<EnemyController>().TakeDamage(PlayerData.current.fireballDamage);
-            Debug.Log("player hit!");
+            //Debug.Log("player hit!");
             PlayerData.current.DamagePlayer(projectileDamage);
             Explode();
         }

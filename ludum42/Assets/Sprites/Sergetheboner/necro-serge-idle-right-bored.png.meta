@@ -1,7 +1,14 @@
 fileFormatVersion: 2
 guid: f543ae7c30433dd4e9281c18ab655ef0
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: necro-serge-idle-right-bored_0
+    21300002: necro-serge-idle-right-bored_1
+    21300004: necro-serge-idle-right-bored_2
+    21300006: necro-serge-idle-right-bored_3
+    21300008: necro-serge-idle-right-bored_4
+    21300010: necro-serge-idle-right-bored_5
+    21300012: necro-serge-idle-right-bored_6
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -40,7 +47,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -104,7 +111,147 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: necro-serge-idle-right-bored_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 33
+        height: 29
+      alignment: 9
+      pivot: {x: 0.6212121, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cb7d41f5245e524597e951682c1b1db
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: necro-serge-idle-right-bored_1
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 0
+        width: 33
+        height: 29
+      alignment: 9
+      pivot: {x: 0.6212121, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf17d076624803344be8603158e082bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: necro-serge-idle-right-bored_2
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 0
+        width: 33
+        height: 29
+      alignment: 9
+      pivot: {x: 0.6212121, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05fcda43b01c2da45a70f0faa7061a32
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: necro-serge-idle-right-bored_3
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 0
+        width: 33
+        height: 29
+      alignment: 9
+      pivot: {x: 0.6212121, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3ddf385887630347a727dbe1d7bb530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: necro-serge-idle-right-bored_4
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 0
+        width: 33
+        height: 29
+      alignment: 9
+      pivot: {x: 0.6212121, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37afa55117ddd5a4e8fc50cd4e1f02bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: necro-serge-idle-right-bored_5
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 0
+        width: 34
+        height: 29
+      alignment: 9
+      pivot: {x: 0.61764705, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 603b5ef4470cdd84ca475df7d1ad63f8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: necro-serge-idle-right-bored_6
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 0
+        width: 33
+        height: 29
+      alignment: 9
+      pivot: {x: 0.6212121, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be46334ec26edd84ca506c2e44c9e889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
