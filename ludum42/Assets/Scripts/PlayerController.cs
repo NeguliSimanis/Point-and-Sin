@@ -278,8 +278,17 @@ public class PlayerController : MonoBehaviour
         meleeAttackAnimStartTime = Time.time;
         playerAnimator.SetTrigger("meleeAttack");
 
+        int meleeDamage = PlayerData.current.meleeDamage;
+
+        // roll critical strike
+        if (Random.Range(0f,1f) < PlayerData.current.meleeCritChance)
+        {
+            Debug.Log("CRITICAL");
+            meleeDamage = (int)(meleeDamage * PlayerData.current.meleeCriticalEffect);
+        }
+
         // deal damage
-        currentEnemy.TakeDamage(PlayerData.current.meleeDamage);
+        currentEnemy.TakeDamage(meleeDamage);
     }
 
     void CheckIfPlayerIsWalking()

@@ -18,7 +18,9 @@ public class PlayerData
     #region LIFE
     public int currentLife;
     public int maxLife = 100;
+    private int defaultMaxLife = 100;
     private int lifePerLevel = 5;
+    private int prideLifeIncrease = 5;
     #endregion
 
     #region MANA
@@ -41,7 +43,11 @@ public class PlayerData
     private int defaultFireballDamage = 6;
     public int fireballManaCost = 20;
     private int defaultFireballCost = 20;
-    public float fireballCastCooldown = 0.3f;
+    public float fireballCastCooldown = 1.2f;
+    private float defaultFireballCastCooldown = 1.2f;
+
+    // LUST MODIFIERS
+    private float lustFireballCooldownReduce = 0.96f;
 
     // WRATH MODIFIERS
     private int wrathFireballCostIncrease = 1;
@@ -53,12 +59,18 @@ public class PlayerData
     private int defaultMeleeDamage = 8;
     private int wrathMeleeDamageIncrease = 1;
     public float meleeAttackCooldown = 0.3f;
+
+    public float meleeCritChance = 0.7f;
+    private float defaultMeleeCritChance = 0.01f;
+    public float meleeCriticalEffect = 1.5f;
+    private float lustMeleeCriticalIncrease = 0.005f;
     #endregion
 
     #region LEVELLING
     public int currentExp = 0;
     public int currentLevel = 1;
     public int requiredExp = 50;
+    private int defaultRequiredExp = 50;
     #endregion
 
     #region SKILLS
@@ -79,6 +91,13 @@ public class PlayerData
         currentLife = maxLife;
         currentMana = maxMana;
         GetManaRegenPerInterval();
+
+        currentLevel = 1;
+        wrath = 1;
+        pride = 1;
+        lust = 1;
+        currentExp = 0;
+        requiredExp = defaultRequiredExp;
     }
 
     public void Pause(bool isPaused)
@@ -106,11 +125,11 @@ public class PlayerData
 
         // fireball damage increase
         fireballDamage = defaultFireballDamage + (wrath - 1) * wrathFireballDamageIncrease;
-        Debug.Log("Fireball damage " + fireballDamage);
+        //Debug.Log("Fireball damage " + fireballDamage);
 
         // fireball cost increase
         fireballManaCost = defaultFireballCost + (wrath - 1) * wrathFireballCostIncrease;
-        Debug.Log("Fireball cost " + fireballManaCost);
+        //Debug.Log("Fireball cost " + fireballManaCost);
     }
 
     public void AddPride(int amount)
@@ -120,6 +139,11 @@ public class PlayerData
         // max mana increase
         maxMana = (int)(defaultMaxMana * (1f + (pride - 1) * prideMaxManaIncrease));
         //Debug.Log("Max mana " + maxMana);
+
+        // max life increase
+        maxLife = (int)(defaultMaxLife + (currentLevel - 1) * lifePerLevel + (pride - 1) * prideLifeIncrease);
+       // Debug.Log("Max life " + maxLife);
+        currentLife = maxLife;
     }
 
     public void AddLust(int amount)
@@ -128,7 +152,20 @@ public class PlayerData
 
         // mana regen increase
         manaRegenPerSecond = defaultManaRegenPerSecond + (lust - 1) * lustManaRegenIncrease;
-        Debug.Log("Mana regen " + manaRegenPerSecond);
+        //Debug.Log("Mana regen " + manaRegenPerSecond);
+
+        // reduce spell cooldown
+        float totalLustCooldownEffect = defaultFireballCastCooldown;
+        for (int i = 0; i < lust - 1; i++)
+        {
+            totalLustCooldownEffect *= lustFireballCooldownReduce;
+        }
+        fireballCastCooldown = totalLustCooldownEffect;
+        //Debug.Log("Fireball cooldown " + fireballCastCooldown);
+
+        // increase melee critical chance
+        meleeCritChance = defaultMeleeCritChance + (lust - 1) * lustMeleeCriticalIncrease;
+        Debug.Log("Melee crit chance " + meleeCritChance);
     }
 
     private void LevelUp()
