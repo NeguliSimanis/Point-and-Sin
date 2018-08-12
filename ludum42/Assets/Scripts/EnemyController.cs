@@ -4,23 +4,33 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
-    public enum EnemyType { Succubus};
+    public enum EnemyType {Succubus };
 
     #region DATA variables
     [SerializeField] EnemyType type;
+
     float moveSpeed = 0.13f;
     public int enemyID = 0;
     private int expDrop = 40; // how much exp is gained by killing this mofo
     private int maxHP = 12;
     private int currentHP = 12;
+
     [SerializeField] float sightRadius = 3f;    // if player moves closer than this, he will be noticed
-    [SerializeField] float attackCooldown = 1f; // deals damage to player once per this interval
-    [SerializeField] int damagePerAttack = 35;  // how much damage is dealt in one attack
+    [SerializeField] float attackCooldown;      // deals damage to player once per this interval
+    [SerializeField] int damagePerAttack;  // how much damage is dealt in one attack
+    #endregion
+
+    #region ENEMY PROJECTILES
+    [SerializeField] GameObject enemyProjectile;
+    [SerializeField] Transform projectileExitPoint;
+    private float lastProjectileShootTime;
+    private bool isShootingCoroutineLoop = false;
     #endregion
 
     #region STATE variables
     bool isPlayerVisible = false; // if true, move towards player to attack. If false, patrol the area
     bool isNearPlayer = false; // if true, stop to attack the player
+    bool isPlayerInProjectileRange = false;
     bool isAttacking = false;
     bool isFacingRight = true;
     bool isWalking = false;
@@ -45,9 +55,18 @@ public class EnemyController : MonoBehaviour {
     #endregion
 
     #region AUDIO
-    [SerializeField] AudioSource audioControl;
+    [Header("Audio")]
+    AudioSource audioControl;
     [SerializeField] AudioClip deathSFX;
+    [SerializeField] float deathSFXVolume = 0.9f;
     #endregion
+
+    private void Start()
+    {
+        if (EnemyData.current == null)
+            EnemyData.current = new EnemyData();
+        enemyID = EnemyData.current.GetEnemyID();
+    }
 
     void Update ()
     {
@@ -86,20 +105,56 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
-    public void StandbyToAttackPlayer()
-    {     
+    public void StandbyToMeleeAttackPlayer()
+    {
+        // succubus is ranged
+        if (type == EnemyType.Succubus)
+            return;
         isNearPlayer = true;
-        if (!isAttacking && !isDying)
+        if (!isAttacking)
         {
             isAttacking = true;
+            enemyAnimator.SetBool("isAttacking",true);
             StartCoroutine(AttackPlayer());
         }
     }
 
-    public void StopStandbyToAttackPlayer()
+    public void StopStandbyToMeleeAttackPlayer()
     {
+        // succubus is ranged
+        if (type == EnemyType.Succubus)
+        {
+            return;
+        }
         isNearPlayer = false;
         isAttacking = false;
+        enemyAnimator.SetBool("isAttacking", false);
+    }
+
+    public void StandbyToShootPlayer()
+    {
+        if (type != EnemyType.Succubus)
+        {
+            return;
+        }
+        isPlayerInProjectileRange = true;
+        if (!isAttacking && !isShootingCoroutineLoop)
+        {
+            isAttacking = true;
+            enemyAnimator.SetBool("isAttacking", true);
+            StartCoroutine(ShootPlayer());
+        }
+    }
+
+    public void StopStandbyToShootPlayer()
+    {
+        if (type != EnemyType.Succubus)
+        {
+            return;
+        }
+        isPlayerInProjectileRange = false;
+        isAttacking = false;
+        enemyAnimator.SetBool("isAttacking", false);
     }
 
     private IEnumerator AttackPlayer()
@@ -109,6 +164,44 @@ public class EnemyController : MonoBehaviour {
             yield return new WaitForSeconds(attackCooldown);
             PlayerData.current.DamagePlayer(damagePerAttack);
         }
+    }
+
+    private IEnumerator ShootPlayer()
+    {
+        yield return new WaitForSeconds(attackAnimation.length);
+        if (isAttacking)
+        {
+            lastProjectileShootTime = Time.time;
+            ShootProjectile();
+            StartCoroutine(ShootCooldown());
+            enemyAnimator.SetBool("isAttacking", false);
+        }
+        else
+        {
+            isShootingCoroutineLoop = false;
+        }
+    }
+
+    private IEnumerator ShootCooldown()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        if (isAttacking)
+        {
+            isShootingCoroutineLoop = true;
+            enemyAnimator.SetBool("isAttacking", true);
+            StartCoroutine(ShootPlayer());
+        }
+        else
+        {
+            isShootingCoroutineLoop = false;
+        }
+    }
+
+    void ShootProjectile()
+    {
+        GameObject projectile = Instantiate(enemyProjectile, projectileExitPoint.position, projectileExitPoint.rotation, projectileExitPoint);
+        projectile.GetComponent<EnemyProjectile>().StartProjectile(isFacingRight, damagePerAttack);
+        projectile.transform.parent = null;
     }
 
     void CheckIfPlayerVisible()
@@ -161,13 +254,20 @@ public class EnemyController : MonoBehaviour {
 
     void Die()
     {
-        if (isDying)
-            return;
-        isDying = true;
-        PlayerData.current.AddExp(expDrop);
-        enemyAnimator.SetBool("isDead", true);
-        audioControl.PlayOneShot(deathSFX, 0.9F);
-        StartCoroutine(DestroyAfterXSeconds(deathAnimation.length));
+        if (!isDying)
+        {
+
+            isDying = true;
+            PlayerData.current.AddExp(expDrop);
+
+            // DEATH AUDIO
+            audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
+            audioControl.PlayOneShot(deathSFX, deathSFXVolume);
+
+            // DEATH ANIMATION
+            enemyAnimator.SetBool("isDead", true);
+            StartCoroutine(DestroyAfterXSeconds(deathAnimation.length));
+        }
     }
 
     private IEnumerator DestroyAfterXSeconds(float xSeconds)

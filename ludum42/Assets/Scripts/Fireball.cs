@@ -29,7 +29,7 @@ public class Fireball : MonoBehaviour {
     public void StartFireball(bool isFlyingRight)
     {
         audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
-        audioControl.PlayOneShot(fireballSFX, 0.8F);
+        audioControl.PlayOneShot(fireballSFX, 0.9F);
         fireBallStarted = true;
         flyingRight = isFlyingRight;
         fireBallDeathTime = fireBallDuration + Time.time;

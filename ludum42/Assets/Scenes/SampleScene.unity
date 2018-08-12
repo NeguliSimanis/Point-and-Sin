@@ -2526,6 +2526,57 @@ EdgeCollider2D:
   - {x: 21.13381, y: 1.8418674}
   - {x: 21.073778, y: 2.8002844}
   - {x: 21.814867, y: 3.492313}
+--- !u!1001 &600728027
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4745827715845004, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -7.143
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745827715845004, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -3.483
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745827715845004, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745827715845004, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745827715845004, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745827715845004, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745827715845004, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4745827715845004, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114775722042871322, guid: 4288c8a3c8ecc714eb85d5d44ad0467a,
+        type: 2}
+      propertyPath: audioControl
+      value: 
+      objectReference: {fileID: 192793268}
+    - target: {fileID: 1161049970281038, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &609887309
 GameObject:
   m_ObjectHideFlags: 0
@@ -5158,11 +5209,6 @@ Prefab:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 368055473}
-    - target: {fileID: 114662002927111390, guid: af20c3ba019d5364d928740bb0c9023f,
-        type: 2}
-      propertyPath: audioControl
-      value: 
-      objectReference: {fileID: 192793268}
     - target: {fileID: 114016969767847380, guid: af20c3ba019d5364d928740bb0c9023f,
         type: 2}
       propertyPath: playerController
@@ -6962,7 +7008,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2046001828
 RectTransform:
   m_ObjectHideFlags: 0
