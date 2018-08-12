@@ -24,8 +24,10 @@ public class PlayerData
     #region MANA
     public int currentMana = 50;
     public int maxMana = 50;
+    private int defaultMaxMana = 50;
     private int manaPerLevel = 3;
     public int manaRegenPerSecond = 5;
+    private int defaultManaRegenPerSecond = 5;
     public float manaRegenInterval = 0.2f;
     public int manaRegenPerInterval;
     #endregion
@@ -37,7 +39,9 @@ public class PlayerData
     #endregion
 
     #region MELEE ATTACK
-    public int meleeDamage = 10;
+    public int meleeDamage = 8;
+    private int defaultMeleeDamage = 8;
+    private int wrathMeleeDamageIncrease = 1;
     public float meleeAttackCooldown = 0.3f;
     #endregion
 
@@ -49,9 +53,15 @@ public class PlayerData
 
     #region SKILLS
     public int skillPoints = 0;
+
     public int wrath = 1;
+    
+
     public int pride = 1;
+    private float prideMaxManaIncrease = 0.05f;
+
     public int lust = 1;
+    private int lustManaRegenIncrease = 1;
     #endregion
     public PlayerData()
     {
@@ -80,6 +90,25 @@ public class PlayerData
             currentExp = currentExp - requiredExp; 
             LevelUp();
         }
+    }
+
+    public void AddWrath(int amount)
+    {
+        wrath += amount;
+
+        // calculate melee damage increase
+        meleeDamage = defaultMeleeDamage + (wrath - 1) * wrathMeleeDamageIncrease;
+        Debug.Log("Melee damage " + meleeDamage);
+    }
+
+    public void AddPride(int amount)
+    {
+        pride += amount;
+    }
+
+    public void AddLust(int amount)
+    {
+        lust += amount;
     }
 
     private void LevelUp()

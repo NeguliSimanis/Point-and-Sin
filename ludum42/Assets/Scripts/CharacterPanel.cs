@@ -23,21 +23,21 @@ public class CharacterPanel : MonoBehaviour {
 
     public void AddWrath()
     {
-        PlayerData.current.wrath++;
+        PlayerData.current.AddWrath(1);
         PlayerData.current.skillPoints--;
         UpdateSinPointsText();
     }
 
     public void AddPride()
     {
-        PlayerData.current.pride++;
+        PlayerData.current.AddPride(1);
         PlayerData.current.skillPoints--;
         UpdateSinPointsText();
     }
 
     public void AddLust()
     {
-        PlayerData.current.lust++;
+        PlayerData.current.AddLust(1);
         PlayerData.current.skillPoints--;
         UpdateSinPointsText();
     }
