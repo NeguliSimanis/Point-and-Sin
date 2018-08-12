@@ -27,8 +27,10 @@ public class PlayerController : MonoBehaviour
     private bool isRegeneratingMana = false;
     private bool isCastingSpell = false;
     private bool isFireballCooldown = false;
+    private bool hasCastSpellAtLeastOnce = false;
 
     private int lastKnownPlayerLevel;
+    public bool isClickingOnUI = false; // don't allow movement when clicking on certain UI elements 
     #endregion
 
     #region MOVEMENT
@@ -152,6 +154,7 @@ public class PlayerController : MonoBehaviour
 
         if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
         {
+            hasCastSpellAtLeastOnce = true;
             isCastingSpell = true;
             spellcastEndTime = Time.time + spellcastAnimation.length;
             fireballCooldownStartTime = Time.time;
@@ -270,7 +273,17 @@ public class PlayerController : MonoBehaviour
         expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
 
         // update fireball cooldown bar
-        fireballCooldownBar.fillAmount = (Time.time - fireballCooldownStartTime) / (PlayerData.current.fireballCastCooldown + spellcastAnimation.length);
+        if (hasCastSpellAtLeastOnce)
+        {
+            // bar fill
+            fireballCooldownBar.fillAmount = (Time.time - fireballCooldownStartTime) / (PlayerData.current.fireballCastCooldown + spellcastAnimation.length);
+
+            // bar color changes if insufficient mana
+            if (PlayerData.current.currentMana < PlayerData.current.fireballManaCost)
+                fireballCooldownBar.color = new Color(0.613f, 0.362f, 0.362f);
+            else
+                fireballCooldownBar.color = Color.white;
+        }
     }
 
     void GetTargetPositionAndDirection()
@@ -318,6 +331,12 @@ public class PlayerController : MonoBehaviour
         currentEnemy.TakeDamage(meleeDamage);
     }
 
+    // called from buttons attached to UI elements
+    public void IgnoreMouseClick()
+    {
+        isClickingOnUI = true;
+    }
+
     void CheckIfPlayerIsWalking()
     {
         if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
@@ -338,6 +357,11 @@ public class PlayerController : MonoBehaviour
         {
             isWalking = false;
             isWalkingInObstacle = false;
+        }
+        else if (isClickingOnUI)
+        {
+            isWalking = false;
+            isClickingOnUI = false;
         }
         else
         {
