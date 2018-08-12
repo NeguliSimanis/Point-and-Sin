@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Image healthBar;
     [SerializeField] Image manaBar;
     [SerializeField] Image expBar;
+    [SerializeField] GameObject skillPointsButton;
     [SerializeField] GameObject defeatPanel;
     #endregion
 
@@ -241,6 +242,8 @@ public class PlayerController : MonoBehaviour
 
         // update exp bar
         expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
+
+        // update skill points button
     }
 
     void GetTargetPositionAndDirection()
@@ -311,7 +314,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = true;
-            Debug.Log("walked into obstacle");
+            //Debug.Log("walked into obstacle");
         }
     }
 
@@ -320,7 +323,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = false;
-            Debug.Log("walked OUT");
+            //Debug.Log("walked OUT");
         }
     }
 

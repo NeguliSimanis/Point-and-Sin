@@ -11,14 +11,22 @@ public class MusicControl : MonoBehaviour
     {
         if (!isPlayingBackgroundMusic && PlayerData.current.canPlayBackground)
         {
-            Debug.Log("dis workd");
             isPlayingBackgroundMusic = true;
             PlayBackgroundMusic();
+        }
+        else if (!PlayerData.current.canPlayBackground)
+        {
+            StopBackgroundMusic();
         }
 	}
 
     public void PlayBackgroundMusic()
     {
         audioSource.enabled = true;
+    }
+
+    void StopBackgroundMusic()
+    {
+        audioSource.enabled = false;
     }
 }
