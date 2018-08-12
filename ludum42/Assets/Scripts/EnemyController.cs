@@ -56,8 +56,11 @@ public class EnemyController : MonoBehaviour {
 
     #region AUDIO
     [Header("Audio")]
+    AudioSource enemyAudioSource;
     AudioSource audioControl;
+    [SerializeField] AudioClip shootSFX;
     [SerializeField] AudioClip deathSFX;
+    [SerializeField] float shootSFXVolume;
     [SerializeField] float deathSFXVolume = 0.9f;
     #endregion
 
@@ -66,6 +69,7 @@ public class EnemyController : MonoBehaviour {
         if (EnemyData.current == null)
             EnemyData.current = new EnemyData();
         enemyID = EnemyData.current.GetEnemyID();
+        enemyAudioSource = gameObject.GetComponent<AudioSource>();
     }
 
     void Update ()
@@ -199,6 +203,7 @@ public class EnemyController : MonoBehaviour {
 
     void ShootProjectile()
     {
+        enemyAudioSource.PlayOneShot(shootSFX, shootSFXVolume);
         GameObject projectile = Instantiate(enemyProjectile, projectileExitPoint.position, projectileExitPoint.rotation, projectileExitPoint);
         projectile.GetComponent<EnemyProjectile>().StartProjectile(isFacingRight, damagePerAttack);
         projectile.transform.parent = null;
