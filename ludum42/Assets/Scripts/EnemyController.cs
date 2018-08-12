@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour {
     #region DATA variables
     float moveSpeed = 0.13f;
     public int enemyID = 0;
+    private int expDrop = 40; // how much exp is gained by killing this mofo
     private int maxHP = 12;
     private int currentHP = 12;
     [SerializeField] float sightRadius = 3f;    // if player moves closer than this, he will be noticed
@@ -153,6 +154,7 @@ public class EnemyController : MonoBehaviour {
 
     void Die()
     {
+        PlayerData.current.AddExp(expDrop);
         Destroy(gameObject);
     }
 }

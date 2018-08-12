@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     #region CURRENT STATE
     private bool isAlive = true;
+    private bool isDeathAnimation = false;
     private bool canPauseGame = true;
     private bool isFacingRight = true;
     private bool isWalking = false;
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isRegeneratingMana = false;
     private bool isCastingSpell = false;
+
+    private int lastKnownPlayerLevel;
     #endregion
 
     #region MOVEMENT
@@ -39,6 +42,8 @@ public class PlayerController : MonoBehaviour
     #region UI
     [SerializeField] Image healthBar;
     [SerializeField] Image manaBar;
+    [SerializeField] Image expBar;
+    [SerializeField] GameObject skillPointsButton;
     [SerializeField] GameObject defeatPanel;
     #endregion
 
@@ -75,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        lastKnownPlayerLevel = PlayerData.current.currentLevel;
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -119,6 +125,12 @@ public class PlayerController : MonoBehaviour
         // MANA REGEN
         if (PlayerData.current.maxMana > PlayerData.current.currentMana)
         {
+            // this check is added to fix a bug where you dont regen mana after level up
+            if (lastKnownPlayerLevel != PlayerData.current.currentLevel)
+            {
+                lastKnownPlayerLevel = PlayerData.current.currentLevel;
+                isRegeneratingMana = false;
+            }
             if (!isRegeneratingMana)
             {
                 isRegeneratingMana = true;
@@ -188,7 +200,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isAttacking || isCastingSpell)
             return;
-        Debug.Log("CHECKING ORIENT");
         if (isFacingRight && dirNormalized.x < 0)
         {
             isFacingRight = false;
@@ -203,9 +214,22 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
-        canPauseGame = false;
-        PlayerData.current.isGamePaused = true;
-        defeatPanel.SetActive(true);    
+        if (!isDeathAnimation)
+        {
+            isDeathAnimation = true;
+            canPauseGame = false;
+            PlayerData.current.isGamePaused = true;
+
+            playerAnimator.SetBool("isDead", true);
+            StartCoroutine(DisplayDefeatPanelAfterXSeconds(2f));
+            // 
+        }   
+    }
+
+    private IEnumerator DisplayDefeatPanelAfterXSeconds(float xSeconds)
+    {
+        yield return new WaitForSeconds(xSeconds);
+        defeatPanel.SetActive(true);
     }
 
     void ListenForPlayerDefeat()
@@ -229,6 +253,11 @@ public class PlayerController : MonoBehaviour
 
         // update mana bar
         manaBar.fillAmount = (PlayerData.current.currentMana * 1f) / PlayerData.current.maxMana;
+
+        // update exp bar
+        expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
+
+        // update skill points button
     }
 
     void GetTargetPositionAndDirection()
@@ -263,8 +292,17 @@ public class PlayerController : MonoBehaviour
         meleeAttackAnimStartTime = Time.time;
         playerAnimator.SetTrigger("meleeAttack");
 
+        int meleeDamage = PlayerData.current.meleeDamage;
+
+        // roll critical strike
+        if (Random.Range(0f,1f) < PlayerData.current.meleeCritChance)
+        {
+            Debug.Log("CRITICAL");
+            meleeDamage = (int)(meleeDamage * PlayerData.current.meleeCriticalEffect);
+        }
+
         // deal damage
-        currentEnemy.TakeDamage(PlayerData.current.meleeDamage);
+        currentEnemy.TakeDamage(meleeDamage);
     }
 
     void CheckIfPlayerIsWalking()
@@ -299,6 +337,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = true;
+            //Debug.Log("walked into obstacle");
         }
     }
 
@@ -307,6 +346,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Background")
         {
             isWalkingInObstacle = false;
+            //Debug.Log("walked OUT");
         }
     }
 
