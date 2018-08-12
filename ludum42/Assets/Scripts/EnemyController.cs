@@ -252,6 +252,8 @@ public class EnemyController : MonoBehaviour {
 
     public void TakeDamage(int damageAmount)
     {
+        enemyAnimator.SetTrigger("damaged");
+        dirNormalized = (-1f) * dirNormalized;
         currentHP = currentHP - damageAmount;
         if (currentHP <= 0)
             Die();
