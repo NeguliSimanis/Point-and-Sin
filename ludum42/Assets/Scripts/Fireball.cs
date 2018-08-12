@@ -53,7 +53,6 @@ public class Fireball : MonoBehaviour {
             return;
         isExploding = true;
         animator.SetTrigger("explode");
-        Debug.Log("EXPLODE");
         audioControl.PlayOneShot(explosionSFX, 1F);
         StartCoroutine(SelfDestruct());
     }
