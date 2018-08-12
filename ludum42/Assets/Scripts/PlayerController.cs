@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region UI
+    [SerializeField] GameObject pauseMenu; 
     [SerializeField] Image healthBar;
     [SerializeField] Image manaBar;
     [SerializeField] Image expBar;
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
     #region AUDIO
     [SerializeField] AudioClip meleeSFX;
+    float meleeSFXVolume = 0.2f;
     AudioSource audioSource;
     #endregion
 
@@ -273,8 +275,9 @@ public class PlayerController : MonoBehaviour
 
     void ListenForGamePause()
     {
-        if (Input.GetKeyDown(KeyCode.P) && canPauseGame)
+        if ((Input.GetKeyDown(KeyCode.P) || (Input.GetKeyDown(KeyCode.Escape) && canPauseGame)))
         {
+            pauseMenu.SetActive(true);
             PlayerData.current.isGamePaused = !PlayerData.current.isGamePaused;
         }
     }
@@ -345,7 +348,7 @@ public class PlayerController : MonoBehaviour
         isWalking = false;
         meleeAttackAnimStartTime = Time.time;
         playerAnimator.SetTrigger("meleeAttack");
-        audioSource.PlayOneShot(meleeSFX, 0.6F);
+        audioSource.PlayOneShot(meleeSFX, meleeSFXVolume);
 
         int meleeDamage = PlayerData.current.meleeDamage;
 
