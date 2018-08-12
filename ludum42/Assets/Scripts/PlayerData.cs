@@ -11,6 +11,10 @@ public class PlayerData
     public bool canPlayBackground = false;
     #endregion
 
+    #region PLAYER STATE
+    public bool playerWoundDetected = false;
+    #endregion
+
     #region MOVEMENT
     public float moveSpeed = 0.8f;
     #endregion
@@ -188,6 +192,7 @@ public class PlayerData
 
     public void DamagePlayer(int damageAmount)
     {
+        playerWoundDetected = true;
         if (damageAmount > currentLife)
             currentLife = 0;
         else

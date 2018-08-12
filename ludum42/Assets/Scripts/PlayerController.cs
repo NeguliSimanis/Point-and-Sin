@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateHUD();
         ListenForGamePause();
+        ListenForDamageTaken();
         ListenForPlayerDefeat();
         if (!isAlive)
             Die();
@@ -148,6 +149,16 @@ public class PlayerController : MonoBehaviour
                 isRegeneratingMana = true;
                 StartCoroutine(RegenerateMana());
             }
+        }
+    }
+
+    void ListenForDamageTaken()
+    {
+        if (PlayerData.current.playerWoundDetected == true)
+        {
+            PlayerData.current.playerWoundDetected = false;
+            playerAnimator.SetTrigger("damageTaken");
+            dirNormalized = dirNormalized * -1f;
         }
     }
 
