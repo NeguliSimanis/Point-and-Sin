@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : MonoBehaviour {
+public class EnemyProjectile : MonoBehaviour {
 
-    private float fireBallDamage;
-    private float fireBallDuration = 0.3f;
-    private float fireBallDeathTime;
-    private float fireBallMoveSpeed = 1f;
-    bool fireBallStarted = false;
+    private float projectileDamage;
+    private float projectileDuration = 0.3f;
+    private float projectileDeathTime;          // automatically explodes after this duration
+    private float projectileMoveSpeed = 0.7f;
+    bool projectileStarted = false;
     bool flyingRight;
     bool isExploding = false;
 
@@ -18,7 +18,7 @@ public class Fireball : MonoBehaviour {
 
     // AUDIO
     [SerializeField] AudioSource audioControl;
-    [SerializeField] AudioClip fireballSFX;
+    [SerializeField] AudioClip projectileSFX;
     [SerializeField] AudioClip explosionSFX;
 
     private void Start()
@@ -26,24 +26,24 @@ public class Fireball : MonoBehaviour {
         audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
     }
 
-    public void StartFireball(bool isFlyingRight)
+    public void StartProjectile(bool isFlyingRight)
     {
         audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
-        audioControl.PlayOneShot(fireballSFX, 0.9F);
-        fireBallStarted = true;
+        audioControl.PlayOneShot(projectileSFX, 0.9F);
+        projectileStarted = true;
         flyingRight = isFlyingRight;
-        fireBallDeathTime = fireBallDuration + Time.time;
+        projectileDeathTime = projectileDuration + Time.time;
         explosionDuration = explosionAnimation.length;
     }
 
     private void Update()
     {
-        if (!fireBallStarted)
+        if (!projectileStarted)
         {
             return;
         }
-        MoveFireball();
-        if (Time.time > fireBallDuration + fireBallDeathTime)
+        MoveProjetile();
+        if (Time.time > projectileDuration + projectileDeathTime)
             Explode();
     }
 
@@ -65,20 +65,21 @@ public class Fireball : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<EnemyController>().TakeDamage(PlayerData.current.fireballDamage);
+            //collision.gameObject.GetComponent<EnemyController>().TakeDamage(PlayerData.current.fireballDamage);
+            Debug.Log("player hit!");
             Explode();
         }
     }
 
-    void MoveFireball()
+    void MoveProjetile()
     {
         if (isExploding)
             return;
         if (flyingRight)
-            transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.right * fireBallMoveSpeed * Time.deltaTime;
+            transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.right * projectileMoveSpeed * Time.deltaTime;
         else
-            transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.left * fireBallMoveSpeed * Time.deltaTime;
+            transform.position = new Vector2(transform.position.x, transform.position.y) + Vector2.left * projectileMoveSpeed * Time.deltaTime;
     }
 }

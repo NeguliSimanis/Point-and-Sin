@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: 1dee21e08fb72c5429e4d5e4da12c0be
+guid: 096fc6c4be17c5445a7fd431491316dc
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: demon-fireball-impact-31x31_0
-    21300002: demon-fireball-impact-31x31_1
-    21300004: demon-fireball-impact-31x31_2
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -43,7 +40,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -107,71 +104,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: demon-fireball-impact-31x31_0
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 4
-        width: 23
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a7e565e051fba6a4594edd838938e8bd
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: demon-fireball-impact-31x31_1
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 8
-        width: 9
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 648a599415a71b54eb49f8a254303974
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: demon-fireball-impact-31x31_2
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 12
-        width: 11
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a8f5315d03326e34bacc7704bc056a9a
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 0bca22c9c3704334c88c393c9f473fe6
+    spriteID: 07865d4e218d6da40a9e2cfa6ca22112
     vertices: []
     indices: 
     edges: []
