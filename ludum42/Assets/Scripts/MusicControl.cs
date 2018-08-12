@@ -14,10 +14,7 @@ public class MusicControl : MonoBehaviour
             isPlayingBackgroundMusic = true;
             PlayBackgroundMusic();
         }
-        else if (!PlayerData.current.canPlayBackground)
-        {
-            StopBackgroundMusic();
-        }
+        
 	}
 
     public void PlayBackgroundMusic()
@@ -27,6 +24,6 @@ public class MusicControl : MonoBehaviour
 
     void StopBackgroundMusic()
     {
-        audioSource.enabled = false;
+        //audioSource.enabled = false;
     }
 }
