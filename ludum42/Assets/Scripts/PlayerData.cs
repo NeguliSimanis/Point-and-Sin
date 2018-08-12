@@ -26,16 +26,26 @@ public class PlayerData
     public int maxMana = 50;
     private int defaultMaxMana = 50;
     private int manaPerLevel = 3;
+    private float prideMaxManaIncrease = 0.05f;
+
+    // MANA REGEN
     public int manaRegenPerSecond = 5;
     private int defaultManaRegenPerSecond = 5;
+    private int lustManaRegenIncrease = 1;
     public float manaRegenInterval = 0.2f;
     public int manaRegenPerInterval;
     #endregion
 
     #region SPELLS
     public int fireballDamage = 6;
+    private int defaultFireballDamage = 6;
     public int fireballManaCost = 20;
+    private int defaultFireballCost = 20;
     public float fireballCastCooldown = 0.3f;
+
+    // WRATH MODIFIERS
+    private int wrathFireballCostIncrease = 1;
+    private int wrathFireballDamageIncrease = 2;
     #endregion
 
     #region MELEE ATTACK
@@ -53,15 +63,9 @@ public class PlayerData
 
     #region SKILLS
     public int skillPoints = 0;
-
     public int wrath = 1;
-    
-
     public int pride = 1;
-    private float prideMaxManaIncrease = 0.05f;
-
     public int lust = 1;
-    private int lustManaRegenIncrease = 1;
     #endregion
     public PlayerData()
     {
@@ -96,19 +100,35 @@ public class PlayerData
     {
         wrath += amount;
 
-        // calculate melee damage increase
+        // melee damage increase
         meleeDamage = defaultMeleeDamage + (wrath - 1) * wrathMeleeDamageIncrease;
-        Debug.Log("Melee damage " + meleeDamage);
+        //Debug.Log("Melee damage " + meleeDamage);
+
+        // fireball damage increase
+        fireballDamage = defaultFireballDamage + (wrath - 1) * wrathFireballDamageIncrease;
+        Debug.Log("Fireball damage " + fireballDamage);
+
+        // fireball cost increase
+        fireballManaCost = defaultFireballCost + (wrath - 1) * wrathFireballCostIncrease;
+        Debug.Log("Fireball cost " + fireballManaCost);
     }
 
     public void AddPride(int amount)
     {
         pride += amount;
+
+        // max mana increase
+        maxMana = (int)(defaultMaxMana * (1f + (pride - 1) * prideMaxManaIncrease));
+        //Debug.Log("Max mana " + maxMana);
     }
 
     public void AddLust(int amount)
     {
         lust += amount;
+
+        // mana regen increase
+        manaRegenPerSecond = defaultManaRegenPerSecond + (lust - 1) * lustManaRegenIncrease;
+        Debug.Log("Mana regen " + manaRegenPerSecond);
     }
 
     private void LevelUp()
