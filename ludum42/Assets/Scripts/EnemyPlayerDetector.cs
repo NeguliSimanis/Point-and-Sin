@@ -12,12 +12,12 @@ public class EnemyPlayerDetector : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")
-            enemyController.StandbyToAttackPlayer();
+            enemyController.StandbyToMeleeAttackPlayer();
     }
 
     private void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")
-            enemyController.StopStandbyToAttackPlayer();
+            enemyController.StopStandbyToMeleeAttackPlayer();
     }
 }
