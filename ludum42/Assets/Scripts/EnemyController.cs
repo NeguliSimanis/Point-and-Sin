@@ -16,13 +16,15 @@ public class EnemyController : MonoBehaviour {
     private int currentHP = 12;
 
     [SerializeField] float sightRadius = 3f;    // if player moves closer than this, he will be noticed
-    [SerializeField] float attackCooldown = 1f; // deals damage to player once per this interval
-    [SerializeField] int damagePerAttack = 35;  // how much damage is dealt in one attack
+    [SerializeField] float attackCooldown;      // deals damage to player once per this interval
+    [SerializeField] int damagePerAttack;  // how much damage is dealt in one attack
     #endregion
 
     #region ENEMY PROJECTILES
     [SerializeField] GameObject enemyProjectile;
     [SerializeField] Transform projectileExitPoint;
+    private float lastProjectileShootTime;
+    private bool isShootingCoroutineLoop = false;
     #endregion
 
     #region STATE variables
@@ -122,7 +124,6 @@ public class EnemyController : MonoBehaviour {
         // succubus is ranged
         if (type == EnemyType.Succubus)
         {
-            Debug.Log("not succubi");
             return;
         }
         isNearPlayer = false;
@@ -137,7 +138,7 @@ public class EnemyController : MonoBehaviour {
             return;
         }
         isPlayerInProjectileRange = true;
-        if (!isAttacking)
+        if (!isAttacking && !isShootingCoroutineLoop)
         {
             isAttacking = true;
             enemyAnimator.SetBool("isAttacking", true);
@@ -167,18 +168,39 @@ public class EnemyController : MonoBehaviour {
 
     private IEnumerator ShootPlayer()
     {
-        while (isAttacking)
+        yield return new WaitForSeconds(attackAnimation.length);
+        if (isAttacking)
         {
-            yield return new WaitForSeconds(attackCooldown);
+            lastProjectileShootTime = Time.time;
+            ShootProjectile();
+            StartCoroutine(ShootCooldown());
+            enemyAnimator.SetBool("isAttacking", false);
+        }
+        else
+        {
+            isShootingCoroutineLoop = false;
+        }
+    }
 
-            //PlayerData.current.DamagePlayer(damagePerAttack);
+    private IEnumerator ShootCooldown()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        if (isAttacking)
+        {
+            isShootingCoroutineLoop = true;
+            enemyAnimator.SetBool("isAttacking", true);
+            StartCoroutine(ShootPlayer());
+        }
+        else
+        {
+            isShootingCoroutineLoop = false;
         }
     }
 
     void ShootProjectile()
     {
         GameObject projectile = Instantiate(enemyProjectile, projectileExitPoint.position, projectileExitPoint.rotation, projectileExitPoint);
-        projectile.GetComponent<EnemyProjectile>().StartProjectile(isFacingRight);
+        projectile.GetComponent<EnemyProjectile>().StartProjectile(isFacingRight, damagePerAttack);
         projectile.transform.parent = null;
     }
 

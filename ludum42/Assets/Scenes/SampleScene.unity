@@ -2570,10 +2570,9 @@ Prefab:
       propertyPath: audioControl
       value: 
       objectReference: {fileID: 192793268}
-    - target: {fileID: 212174639577670464, guid: 4288c8a3c8ecc714eb85d5d44ad0467a,
-        type: 2}
-      propertyPath: m_Color.a
-      value: 1
+    - target: {fileID: 1161049970281038, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4288c8a3c8ecc714eb85d5d44ad0467a, type: 2}
@@ -7009,7 +7008,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2046001828
 RectTransform:
   m_ObjectHideFlags: 0

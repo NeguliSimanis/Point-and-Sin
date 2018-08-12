@@ -318,8 +318,8 @@ MonoBehaviour:
   type: 0
   enemyID: 0
   sightRadius: 1.2
-  attackCooldown: 1
-  damagePerAttack: 35
+  attackCooldown: 2
+  damagePerAttack: 32
   enemyProjectile: {fileID: 1161049970281038, guid: 4288c8a3c8ecc714eb85d5d44ad0467a,
     type: 2}
   projectileExitPoint: {fileID: 4369253064311444}

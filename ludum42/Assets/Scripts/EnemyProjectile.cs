@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour {
 
-    private float projectileDamage;
+    public int projectileDamage;
     private float projectileDuration = 0.3f;
     private float projectileDeathTime;          // automatically explodes after this duration
     private float projectileMoveSpeed = 0.7f;
@@ -26,12 +26,16 @@ public class EnemyProjectile : MonoBehaviour {
         audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
     }
 
-    public void StartProjectile(bool isFlyingRight)
+    public void StartProjectile(bool isFlyingRight, int damage)
     {
-        audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
-        audioControl.PlayOneShot(projectileSFX, 0.9F);
         projectileStarted = true;
         flyingRight = isFlyingRight;
+        projectileDamage = damage;
+
+        // AUDIO
+        audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
+        audioControl.PlayOneShot(projectileSFX, 0.9F);
+        
         projectileDeathTime = projectileDuration + Time.time;
         explosionDuration = explosionAnimation.length;
     }
@@ -69,6 +73,7 @@ public class EnemyProjectile : MonoBehaviour {
         {
             //collision.gameObject.GetComponent<EnemyController>().TakeDamage(PlayerData.current.fireballDamage);
             Debug.Log("player hit!");
+            PlayerData.current.DamagePlayer(projectileDamage);
             Explode();
         }
     }
