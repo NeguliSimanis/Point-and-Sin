@@ -60,7 +60,7 @@ public class PlayerData
     private int wrathMeleeDamageIncrease = 1;
     public float meleeAttackCooldown = 0.3f;
 
-    public float meleeCritChance = 0.7f;
+    public float meleeCritChance = 0.01f;
     private float defaultMeleeCritChance = 0.01f;
     public float meleeCriticalEffect = 1.5f;
     private float lustMeleeCriticalIncrease = 0.005f;
@@ -87,9 +87,12 @@ public class PlayerData
 
     public void Reset()
     {
+        Debug.Log("reset");
         isGamePaused = false;
-        currentLife = maxLife;
-        currentMana = maxMana;
+        currentLife = defaultMaxLife;
+        maxLife = defaultMaxLife;
+        currentMana = defaultMaxMana;
+        maxMana = defaultMaxMana;
         GetManaRegenPerInterval();
 
         currentLevel = 1;

@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     #region CURRENT STATE
     private bool isAlive = true;
+    private bool isDeathAnimation = false;
     private bool canPauseGame = true;
     private bool isFacingRight = true;
     private bool isWalking = false;
@@ -213,9 +214,22 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
-        canPauseGame = false;
-        PlayerData.current.isGamePaused = true;
-        defeatPanel.SetActive(true);    
+        if (!isDeathAnimation)
+        {
+            isDeathAnimation = true;
+            canPauseGame = false;
+            PlayerData.current.isGamePaused = true;
+
+            playerAnimator.SetBool("isDead", true);
+            StartCoroutine(DisplayDefeatPanelAfterXSeconds(2f));
+            // 
+        }   
+    }
+
+    private IEnumerator DisplayDefeatPanelAfterXSeconds(float xSeconds)
+    {
+        yield return new WaitForSeconds(xSeconds);
+        defeatPanel.SetActive(true);
     }
 
     void ListenForPlayerDefeat()
