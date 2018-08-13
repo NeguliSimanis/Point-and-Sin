@@ -61,9 +61,12 @@ public class EnemyController : MonoBehaviour {
     [SerializeField] AudioClip shootSFX;
     [SerializeField] AudioClip deathSFX;
     [SerializeField] AudioClip woundedSFX;
+    [SerializeField] AudioClip noticPlayerSFX;
     [SerializeField] float shootSFXVolume;
     [SerializeField] float deathSFXVolume = 0.9f;
     [SerializeField] float woundedSFXVolume;
+    [SerializeField] float noticePlayerSFXVolume;
+
     #endregion
 
     private void Start()
@@ -216,7 +219,10 @@ public class EnemyController : MonoBehaviour {
     {
         if (Vector2.Distance(playerTransform.position, transform.position) <= sightRadius)
         {
-            isPlayerVisible = true;
+            if (isPlayerVisible == false)
+            {
+                NoticePlayer();
+            }
             isWalking = true;
         }
         else
@@ -224,6 +230,15 @@ public class EnemyController : MonoBehaviour {
             isPlayerVisible = false;
             isIdleA = true;
             isWalking = false;
+        }
+    }
+
+    void NoticePlayer()
+    {
+        isPlayerVisible = true;
+        if (type == EnemyType.SkullBoss)
+        {
+            enemyAudioSource.PlayOneShot(noticPlayerSFX, noticePlayerSFXVolume);
         }
     }
 

@@ -78,7 +78,9 @@ public class PlayerController : MonoBehaviour
 
     #region AUDIO
     [SerializeField] AudioClip meleeSFX;
+    [SerializeField] AudioClip lvUpSFX;
     float meleeSFXVolume = 0.2f;
+    float lvUPSFXVolume = 0.5f;
     AudioSource audioSource;
     #endregion
 
@@ -109,10 +111,11 @@ public class PlayerController : MonoBehaviour
         ListenForPlayerDefeat();
         if (!isAlive)
             Die();
-        if (PlayerData.current.isGamePaused)
+        if (PlayerData.current.isGamePaused || !isAlive)
         {
             return;
         }
+        ListenToLVChange();
         if (Input.GetMouseButtonDown(0))
         {
             GetTargetPositionAndDirection();
@@ -127,7 +130,7 @@ public class PlayerController : MonoBehaviour
         if (isWalking)
         {
             CheckIfPlayerIsWalking();
-            MovePlayer(); 
+            MovePlayer();
         }
         CheckWherePlayerIsFacing();
         // END MELEE ATTACK STATE
@@ -143,17 +146,24 @@ public class PlayerController : MonoBehaviour
         // MANA REGEN
         if (PlayerData.current.maxMana > PlayerData.current.currentMana)
         {
-            // this check is added to fix a bug where you dont regen mana after level up
-            if (lastKnownPlayerLevel != PlayerData.current.currentLevel)
-            {
-                lastKnownPlayerLevel = PlayerData.current.currentLevel;
-                isRegeneratingMana = false;
-            }
             if (!isRegeneratingMana)
             {
                 isRegeneratingMana = true;
                 StartCoroutine(RegenerateMana());
             }
+        }
+    }
+
+    void ListenToLVChange()
+    {
+        if (lastKnownPlayerLevel != PlayerData.current.currentLevel)
+        {
+            // PLAY LV UP SFX
+            lastKnownPlayerLevel = PlayerData.current.currentLevel;
+            audioSource.PlayOneShot(lvUpSFX, lvUPSFXVolume);
+
+            // this check is added to fix a bug where you dont regen mana after level up
+            isRegeneratingMana = false;
         }
     }
 

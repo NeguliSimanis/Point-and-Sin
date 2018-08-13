@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4300161811759034}
   - component: {fileID: 212122976357900394}
+  - component: {fileID: 95595780873388540}
   m_Layer: 0
   m_Name: EnemySprite
   m_TagString: Untagged
@@ -156,7 +157,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1393764648040066}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.067, y: 0, z: 0}
+  m_LocalPosition: {x: 0.69, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4300161811759034}
@@ -356,6 +357,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &95595780873388540
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260051837331206}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b72d08fcd3514d5459eb1629b6744f35, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114087335862273374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -394,22 +413,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   enemyID: 0
-  sightRadius: 1.2
-  attackCooldown: 2
-  damagePerAttack: 32
+  maxHP: 140
+  sightRadius: 1.3
+  attackCooldown: 1.5
+  damagePerAttack: 66
   enemyProjectile: {fileID: 1161049970281038, guid: 4288c8a3c8ecc714eb85d5d44ad0467a,
     type: 2}
   projectileExitPoint: {fileID: 4682266990580396}
   playerTransform: {fileID: 0}
-  enemyAnimator: {fileID: 0}
+  enemyAnimator: {fileID: 95595780873388540}
   deathAnimation: {fileID: 7400000, guid: dbc688bd9eaca364aba5061e4f20ede9, type: 2}
-  attackAnimation: {fileID: 7400000, guid: 2050afb7cc252a242a6414642ed109fb, type: 2}
+  attackAnimation: {fileID: 7400000, guid: d158e120af0b87d449f9ec4e61942354, type: 2}
   shootSFX: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
   deathSFX: {fileID: 8300000, guid: 088385538c237ca4b81544bc14efbe22, type: 3}
-  woundedSFX: {fileID: 8300000, guid: 63f96fca005d182489060cf8498837af, type: 3}
+  woundedSFX: {fileID: 8300000, guid: 312b908824d2cdf4f93e767ab361a9c1, type: 3}
+  noticPlayerSFX: {fileID: 8300000, guid: 0e049a87601ee6c448e4402e80ce6076, type: 3}
   shootSFXVolume: 0.03
   deathSFXVolume: 0.9
-  woundedSFXVolume: 0.35
+  woundedSFXVolume: 1
+  noticePlayerSFXVolume: 1
 --- !u!114 &114311724514742328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -462,7 +484,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.15, y: 0.34}
+  m_Size: {x: 0.42, y: 0.42}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
