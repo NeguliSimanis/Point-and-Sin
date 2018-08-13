@@ -1439,6 +1439,7 @@ MonoBehaviour:
   nearEnemyID: -1
   targetEnemyID: -2
   isClickingOnUI: 0
+  playerPosition: {fileID: 368055473}
   healthBar: {fileID: 672789731}
   manaBar: {fileID: 1634085104}
   expBar: {fileID: 501792749}
@@ -1453,6 +1454,7 @@ MonoBehaviour:
   fireballExitPoint: {fileID: 421577456}
   fireBall: {fileID: 1144074662880994, guid: 4e0c2fe6184f15f4eb7a549f8a28eea7, type: 2}
   meleeSFX: {fileID: 8300000, guid: 5836119da238aef4d9d4d8d307ec29fe, type: 3}
+  playerRigidBody: {fileID: 368055475}
 --- !u!50 &368055475
 Rigidbody2D:
   serializedVersion: 4
@@ -5242,7 +5244,7 @@ Transform:
   m_GameObject: {fileID: 1334543374}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.99999994, z: 1}
   m_Children: []
   m_Father: {fileID: 368055473}
   m_RootOrder: 0

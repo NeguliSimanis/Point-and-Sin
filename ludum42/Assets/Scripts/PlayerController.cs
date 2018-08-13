@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     #region MOVEMENT
     private Vector2 targetPosition;
     private Vector2 dirNormalized;
+
     #endregion
 
     #region COMPONENTS
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject skillPointsButton;
     [SerializeField] GameObject defeatPanel;
     [SerializeField] GameObject skillPointNotification; // active if player has unspent skillpoints
+
     #endregion
 
     #region ANIMATION
@@ -77,6 +79,9 @@ public class PlayerController : MonoBehaviour
     AudioSource audioSource;
     #endregion
 
+	public Rigidbody2D playerRigidBody; 
+
+
     private void Awake()
     {
         LoadPlayerData();
@@ -94,6 +99,7 @@ public class PlayerController : MonoBehaviour
         lastKnownPlayerLevel = PlayerData.current.currentLevel;
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         audioSource = gameObject.GetComponent<AudioSource>();
+
     }
 
     void Update()
@@ -120,6 +126,7 @@ public class PlayerController : MonoBehaviour
         }
         if (isWalking)
         {
+			
             CheckIfPlayerIsWalking();
             MovePlayer(); 
         }
@@ -149,7 +156,14 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(RegenerateMana());
             }
         }
+
+
     }
+
+	void FixedUpdate () {
+		//Debug.Log ("fucking velocity = "+rigidBody2D.GetRelativePointVelocity();
+
+	}
 
     private void StartSpellcasting()
     {
@@ -406,7 +420,8 @@ public class PlayerController : MonoBehaviour
     }
 
     void MovePlayer()
-    {
+    {   
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * PlayerData.current.moveSpeed * Time.deltaTime;
+
     }
 }
