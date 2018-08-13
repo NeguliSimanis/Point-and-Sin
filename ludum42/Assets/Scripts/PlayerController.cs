@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioClip meleeSFX;
     [SerializeField] AudioClip lvUpSFX;
     float meleeSFXVolume = 0.2f;
-    float lvUPSFXVolume = 0.4f;
+    float lvUPSFXVolume = 0.1f;
     AudioSource audioSource;
     #endregion
 

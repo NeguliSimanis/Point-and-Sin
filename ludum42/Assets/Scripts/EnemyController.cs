@@ -98,6 +98,10 @@ public class EnemyController : MonoBehaviour {
             FollowPlayer();
         }
         CheckWhereEnemyIsFacing();
+        if (type == EnemyType.SkullBoss && seenPlayerAtLeastOnce)
+        {
+            UpdateBossHPBar();
+        }
     }
 
     void LateUpdate()
@@ -256,6 +260,12 @@ public class EnemyController : MonoBehaviour {
     void ShowBossHPBar()
     {
         bossLifeBarObject.SetActive(true); 
+    }
+
+    void UpdateBossHPBar()
+    {
+        Debug.Log(currentHP);
+        bossLifeBar.fillAmount = (float)currentHP / (float)maxHP;
     }
 
     void PatrolArea()
