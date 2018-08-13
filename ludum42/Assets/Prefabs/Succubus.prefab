@@ -425,8 +425,10 @@ MonoBehaviour:
   attackAnimation: {fileID: 7400000, guid: 2050afb7cc252a242a6414642ed109fb, type: 2}
   shootSFX: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
   deathSFX: {fileID: 8300000, guid: 088385538c237ca4b81544bc14efbe22, type: 3}
+  woundedSFX: {fileID: 8300000, guid: 63f96fca005d182489060cf8498837af, type: 3}
   shootSFXVolume: 0.03
   deathSFXVolume: 0.9
+  woundedSFXVolume: 0.35
 --- !u!114 &114817681497345658
 MonoBehaviour:
   m_ObjectHideFlags: 1

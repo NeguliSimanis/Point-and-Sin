@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     #region ANIMATION
     float waitTimeBeforeIdleB = 5f;
     float idleAnimBStartTime;
-    float waitTimeBeforeIdleA = 0.2f;
+    float waitTimeBeforeIdleA = 0.5f;
     float idleAnimAStartTime;
     float meleeAttackAnimStartTime;
     [SerializeField] Animator playerAnimator;
@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
             idleAnimAStartTime = Time.time + waitTimeBeforeIdleA;
         }
         // start playing idle animation A
-        if (Time.time > idleAnimAStartTime)
+        if (Time.time > idleAnimAStartTime && isAlive)
         {
             isIdleA = true;
             if (!preparingIdleAnimationB)

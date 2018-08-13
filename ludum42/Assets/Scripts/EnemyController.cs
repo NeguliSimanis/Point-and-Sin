@@ -60,8 +60,10 @@ public class EnemyController : MonoBehaviour {
     AudioSource audioControl;
     [SerializeField] AudioClip shootSFX;
     [SerializeField] AudioClip deathSFX;
+    [SerializeField] AudioClip woundedSFX;
     [SerializeField] float shootSFXVolume;
     [SerializeField] float deathSFXVolume = 0.9f;
+    [SerializeField] float woundedSFXVolume;
     #endregion
 
     private void Start()
@@ -253,6 +255,7 @@ public class EnemyController : MonoBehaviour {
     public void TakeDamage(int damageAmount)
     {
         enemyAnimator.SetTrigger("damaged");
+        enemyAudioSource.PlayOneShot(woundedSFX, woundedSFXVolume);
         dirNormalized = (-1f) * dirNormalized;
         currentHP = currentHP - damageAmount;
         if (currentHP <= 0)
