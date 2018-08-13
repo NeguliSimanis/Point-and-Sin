@@ -73,8 +73,8 @@ public class PlayerData
     #region LEVELLING
     public int currentExp = 0;
     public int currentLevel = 1;
-    public int requiredExp = 50;
-    private int defaultRequiredExp = 50;
+    public int requiredExp = 90;
+    private int defaultRequiredExp = 90;
     #endregion
 
     #region SKILLS
@@ -183,6 +183,7 @@ public class PlayerData
         currentLife = maxLife;
         currentMana = maxMana;
         requiredExp = (int)(requiredExp * 1.3f);
+        Debug.Log(requiredExp);
     }
 
     void GetManaRegenPerInterval()

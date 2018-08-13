@@ -312,6 +312,11 @@ public class EnemyController : MonoBehaviour {
             isDying = true;
             PlayerData.current.AddExp(expDrop);
 
+            if (type == EnemyType.SkullBoss)
+            {
+                playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
+            }
+
             // DEATH AUDIO
             audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
             audioControl.PlayOneShot(deathSFX, deathSFXVolume);

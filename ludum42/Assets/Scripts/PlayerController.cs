@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject skillPointsButton;
     [SerializeField] GameObject defeatPanel;
     [SerializeField] GameObject skillPointNotification; // active if player has unspent skillpoints
+    [SerializeField] GameObject victoryScreen;
     #endregion
 
     #region ANIMATION
@@ -101,6 +102,12 @@ public class PlayerController : MonoBehaviour
         lastKnownPlayerLevel = PlayerData.current.currentLevel;
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         audioSource = gameObject.GetComponent<AudioSource>();
+    }
+
+    public void WinGame()
+    {
+        Debug.Log("YOU WON");
+        victoryScreen.SetActive(true);
     }
 
     void Update()
