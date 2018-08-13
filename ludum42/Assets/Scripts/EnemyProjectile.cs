@@ -27,6 +27,8 @@ public class EnemyProjectile : MonoBehaviour {
     [SerializeField] AudioSource audioControl;
     [SerializeField] AudioClip projectileSFX;
     [SerializeField] AudioClip explosionSFX;
+    [SerializeField] AudioClip bossDamagesPlayerSFX;
+    float bossDamagesPlayerSFXVolume = 1f;
 
 
     private void Start()
@@ -106,6 +108,8 @@ public class EnemyProjectile : MonoBehaviour {
         if (collision.gameObject.tag == "Player")
         {
             PlayerData.current.DamagePlayer(projectileDamage);
+            if (type == ProjectileType.SkullBoss || bossChildProjectileID > -1)
+                audioControl.PlayOneShot(bossDamagesPlayerSFX, bossDamagesPlayerSFXVolume);
             Explode();
         }
     }

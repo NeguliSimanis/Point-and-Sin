@@ -12,7 +12,10 @@ public class EnemySpawnPoint : MonoBehaviour
     Renderer renderer;
     [SerializeField] GameObject enemy;
     public int aliveEnemyCount = 0;
-    int maxAliveEnemyCount = 0;
+    int maxAliveEnemyCount = 1;
+    int totalSpawnedCount = 0;
+    [SerializeField]
+    int spawnPointDifficulty;
 
 
     private void OnBecameVisible()
@@ -37,11 +40,14 @@ public class EnemySpawnPoint : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if (!isVisible)
+        if (!isVisible && aliveEnemyCount < maxAliveEnemyCount)
         {
             //Debug.Log("SPAWNED");
-            Instantiate(enemy, transform.position, transform.rotation);
+            GameObject newEnemy = Instantiate(enemy, transform.position, transform.rotation);
+            newEnemy.GetComponent<EnemyController>().maxHP += totalSpawnedCount + spawnPointDifficulty;
+            newEnemy.GetComponent<EnemyController>().parentSpawnPoint = this;
             aliveEnemyCount++;
+            totalSpawnedCount++;
         }
         //Debug.Log("COROTINE called");
         StartCoroutine(SpawnCooldown());

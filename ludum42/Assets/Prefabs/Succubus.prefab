@@ -413,7 +413,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   enemyID: 0
-  maxHP: 12
+  maxHP: 10
+  currentHP: 12
   sightRadius: 1.2
   attackCooldown: 2
   damagePerAttack: 32
@@ -421,6 +422,7 @@ MonoBehaviour:
     type: 2}
   projectileExitPoint: {fileID: 4369253064311444}
   playerTransform: {fileID: 0}
+  parentSpawnPoint: {fileID: 0}
   enemyAnimator: {fileID: 95390630348827852}
   deathAnimation: {fileID: 7400000, guid: dbc688bd9eaca364aba5061e4f20ede9, type: 2}
   attackAnimation: {fileID: 7400000, guid: 2050afb7cc252a242a6414642ed109fb, type: 2}

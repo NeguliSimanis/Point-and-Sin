@@ -13,8 +13,8 @@ public class EnemyController : MonoBehaviour {
     float moveSpeed = 0.13f;
     public int enemyID = 0;
     private int expDrop = 40; // how much exp is gained by killing this mofo
-    [SerializeField] private int maxHP = 12;
-    private int currentHP = 12;
+    public int maxHP = 12;
+    public int currentHP = 12;
 
     [SerializeField] float sightRadius = 3f;    // if player moves closer than this, he will be noticed
     [SerializeField] float attackCooldown;      // deals damage to player once per this interval
@@ -109,6 +109,7 @@ public class EnemyController : MonoBehaviour {
 
     void LateUpdate()
     {
+
         // ANIMATION
         enemyAnimator.SetBool("isWalking", isWalking);
         enemyAnimator.SetBool("startIdleA", isIdleA);
@@ -267,7 +268,6 @@ public class EnemyController : MonoBehaviour {
 
     void UpdateBossHPBar()
     {
-        Debug.Log(currentHP);
         bossLifeBar.fillAmount = (float)currentHP / (float)maxHP;
     }
 

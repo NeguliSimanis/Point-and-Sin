@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileDamage: 0
+  projectileDuration: 1
   type: 1
   childProjectile: {fileID: 1161049970281038, guid: 4288c8a3c8ecc714eb85d5d44ad0467a,
     type: 2}
@@ -221,6 +222,8 @@ MonoBehaviour:
   audioControl: {fileID: 0}
   projectileSFX: {fileID: 8300000, guid: 497efd0227e46784aab205324706d364, type: 3}
   explosionSFX: {fileID: 8300000, guid: 497efd0227e46784aab205324706d364, type: 3}
+  bossDamagesPlayerSFX: {fileID: 8300000, guid: 49fd010ed03411d4081faff8ba30061c,
+    type: 3}
 --- !u!212 &212072149204063196
 SpriteRenderer:
   m_ObjectHideFlags: 1
