@@ -311,7 +311,7 @@ public class EnemyController : MonoBehaviour {
     {
         if (!isDying)
         {
-
+            Debug.Log("death");
             isDying = true;
             PlayerData.current.AddExp(expDrop);
             PlayerData.current.enemiesKilled++;
@@ -322,8 +322,8 @@ public class EnemyController : MonoBehaviour {
             }
 
             // DEATH AUDIO
-            audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
-            audioControl.PlayOneShot(deathSFX, deathSFXVolume);
+            //udioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
+            enemyAudioSource.PlayOneShot(deathSFX, deathSFXVolume);
 
             // DEATH ANIMATION
             enemyAnimator.SetBool("isDead", true);

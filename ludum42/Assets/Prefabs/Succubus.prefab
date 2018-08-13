@@ -431,7 +431,7 @@ MonoBehaviour:
   woundedSFX: {fileID: 8300000, guid: 63f96fca005d182489060cf8498837af, type: 3}
   noticPlayerSFX: {fileID: 0}
   shootSFXVolume: 0.03
-  deathSFXVolume: 0.9
+  deathSFXVolume: 0.1
   woundedSFXVolume: 0.35
   noticePlayerSFXVolume: 0
   bossLifeBar: {fileID: 0}

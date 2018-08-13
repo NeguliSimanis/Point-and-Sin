@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     [SerializeField] AnimationClip meleeAttackAnimation;
     [SerializeField] AnimationClip spellcastAnimation;
+    [SerializeField] AnimationClip victoryAnimation;
     #endregion
 
     #region ATTACK and TARGETTING
@@ -108,9 +109,17 @@ public class PlayerController : MonoBehaviour
 
     public void WinGame()
     {
-        Debug.Log("YOU WON");
-        audioManager.SetActive(false);
+        PlayerData.current.isGamePaused = true;
         victoryScreen.SetActive(true);
+        StartCoroutine(Win());
+    }
+
+    private IEnumerator Win()
+    {
+        yield return new WaitForSeconds(victoryAnimation.length);
+        audioManager.SetActive(false);
+        victoryScreen.GetComponent<AudioSource>().enabled = true;
+
     }
 
     void Update()
