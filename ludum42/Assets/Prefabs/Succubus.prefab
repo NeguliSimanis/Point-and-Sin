@@ -118,7 +118,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1951207186085140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0.73, y: -0.143, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4402037591105036}
@@ -413,6 +413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   enemyID: 0
+  maxHP: 12
   sightRadius: 1.2
   attackCooldown: 2
   damagePerAttack: 32
@@ -426,9 +427,13 @@ MonoBehaviour:
   shootSFX: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
   deathSFX: {fileID: 8300000, guid: 088385538c237ca4b81544bc14efbe22, type: 3}
   woundedSFX: {fileID: 8300000, guid: 63f96fca005d182489060cf8498837af, type: 3}
+  noticPlayerSFX: {fileID: 0}
   shootSFXVolume: 0.03
   deathSFXVolume: 0.9
   woundedSFXVolume: 0.35
+  noticePlayerSFXVolume: 0
+  bossLifeBar: {fileID: 0}
+  bossLifeBarObject: {fileID: 0}
 --- !u!114 &114817681497345658
 MonoBehaviour:
   m_ObjectHideFlags: 1

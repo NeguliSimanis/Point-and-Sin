@@ -143,11 +143,13 @@ public class PlayerController : MonoBehaviour
         // END MELEE ATTACK STATE
         if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length + 0.01f)
         {
+            preparingIdleAnimationB = false;
             isAttacking = false;
         }
         // END SPELL CAST STATE
         if (isCastingSpell && Time.time > spellcastEndTime)
         {
+            preparingIdleAnimationB = false;
             isCastingSpell = false;
         }
         // MANA REGEN

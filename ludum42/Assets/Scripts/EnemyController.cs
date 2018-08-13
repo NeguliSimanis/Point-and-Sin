@@ -48,6 +48,7 @@ public class EnemyController : MonoBehaviour {
 
     #region OTHER variables
     [SerializeField] Transform playerTransform;
+    public EnemySpawnPoint parentSpawnPoint;
     #endregion
 
     #region ANIMATION
@@ -79,6 +80,8 @@ public class EnemyController : MonoBehaviour {
     {
         if (EnemyData.current == null)
             EnemyData.current = new EnemyData();
+        if (playerTransform == null)
+            playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         enemyID = EnemyData.current.GetEnemyID();
         enemyAudioSource = gameObject.GetComponent<AudioSource>();
         currentHP = maxHP;
@@ -324,6 +327,13 @@ public class EnemyController : MonoBehaviour {
             // DEATH ANIMATION
             enemyAnimator.SetBool("isDead", true);
             StartCoroutine(DestroyAfterXSeconds(deathAnimation.length));
+
+            // REGISTER DEATH IN PARENT SPAWN POINT
+            if (parentSpawnPoint != null)
+            {
+                parentSpawnPoint.aliveEnemyCount--;
+            }
+
         }
     }
 
