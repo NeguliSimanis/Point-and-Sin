@@ -432,6 +432,8 @@ MonoBehaviour:
   deathSFXVolume: 0.9
   woundedSFXVolume: 1
   noticePlayerSFXVolume: 1
+  bossLifeBar: {fileID: 0}
+  bossLifeBarObject: {fileID: 0}
 --- !u!114 &114311724514742328
 MonoBehaviour:
   m_ObjectHideFlags: 1

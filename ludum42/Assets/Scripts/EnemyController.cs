@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour {
 
@@ -28,6 +29,7 @@ public class EnemyController : MonoBehaviour {
     #endregion
 
     #region STATE variables
+    bool seenPlayerAtLeastOnce = false;
     bool isPlayerVisible = false; // if true, move towards player to attack. If false, patrol the area
     bool isNearPlayer = false; // if true, stop to attack the player
     bool isPlayerInProjectileRange = false;
@@ -66,7 +68,11 @@ public class EnemyController : MonoBehaviour {
     [SerializeField] float deathSFXVolume = 0.9f;
     [SerializeField] float woundedSFXVolume;
     [SerializeField] float noticePlayerSFXVolume;
+    #endregion
 
+    #region UI
+    [SerializeField] Image bossLifeBar;
+    [SerializeField] GameObject bossLifeBarObject;
     #endregion
 
     private void Start()
@@ -239,7 +245,17 @@ public class EnemyController : MonoBehaviour {
         if (type == EnemyType.SkullBoss)
         {
             enemyAudioSource.PlayOneShot(noticPlayerSFX, noticePlayerSFXVolume);
+            if (seenPlayerAtLeastOnce == false)
+            {
+                seenPlayerAtLeastOnce = true;
+                ShowBossHPBar();
+            }
         }
+    }
+
+    void ShowBossHPBar()
+    {
+        bossLifeBarObject.SetActive(true); 
     }
 
     void PatrolArea()
