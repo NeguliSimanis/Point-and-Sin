@@ -6,6 +6,10 @@ public class PlayerData
 {
     public static PlayerData current;
 
+    #region STATS
+    public int enemiesKilled = 0;
+    #endregion
+
     #region GAME STATE
     public bool isGamePaused = false;
     public bool canPlayBackground = false;

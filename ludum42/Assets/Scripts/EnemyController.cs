@@ -314,6 +314,7 @@ public class EnemyController : MonoBehaviour {
 
             isDying = true;
             PlayerData.current.AddExp(expDrop);
+            PlayerData.current.enemiesKilled++;
 
             if (type == EnemyType.SkullBoss)
             {
