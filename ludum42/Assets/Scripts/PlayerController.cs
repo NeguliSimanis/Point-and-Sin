@@ -267,7 +267,7 @@ public class PlayerController : MonoBehaviour
             PlayerData.current.isGamePaused = true;
 
             playerAnimator.SetBool("isDead", true);
-            StartCoroutine(DisplayDefeatPanelAfterXSeconds(2f));
+            StartCoroutine(DisplayDefeatPanelAfterXSeconds(4f));
             // 
         }   
     }
