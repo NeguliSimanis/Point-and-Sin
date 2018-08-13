@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
     #region AUDIO
     [SerializeField] AudioClip meleeSFX;
     [SerializeField] AudioClip lvUpSFX;
+    [SerializeField]
+    GameObject audioManager;
     float meleeSFXVolume = 0.2f;
     float lvUPSFXVolume = 0.1f;
     AudioSource audioSource;
@@ -107,6 +109,7 @@ public class PlayerController : MonoBehaviour
     public void WinGame()
     {
         Debug.Log("YOU WON");
+        audioManager.SetActive(false);
         victoryScreen.SetActive(true);
     }
 
