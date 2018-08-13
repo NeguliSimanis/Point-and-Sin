@@ -401,6 +401,10 @@ Prefab:
       propertyPath: m_Name
       value: Succubus (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
   m_IsPrefabAsset: 0
@@ -750,6 +754,10 @@ Prefab:
     - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
       propertyPath: m_Name
       value: Succubus (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
@@ -1220,7 +1228,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &218857394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1646,6 +1654,10 @@ Prefab:
     - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
       propertyPath: m_Name
       value: Succubus (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
@@ -2240,6 +2252,7 @@ Transform:
   - {fileID: 70556925}
   - {fileID: 919736782}
   - {fileID: 1799750983}
+  - {fileID: 980477761}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2682,6 +2695,10 @@ Prefab:
       propertyPath: m_Name
       value: Succubus (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
   m_IsPrefabAsset: 0
@@ -2903,6 +2920,10 @@ Prefab:
       propertyPath: m_Name
       value: Succubus (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
   m_IsPrefabAsset: 0
@@ -3029,6 +3050,10 @@ Prefab:
     - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
       propertyPath: m_Name
       value: Succubus (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
@@ -5210,6 +5235,11 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 970747262}
   m_CullTransparentMesh: 0
+--- !u!4 &980477761 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1094575382}
 --- !u!1 &993302101
 GameObject:
   m_ObjectHideFlags: 0
@@ -5336,6 +5366,10 @@ Prefab:
     - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
       propertyPath: m_Name
       value: Succubus (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
@@ -5794,6 +5828,63 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1058767958}
   m_CullTransparentMesh: 0
+--- !u!1001 &1094575382
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 376993084}
+    m_Modifications:
+    - target: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.067
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4685480307611210, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114271300007834206, guid: e9590cc2cf311f34b80319e6a561aee5,
+        type: 2}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 368055473}
+    - target: {fileID: 114271300007834206, guid: e9590cc2cf311f34b80319e6a561aee5,
+        type: 2}
+      propertyPath: enemyAnimator
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114087335862273374, guid: e9590cc2cf311f34b80319e6a561aee5,
+        type: 2}
+      propertyPath: playerController
+      value: 
+      objectReference: {fileID: 368055474}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e9590cc2cf311f34b80319e6a561aee5, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1126127701
 GameObject:
   m_ObjectHideFlags: 0
@@ -6183,9 +6274,36 @@ Prefab:
       propertyPath: playerTransform
       value: 
       objectReference: {fileID: 368055473}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1235320001 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1260051837331206, guid: e9590cc2cf311f34b80319e6a561aee5,
+    type: 2}
+  m_PrefabInternal: {fileID: 1094575382}
+--- !u!95 &1235320002
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1235320001}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b72d08fcd3514d5459eb1629b6744f35, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1305779837
 GameObject:
   m_ObjectHideFlags: 0
@@ -7736,6 +7854,10 @@ Prefab:
       propertyPath: m_Name
       value: Succubus (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
   m_IsPrefabAsset: 0
@@ -8882,6 +9004,10 @@ Prefab:
     - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
       propertyPath: m_Name
       value: Succubus (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951207186085140, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af20c3ba019d5364d928740bb0c9023f, type: 2}

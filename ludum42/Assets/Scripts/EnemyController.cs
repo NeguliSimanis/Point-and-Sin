@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour {
 
-    public enum EnemyType {Succubus };
+    public enum EnemyType {Succubus, SkullBoss };
 
     #region DATA variables
     [SerializeField] EnemyType type;
@@ -12,7 +12,7 @@ public class EnemyController : MonoBehaviour {
     float moveSpeed = 0.13f;
     public int enemyID = 0;
     private int expDrop = 40; // how much exp is gained by killing this mofo
-    private int maxHP = 12;
+    [SerializeField] private int maxHP = 12;
     private int currentHP = 12;
 
     [SerializeField] float sightRadius = 3f;    // if player moves closer than this, he will be noticed
@@ -72,6 +72,7 @@ public class EnemyController : MonoBehaviour {
             EnemyData.current = new EnemyData();
         enemyID = EnemyData.current.GetEnemyID();
         enemyAudioSource = gameObject.GetComponent<AudioSource>();
+        currentHP = maxHP;
     }
 
     void Update ()
@@ -113,8 +114,8 @@ public class EnemyController : MonoBehaviour {
 
     public void StandbyToMeleeAttackPlayer()
     {
-        // succubus is ranged
-        if (type == EnemyType.Succubus)
+        // succubus, skullboss is ranged
+        if ((type == EnemyType.Succubus || type == EnemyType.SkullBoss) == true)
             return;
         isNearPlayer = true;
         if (!isAttacking)
@@ -127,8 +128,8 @@ public class EnemyController : MonoBehaviour {
 
     public void StopStandbyToMeleeAttackPlayer()
     {
-        // succubus is ranged
-        if (type == EnemyType.Succubus)
+        // succubus, skullboss is ranged
+        if ((type == EnemyType.Succubus || type == EnemyType.SkullBoss) == true)
         {
             return;
         }
@@ -139,7 +140,7 @@ public class EnemyController : MonoBehaviour {
 
     public void StandbyToShootPlayer()
     {
-        if (type != EnemyType.Succubus)
+        if ((type == EnemyType.Succubus || type == EnemyType.SkullBoss) == false)
         {
             return;
         }
@@ -154,7 +155,7 @@ public class EnemyController : MonoBehaviour {
 
     public void StopStandbyToShootPlayer()
     {
-        if (type != EnemyType.Succubus)
+        if ((type == EnemyType.Succubus || type == EnemyType.SkullBoss) == false)
         {
             return;
         }
