@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private bool isWalkingInObstacle = false;     // detected collision with background - player has to stop walking
     private bool isIdleA = false;                 // is in idle animation state A
     private bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
+    private bool preparingIdleAnimationB = false;
     private bool isMovementLocked = false;        // happens when player atack anim plays
 
     public bool isNearEnemy = false;              // used to check if player can melee attack
@@ -44,6 +45,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region UI
+    [SerializeField] GameObject pauseMenu; 
     [SerializeField] Image healthBar;
     [SerializeField] Image manaBar;
     [SerializeField] Image expBar;
@@ -51,16 +53,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject skillPointsButton;
     [SerializeField] GameObject defeatPanel;
     [SerializeField] GameObject skillPointNotification; // active if player has unspent skillpoints
-
+    [SerializeField] GameObject victoryScreen;
     #endregion
 
     #region ANIMATION
-    float waitTimeBeforeIdleA = 0.1f;
+    float waitTimeBeforeIdleB = 5f;
+    float idleAnimBStartTime;
+    float waitTimeBeforeIdleA = 0.5f;
     float idleAnimAStartTime;
     float meleeAttackAnimStartTime;
     [SerializeField] Animator playerAnimator;
     [SerializeField] AnimationClip meleeAttackAnimation;
     [SerializeField] AnimationClip spellcastAnimation;
+    [SerializeField] AnimationClip victoryAnimation;
     #endregion
 
     #region ATTACK and TARGETTING
@@ -76,6 +81,11 @@ public class PlayerController : MonoBehaviour
 
     #region AUDIO
     [SerializeField] AudioClip meleeSFX;
+    [SerializeField] AudioClip lvUpSFX;
+    [SerializeField]
+    GameObject audioManager;
+    float meleeSFXVolume = 0.2f;
+    float lvUPSFXVolume = 0.1f;
     AudioSource audioSource;
     #endregion
 
@@ -102,17 +112,34 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void WinGame()
+    {
+        PlayerData.current.isGamePaused = true;
+        victoryScreen.SetActive(true);
+        StartCoroutine(Win());
+    }
+
+    private IEnumerator Win()
+    {
+        yield return new WaitForSeconds(victoryAnimation.length);
+        audioManager.SetActive(false);
+        victoryScreen.GetComponent<AudioSource>().enabled = true;
+
+    }
+
     void Update()
     {
         UpdateHUD();
         ListenForGamePause();
+        ListenForDamageTaken();
         ListenForPlayerDefeat();
         if (!isAlive)
             Die();
-        if (PlayerData.current.isGamePaused)
+        if (PlayerData.current.isGamePaused || !isAlive)
         {
             return;
         }
+        ListenToLVChange();
         if (Input.GetMouseButtonDown(0))
         {
             GetTargetPositionAndDirection();
@@ -128,28 +155,24 @@ public class PlayerController : MonoBehaviour
         {
 			
             CheckIfPlayerIsWalking();
-            MovePlayer(); 
+            MovePlayer();
         }
         CheckWherePlayerIsFacing();
         // END MELEE ATTACK STATE
         if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length + 0.01f)
         {
+            preparingIdleAnimationB = false;
             isAttacking = false;
         }
         // END SPELL CAST STATE
         if (isCastingSpell && Time.time > spellcastEndTime)
         {
+            preparingIdleAnimationB = false;
             isCastingSpell = false;
         }
         // MANA REGEN
         if (PlayerData.current.maxMana > PlayerData.current.currentMana)
         {
-            // this check is added to fix a bug where you dont regen mana after level up
-            if (lastKnownPlayerLevel != PlayerData.current.currentLevel)
-            {
-                lastKnownPlayerLevel = PlayerData.current.currentLevel;
-                isRegeneratingMana = false;
-            }
             if (!isRegeneratingMana)
             {
                 isRegeneratingMana = true;
@@ -160,10 +183,28 @@ public class PlayerController : MonoBehaviour
 
     }
 
-	void FixedUpdate () {
-		//Debug.Log ("fucking velocity = "+rigidBody2D.GetRelativePointVelocity();
+    void ListenToLVChange()
+    {
+        if (lastKnownPlayerLevel != PlayerData.current.currentLevel)
+        {
+            // PLAY LV UP SFX
+            lastKnownPlayerLevel = PlayerData.current.currentLevel;
+            audioSource.PlayOneShot(lvUpSFX, lvUPSFXVolume);
 
-	}
+            // this check is added to fix a bug where you dont regen mana after level up
+            isRegeneratingMana = false;
+        }
+    }
+
+    void ListenForDamageTaken()
+    {
+        if (PlayerData.current.playerWoundDetected == true)
+        {
+            PlayerData.current.playerWoundDetected = false;
+            playerAnimator.SetTrigger("damageTaken");
+            dirNormalized = dirNormalized * -1f;
+        }
+    }
 
     private void StartSpellcasting()
     {
@@ -225,10 +266,18 @@ public class PlayerController : MonoBehaviour
             idleAnimAStartTime = Time.time + waitTimeBeforeIdleA;
         }
         // start playing idle animation A
-        if (Time.time > idleAnimAStartTime)
+        if (Time.time > idleAnimAStartTime && isAlive)
         {
             isIdleA = true;
+            if (!preparingIdleAnimationB)
+                idleAnimBStartTime = Time.time + waitTimeBeforeIdleB;
+            preparingIdleAnimationB = true;
             playerAnimator.SetBool("startIdleA", isIdleA); 
+        }
+        if (preparingIdleAnimationB && Time.time > idleAnimBStartTime)
+        {
+            playerAnimator.SetTrigger("playIdleB");
+            preparingIdleAnimationB = false;
         }
     }
 
@@ -276,8 +325,9 @@ public class PlayerController : MonoBehaviour
 
     void ListenForGamePause()
     {
-        if (Input.GetKeyDown(KeyCode.P) && canPauseGame)
+        if ((Input.GetKeyDown(KeyCode.P) || (Input.GetKeyDown(KeyCode.Escape) && canPauseGame)))
         {
+            pauseMenu.SetActive(true);
             PlayerData.current.isGamePaused = !PlayerData.current.isGamePaused;
         }
     }
@@ -348,7 +398,7 @@ public class PlayerController : MonoBehaviour
         isWalking = false;
         meleeAttackAnimStartTime = Time.time;
         playerAnimator.SetTrigger("meleeAttack");
-        audioSource.PlayOneShot(meleeSFX, 0.6F);
+        audioSource.PlayOneShot(meleeSFX, meleeSFXVolume);
 
         int meleeDamage = PlayerData.current.meleeDamage;
 

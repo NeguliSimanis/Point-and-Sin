@@ -94,10 +94,10 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1161049970281038}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -212,11 +212,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33ec8ff980e5f748a0d6926c2c2e864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileDamage: 0
+  projectileDuration: 0.3
+  type: 0
+  childProjectile: {fileID: 0}
   explosionAnimation: {fileID: 7400000, guid: f40fd92c4399890448e7448e105f2f60, type: 2}
   animator: {fileID: 95076255675085026}
   audioControl: {fileID: 0}
   projectileSFX: {fileID: 8300000, guid: 497efd0227e46784aab205324706d364, type: 3}
   explosionSFX: {fileID: 8300000, guid: 497efd0227e46784aab205324706d364, type: 3}
+  bossDamagesPlayerSFX: {fileID: 8300000, guid: 49fd010ed03411d4081faff8ba30061c,
+    type: 3}
 --- !u!212 &212174639577670464
 SpriteRenderer:
   m_ObjectHideFlags: 1

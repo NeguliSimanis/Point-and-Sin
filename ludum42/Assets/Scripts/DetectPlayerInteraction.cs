@@ -8,6 +8,12 @@ public class DetectPlayerInteraction : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] EnemyController enemyController;
 
+    private void Start()
+    {
+        if (playerController == null)
+            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    }
+
     private void OnMouseDown()
     {
         //Debug.Log("Enemy " + enemyController.enemyID + " targeted");
