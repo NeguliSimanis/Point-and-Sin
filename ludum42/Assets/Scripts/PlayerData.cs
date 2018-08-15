@@ -102,6 +102,7 @@ public class PlayerData
 
         // reset stats
         enemiesKilled = 0;
+        playTime = 0;
 
         // reset life
         currentLife = defaultMaxLife;
