@@ -31,10 +31,6 @@ public class Stats : MonoBehaviour
 
     private void DisplayStats()
     {
-        // declare general variables
-        string levelReachedString;
-        string enemiesKilledString;
-
         // declare time played variables
         string totalTimeString;
         int totalMinutes;
