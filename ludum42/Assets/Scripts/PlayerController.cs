@@ -111,6 +111,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerData.current.isGamePaused = true;
         victoryScreen.SetActive(true);
+        victoryScreen.GetComponent<AudioSource>().enabled = true;
         StartCoroutine(Win());
     }
 
@@ -118,7 +119,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(victoryAnimation.length);
         audioManager.SetActive(false);
-        victoryScreen.GetComponent<AudioSource>().enabled = true;
+        
 
     }
 
@@ -135,11 +136,14 @@ public class PlayerController : MonoBehaviour
             return;
         }
         ListenToLVChange();
-        if (Input.GetMouseButtonDown(0))
+        UpdateTimePlayed();
+        // WALKING
+        if (Input.GetMouseButton(0))
         {
             GetTargetPositionAndDirection();
             CheckIfPlayerIsWalking();
         }
+        // SPELLCASTING / ACTIVE ABILITY
         if (Input.GetMouseButtonDown(1))
         {
             GetTargetPositionAndDirection();
@@ -173,6 +177,11 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(RegenerateMana());
             }
         }
+    }
+
+    void UpdateTimePlayed()
+    {
+        PlayerData.current.playTime += Time.deltaTime;
     }
 
     void ListenToLVChange()
@@ -336,7 +345,7 @@ public class PlayerController : MonoBehaviour
         expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
 
         // update skill points notification
-        if (PlayerData.current.skillPoints > 0)
+        if (PlayerData.current.sinPoints > 0)
         {
             skillPointNotification.SetActive(true);
         }

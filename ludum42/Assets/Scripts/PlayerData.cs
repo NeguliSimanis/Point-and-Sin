@@ -8,11 +8,13 @@ public class PlayerData
 
     #region STATS
     public int enemiesKilled = 0;
+    public float playTime = 0;
     #endregion
 
     #region GAME STATE
     public bool isGamePaused = false;
-    public bool canPlayBackground = false;
+   // public bool allowGamePause = false;
+    public bool canPlayBackgroundMusic = false;
     #endregion
 
     #region PLAYER STATE
@@ -82,7 +84,7 @@ public class PlayerData
     #endregion
 
     #region SKILLS
-    public int skillPoints = 0;
+    public int sinPoints = 0;
     public int wrath = 1;
     public int pride = 1;
     public int lust = 1;
@@ -95,17 +97,31 @@ public class PlayerData
 
     public void Reset()
     {
+        // reset game state
         isGamePaused = false;
+
+        // reset stats
+        enemiesKilled = 0;
+
+        // reset life
         currentLife = defaultMaxLife;
         maxLife = defaultMaxLife;
+
+        // reset mana
         currentMana = defaultMaxMana;
         maxMana = defaultMaxMana;
         GetManaRegenPerInterval();
 
+        // reset level
         currentLevel = 1;
+
+        // reset sin points
+        sinPoints = 0;
         wrath = 1;
         pride = 1;
         lust = 1;
+
+        // reset exp
         currentExp = 0;
         requiredExp = defaultRequiredExp;
     }
@@ -181,7 +197,7 @@ public class PlayerData
     private void LevelUp()
     {
         currentLevel++;
-        skillPoints += 2;
+        sinPoints += 2;
         maxLife += lifePerLevel;
         maxMana += manaPerLevel;
         currentLife = maxLife;

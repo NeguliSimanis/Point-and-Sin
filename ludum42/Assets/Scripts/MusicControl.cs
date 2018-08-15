@@ -9,7 +9,7 @@ public class MusicControl : MonoBehaviour
 
 	void Update ()
     {
-        if (!isPlayingBackgroundMusic && PlayerData.current.canPlayBackground)
+        if (!isPlayingBackgroundMusic && PlayerData.current.canPlayBackgroundMusic)
         {
             isPlayingBackgroundMusic = true;
             PlayBackgroundMusic();

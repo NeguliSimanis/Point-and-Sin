@@ -3,32 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Displays player stats on UI text
+/// </summary>
+
 public class Stats : MonoBehaviour
 
 {
-    bool displayStats = false;
-    Text thisText;
+    Text statsText;
 
     private void Start()
     {
-        thisText = gameObject.GetComponent<Text>();
+        GetTextComponent();    
+    }
+
+    void GetTextComponent()
+    {
+        statsText = gameObject.GetComponent<Text>();
     }
 
     void OnEnable()
     {
-        displayStats = true;
+        if (statsText == null)
+            GetTextComponent();
+        DisplayStats();
     }
 
-    private void OnDisable()
+    private void DisplayStats()
     {
-        displayStats = false;   
+        // declare general variables
+        string levelReachedString;
+        string enemiesKilledString;
+
+        // declare time played variables
+        string totalTimeString;
+        int totalMinutes;
+        int seconds;
+        string totalMinutesString;
+        string secondsString;
+
+        // calculate total minutes played
+        totalMinutes = (int)Mathf.Floor(PlayerData.current.playTime / 60f);
+        totalMinutesString = totalMinutes.ToString() + " minutes";
+
+        // calculate remaining seconds
+        seconds = (int)PlayerData.current.playTime - 60 * totalMinutes;
+        secondsString = seconds + " seconds";
+
+        // concat time string
+        totalTimeString = "\n TIME: " + totalMinutesString + " " +secondsString;
+
+        // concat stats string
+        statsText.text = "LEVEL: " + PlayerData.current.currentLevel.ToString()
+                + "\n SOULS PURGED: " + PlayerData.current.enemiesKilled.ToString()
+                + totalTimeString;
     }
-    // Update is called once per frame
-    void Update ()
-    {
-		if (displayStats)
-        {
-            thisText.text = "LEVEL: " + PlayerData.current.currentLevel.ToString() +  "\n SOULS PURGED: " + PlayerData.current.enemiesKilled.ToString();
-        }
-	}
 }

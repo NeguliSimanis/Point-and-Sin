@@ -311,7 +311,6 @@ public class EnemyController : MonoBehaviour {
     {
         if (!isDying)
         {
-            Debug.Log("death");
             isDying = true;
             PlayerData.current.AddExp(expDrop);
             PlayerData.current.enemiesKilled++;

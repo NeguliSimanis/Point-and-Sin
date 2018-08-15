@@ -10,7 +10,6 @@ public class StartPanel : MonoBehaviour
     {
         if (PlayerData.current == null)
             PlayerData.current = new PlayerData();
-
         PauseGame(true);
     }
 

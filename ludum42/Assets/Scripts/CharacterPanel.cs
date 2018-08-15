@@ -24,21 +24,21 @@ public class CharacterPanel : MonoBehaviour {
     public void AddWrath()
     {
         PlayerData.current.AddWrath(1);
-        PlayerData.current.skillPoints--;
+        PlayerData.current.sinPoints--;
         UpdateSinPointsText();
     }
 
     public void AddPride()
     {
         PlayerData.current.AddPride(1);
-        PlayerData.current.skillPoints--;
+        PlayerData.current.sinPoints--;
         UpdateSinPointsText();
     }
 
     public void AddLust()
     {
         PlayerData.current.AddLust(1);
-        PlayerData.current.skillPoints--;
+        PlayerData.current.sinPoints--;
         UpdateSinPointsText();
     }
     private void Update()
@@ -53,7 +53,7 @@ public class CharacterPanel : MonoBehaviour {
 
     void UpdateSkillButtons()
     {
-        if (PlayerData.current.skillPoints > 0)
+        if (PlayerData.current.sinPoints > 0)
         {
             addWrathButton.gameObject.SetActive(true);
             addPrideButton.gameObject.SetActive(true);
@@ -69,11 +69,11 @@ public class CharacterPanel : MonoBehaviour {
 
     void UpdateCurrentLVAndSinPointText()
     {
-        if (PlayerData.current.skillPoints > 0)
+        if (PlayerData.current.sinPoints > 0)
         {
             currentLVText.text = "LV " + PlayerData.current.currentLevel;
             currentSinPointsText.gameObject.SetActive(true);
-            currentSinPointsText.text = PlayerData.current.skillPoints + " sin points";
+            currentSinPointsText.text = PlayerData.current.sinPoints + " sin points";
         }
         else
         {
