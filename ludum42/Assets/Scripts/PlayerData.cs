@@ -89,9 +89,16 @@ public class PlayerData
     public int pride = 1;
     public int lust = 1;
     #endregion
+
+    #region SIN TREE
+    public SinTree playerSinTree;
+    public int sinTreePoints;
+    public bool isSinSkill0Active = false;  // Used to test the first skill. TO-DO: CHANGE THIS
+    #endregion
     public PlayerData()
     {
         isGamePaused = false;
+        playerSinTree = new SinTree();
         Reset();
     }
 
@@ -204,7 +211,6 @@ public class PlayerData
         currentLife = maxLife;
         currentMana = maxMana;
         requiredExp = (int)(requiredExp * 1.3f);
-        Debug.Log(requiredExp);
     }
 
     void GetManaRegenPerInterval()

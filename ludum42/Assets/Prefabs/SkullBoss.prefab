@@ -97,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4212591878792122
 Transform:
   m_ObjectHideFlags: 1
@@ -415,12 +415,15 @@ MonoBehaviour:
   enemyID: 0
   maxHP: 140
   currentHP: 140
-  sightRadius: 1.3
   attackCooldown: 1.5
   damagePerAttack: 66
   enemyProjectile: {fileID: 1195192534903462, guid: 3744e2acd785c744bb6fa653eba41239,
     type: 2}
   projectileExitPoint: {fileID: 4682266990580396}
+  isPlayerMinion: 0
+  sightRadius: 1.3
+  minionSightController: {fileID: 1231958782978642, guid: ba4d24fda09f3ff49bac1d5a8fb560ec,
+    type: 2}
   playerTransform: {fileID: 0}
   parentSpawnPoint: {fileID: 0}
   enemyAnimator: {fileID: 95595780873388540}

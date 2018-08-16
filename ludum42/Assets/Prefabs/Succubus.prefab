@@ -42,7 +42,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1659809530943230
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +118,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1951207186085140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.73, y: -0.143, z: 0}
+  m_LocalPosition: {x: -6.2042136, y: -3.3939223, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4402037591105036}
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168f169e744aa6c48839f3b4ea75f571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyController: {fileID: 114662002927111390}
+  enemyController: {fileID: 0}
 --- !u!114 &114662002927111390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -415,13 +415,16 @@ MonoBehaviour:
   enemyID: 0
   maxHP: 10
   currentHP: 12
-  sightRadius: 1.2
   attackCooldown: 2
   damagePerAttack: 32
   enemyProjectile: {fileID: 1161049970281038, guid: 4288c8a3c8ecc714eb85d5d44ad0467a,
     type: 2}
   projectileExitPoint: {fileID: 4369253064311444}
+  isPlayerMinion: 0
+  sightRadius: 1.2
   playerTransform: {fileID: 0}
+  minionSightController: {fileID: 1231958782978642, guid: ba4d24fda09f3ff49bac1d5a8fb560ec,
+    type: 2}
   parentSpawnPoint: {fileID: 0}
   enemyAnimator: {fileID: 95390630348827852}
   deathAnimation: {fileID: 7400000, guid: dbc688bd9eaca364aba5061e4f20ede9, type: 2}

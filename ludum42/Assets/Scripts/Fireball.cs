@@ -67,7 +67,7 @@ public class Fireball : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            collision.gameObject.GetComponent<EnemyController>().TakeDamage(PlayerData.current.fireballDamage);
+            collision.gameObject.GetComponent<EnemyController>().TakeDamage(PlayerData.current.fireballDamage, DamageSource.PlayerFireball);
             Explode();
         }
     }

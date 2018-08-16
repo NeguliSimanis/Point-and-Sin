@@ -81,11 +81,14 @@ public class PlayerController : MonoBehaviour
     #region AUDIO
     [SerializeField] AudioClip meleeSFX;
     [SerializeField] AudioClip lvUpSFX;
-    [SerializeField]
-    GameObject audioManager;
+    [SerializeField] GameObject audioManager;
     float meleeSFXVolume = 0.2f;
     float lvUPSFXVolume = 0.1f;
     AudioSource audioSource;
+    #endregion
+
+    #region ACTIVE SIN SKILLS
+    //bool isSkill0Active; // Used to test the first skill. TO-DO: CHANGE THIS
     #endregion
 
     private void Awake()
@@ -119,8 +122,6 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(victoryAnimation.length);
         audioManager.SetActive(false);
-        
-
     }
 
     void Update()
@@ -157,7 +158,7 @@ public class PlayerController : MonoBehaviour
         }
         CheckWherePlayerIsFacing();
         // END MELEE ATTACK STATE
-        if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length + 0.01f)
+        if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length)
         {
             preparingIdleAnimationB = false;
             isAttacking = false;
@@ -411,7 +412,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // deal damage
-        currentEnemy.TakeDamage(meleeDamage);
+        currentEnemy.TakeDamage(meleeDamage, DamageSource.PlayerMelee);
     }
 
     // called from buttons attached to UI elements

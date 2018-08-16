@@ -6,6 +6,19 @@ using UnityEngine.UI;
 public class EnemyController : MonoBehaviour {
 
     public enum EnemyType {Succubus, SkullBoss };
+    public enum EnemyState { Idle, FollowPlayer, AttackPlayer, AttackEnemy, FollowEnemy, Dying}
+
+    /*
+    /// <summary>
+    /// Far from player:
+    ///     - regular enemy follows player if player visible
+    ///     - minion follows player always
+    /// Near player:
+    ///     - minion does not move (unless detects enemy)
+    ///     - regular enemy stops moving and attacks if player visible
+    /// </summary>
+    public enum RelativePosition { FarFromPlayer, NearPlayer, NextToPlayer}
+    */
 
     #region DATA variables
     [SerializeField] EnemyType type;
@@ -16,7 +29,6 @@ public class EnemyController : MonoBehaviour {
     public int maxHP = 12;
     public int currentHP = 12;
 
-    [SerializeField] float sightRadius = 3f;    // if player moves closer than this, he will be noticed
     [SerializeField] float attackCooldown;      // deals damage to player once per this interval
     [SerializeField] int damagePerAttack;  // how much damage is dealt in one attack
     #endregion
@@ -29,30 +41,52 @@ public class EnemyController : MonoBehaviour {
     #endregion
 
     #region STATE variables
+    EnemyState currentState = EnemyState.Idle;
     bool seenPlayerAtLeastOnce = false;
-    bool isPlayerVisible = false; // if true, move towards player to attack. If false, patrol the area
-    bool isNearPlayer = false; // if true, stop to attack the player
-    bool isPlayerInProjectileRange = false;
+
     bool isAttacking = false;
     bool isFacingRight = true;
     bool isWalking = false;
     bool isIdleA = false; // is in idle animation state A
     bool isDying = false; // can't move when dying
     #endregion
+    
+    #region SIGHT
+    [SerializeField]
+    float sightRadius = 3f;              // if player moves closer than this, he will be noticed    
+    bool isPlayerVisible = false;        // if true, move towards player to attack. If false, patrol the area
+    bool isNearPlayer = false;           // if true, stop to attack the player
+    bool isPlayerInProjectileRange = false;
+    public bool isNearTargetEnemy = false; // used for minion targetting
+    //RelativePosition enemyPosition;
+    #endregion
 
-    #region MOVEMENT variables
+    #region MINION
+    public bool isPlayerMinion = false;    // if true, ignore player and attack enemies
+    float minionFollowRadius = 0.5f;       // if player exits this radius, follow him - usually smaller than sight radius
+    [SerializeField] GameObject minionSightController; // should be allocated in editor to all units that can be turned to minions
+    #endregion
+
+    #region DEATH
+    DamageSource fatalBlowSource; // what damage caused death
+    #endregion
+
+    #region MOVEMENT and TARGETTING 
     private Vector2 targetPosition;
     private Vector2 dirNormalized;
     private Transform targetTransform;
+    public Transform otherEnemyTransform;
     #endregion
 
     #region OTHER variables
     [SerializeField] Transform playerTransform;
     public EnemySpawnPoint parentSpawnPoint;
+    private GameObject enemyCopy; // used to spawn a player minion when the enemy is destroyed
     #endregion
 
     #region ANIMATION
-    [SerializeField] Animator enemyAnimator;
+    [Header("Animations")]
+    public Animator enemyAnimator;
     [SerializeField] AnimationClip deathAnimation;
     [SerializeField] AnimationClip attackAnimation;
     #endregion
@@ -72,6 +106,7 @@ public class EnemyController : MonoBehaviour {
     #endregion
 
     #region UI
+    [Header("UI")]
     [SerializeField] Image bossLifeBar;
     [SerializeField] GameObject bossLifeBarObject;
     #endregion
@@ -85,34 +120,53 @@ public class EnemyController : MonoBehaviour {
         enemyID = EnemyData.current.GetEnemyID();
         enemyAudioSource = gameObject.GetComponent<AudioSource>();
         currentHP = maxHP;
+
+        //  prepare a copy of this object in case it is neeeded to spawn a minion
+        if (PlayerData.current.isSinSkill0Active)
+            enemyCopy = this.gameObject;
     }
 
     void Update ()
     {
         if (PlayerData.current.isGamePaused)
+        {
             return;
-        CheckIfPlayerVisible();
-        if (!isPlayerVisible)
-        {
-            PatrolArea();
         }
-        else
-        {
-            FollowPlayer();
+        if (!isDying)
+        {   
+            CheckIfTargetVisible();
+
+            #region Movement behaviour
+            CheckWhereEnemyIsFacing();
+            // regular enemy follows player if it is visible
+            if (isPlayerVisible && !isPlayerMinion)
+            {
+                FollowPlayer();
+            }           
+            else if (isPlayerMinion)
+            {
+                if (isNearTargetEnemy)
+                    FollowOtherEnemy();
+                else if (!isPlayerVisible)
+                    FollowPlayer();
+            }
+            else
+            {
+                enemyAnimator.SetBool("isWalking", false);
+                PatrolArea();
+            }   
+            #endregion
         }
-        CheckWhereEnemyIsFacing();
+
+        if (isPlayerMinion)
+        {
+            return;
+        }
+        // show boss hp bar
         if (type == EnemyType.SkullBoss && seenPlayerAtLeastOnce)
         {
             UpdateBossHPBar();
         }
-    }
-
-    void LateUpdate()
-    {
-
-        // ANIMATION
-        enemyAnimator.SetBool("isWalking", isWalking);
-        enemyAnimator.SetBool("startIdleA", isIdleA);
     }
 
     void CheckWhereEnemyIsFacing()
@@ -129,17 +183,25 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
+    #region ATTACKING LOGIC
     public void StandbyToMeleeAttackPlayer()
     {
         // succubus, skullboss is ranged
         if ((type == EnemyType.Succubus || type == EnemyType.SkullBoss) == true)
+        {
             return;
+        }
         isNearPlayer = true;
+        // minion doesn't attack player
+        if (isPlayerMinion)
+        {
+            return;
+        }
         if (!isAttacking)
         {
             isAttacking = true;
             enemyAnimator.SetBool("isAttacking",true);
-            StartCoroutine(AttackPlayer());
+            StartCoroutine(AttackTarget());
         }
     }
 
@@ -151,37 +213,50 @@ public class EnemyController : MonoBehaviour {
             return;
         }
         isNearPlayer = false;
+        // minion doesn't attack player
+        if (isPlayerMinion)
+        {
+            return;
+        }
         isAttacking = false;
         enemyAnimator.SetBool("isAttacking", false);
     }
 
-    public void StandbyToShootPlayer()
+    public void StandbyToShootTarget()
     {
         if ((type == EnemyType.Succubus || type == EnemyType.SkullBoss) == false)
         {
             return;
         }
         isPlayerInProjectileRange = true;
+
         if (!isAttacking && !isShootingCoroutineLoop)
         {
+            if (isPlayerMinion)
+                currentState = EnemyState.AttackEnemy;
+            else
+                currentState = EnemyState.AttackPlayer;
+        
             isAttacking = true;
             enemyAnimator.SetBool("isAttacking", true);
-            StartCoroutine(ShootPlayer());
+            StartCoroutine(ShootTarget());
         }
     }
 
-    public void StopStandbyToShootPlayer()
+    public void StopStandbyToShootTarget()
     {
         if ((type == EnemyType.Succubus || type == EnemyType.SkullBoss) == false)
         {
             return;
         }
         isPlayerInProjectileRange = false;
+        
+        currentState = EnemyState.Idle;
         isAttacking = false;
         enemyAnimator.SetBool("isAttacking", false);
     }
 
-    private IEnumerator AttackPlayer()
+    private IEnumerator AttackTarget()
     {
         while (isAttacking)
         {
@@ -190,10 +265,10 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
-    private IEnumerator ShootPlayer()
+    private IEnumerator ShootTarget()
     {
         yield return new WaitForSeconds(attackAnimation.length);
-        if (isAttacking)
+        if (isAttacking && !isDying)
         {
             lastProjectileShootTime = Time.time;
             ShootProjectile();
@@ -213,7 +288,7 @@ public class EnemyController : MonoBehaviour {
         {
             isShootingCoroutineLoop = true;
             enemyAnimator.SetBool("isAttacking", true);
-            StartCoroutine(ShootPlayer());
+            StartCoroutine(ShootTarget());
         }
         else
         {
@@ -225,40 +300,57 @@ public class EnemyController : MonoBehaviour {
     {
         enemyAudioSource.PlayOneShot(shootSFX, shootSFXVolume);
         GameObject projectile = Instantiate(enemyProjectile, projectileExitPoint.position, projectileExitPoint.rotation, projectileExitPoint);
-        projectile.GetComponent<EnemyProjectile>().StartProjectile(isFacingRight, damagePerAttack);
+        EnemyProjectile projectileController = projectile.GetComponent<EnemyProjectile>();
+        if (isPlayerMinion)
+            projectileController.isMinionProjectile = true;
+        projectileController.StartProjectile(isFacingRight, damagePerAttack);
         projectile.transform.parent = null;
     }
-
-    void CheckIfPlayerVisible()
+    #endregion
+    void CheckIfTargetVisible()
     {
-        if (Vector2.Distance(playerTransform.position, transform.position) <= sightRadius)
+        float distanceToCheck = sightRadius;
+        if (isPlayerMinion)
         {
-            if (isPlayerVisible == false)
-            {
-                NoticePlayer();
-            }
-            isWalking = true;
+            distanceToCheck = minionFollowRadius;
+        }
+        if (Vector2.Distance(playerTransform.position, transform.position) <= distanceToCheck)
+        {
+            NoticePlayer();
         }
         else
         {
-            isPlayerVisible = false;
-            isIdleA = true;
-            isWalking = false;
+            UnnoticePlayer();
         }
+    }
+
+    void UnnoticePlayer()
+    {
+        isPlayerVisible = false;
+        isIdleA = !isPlayerMinion;
+        //isWalking = isPlayerMinion;
+        enemyAnimator.SetBool("isWalking", isPlayerMinion);
     }
 
     void NoticePlayer()
     {
-        isPlayerVisible = true;
-        if (type == EnemyType.SkullBoss)
+        if (isPlayerVisible == false)
         {
-            enemyAudioSource.PlayOneShot(noticPlayerSFX, noticePlayerSFXVolume);
-            if (seenPlayerAtLeastOnce == false)
+            isPlayerVisible = true;
+            if (type == EnemyType.SkullBoss && !isPlayerMinion)
             {
-                seenPlayerAtLeastOnce = true;
-                ShowBossHPBar();
+                enemyAudioSource.PlayOneShot(noticPlayerSFX, noticePlayerSFXVolume);
+                if (seenPlayerAtLeastOnce == false)
+                {
+                    seenPlayerAtLeastOnce = true;
+                    ShowBossHPBar();
+                }
             }
         }
+        //isWalking = !isPlayerMinion;
+        enemyAnimator.SetBool("isWalking", !isPlayerMinion);
+        //enemyAnimator.SetBool("isWalking", isPlayerMinion);
+        isIdleA = isPlayerMinion;
     }
 
     void ShowBossHPBar()
@@ -278,9 +370,18 @@ public class EnemyController : MonoBehaviour {
 
     void FollowPlayer()
     {
-        if (isNearPlayer)
+        if (!isPlayerMinion && (isNearPlayer || isPlayerInProjectileRange))
             return;
         targetPosition = playerTransform.position;
+        GetTargetPositionAndDirection();
+        MoveEnemy();
+    }
+
+    void FollowOtherEnemy()
+    {
+       /* if (!isPlayerMinion && (isNearPlayer || isPlayerInProjectileRange))
+            return;*/
+        targetPosition = otherEnemyTransform.position;
         GetTargetPositionAndDirection();
         MoveEnemy();
     }
@@ -293,15 +394,14 @@ public class EnemyController : MonoBehaviour {
 
     void MoveEnemy()
     {
-        if (!isDying)
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * moveSpeed * Time.deltaTime;
     }
 
-    public void TakeDamage(int damageAmount)
+    public void TakeDamage(int damageAmount, DamageSource damageSource)
     {
+        fatalBlowSource = damageSource;
         enemyAnimator.SetTrigger("damaged");
         enemyAudioSource.PlayOneShot(woundedSFX, woundedSFXVolume);
-        dirNormalized = (-1f) * dirNormalized;
         currentHP = currentHP - damageAmount;
         if (currentHP <= 0)
             Die();
@@ -312,34 +412,60 @@ public class EnemyController : MonoBehaviour {
         if (!isDying)
         {
             isDying = true;
-            PlayerData.current.AddExp(expDrop);
-            PlayerData.current.enemiesKilled++;
 
+            // update player stats
+            if (!isPlayerMinion)
+            {
+                PlayerData.current.AddExp(expDrop);
+                PlayerData.current.enemiesKilled++;
+            }
+
+            // check player victory condition
             if (type == EnemyType.SkullBoss)
             {
                 playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
             }
 
-            // DEATH AUDIO
-            //udioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
+            // play death audio
             enemyAudioSource.PlayOneShot(deathSFX, deathSFXVolume);
 
-            // DEATH ANIMATION
+            // play death animation
             enemyAnimator.SetBool("isDead", true);
-            StartCoroutine(DestroyAfterXSeconds(deathAnimation.length));
 
-            // REGISTER DEATH IN PARENT SPAWN POINT
+            // register death in parent spawn point
             if (parentSpawnPoint != null)
             {
                 parentSpawnPoint.aliveEnemyCount--;
             }
 
+            // start destroying game object
+            StartCoroutine(DestroyAfterXSeconds(deathAnimation.length));
         }
     }
 
     private IEnumerator DestroyAfterXSeconds(float xSeconds)
     {
         yield return new WaitForSeconds(xSeconds);
+
+        // player has a skill that summons a minion upon killing enemy
+        if (PlayerData.current.isSinSkill0Active && !isPlayerMinion && fatalBlowSource == DamageSource.PlayerMelee)
+        {
+            RespawnAsPlayerMinion();
+        }
         Destroy(gameObject);
+    }
+
+    private void RespawnAsPlayerMinion()
+    {
+        // instantiate minion
+        GameObject copy = Instantiate(enemyCopy, transform.position, transform.rotation);
+        EnemyController minionController = copy.GetComponent<EnemyController>();
+        minionController.isPlayerMinion = true;
+        copy.tag = "PlayerMinion";
+
+        // add enemy detection to minion
+        Instantiate(minionSightController, transform.position, transform.rotation, copy.transform);
+
+        minionController.enemyAnimator.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.4117647f, 1, 0.5094506f);
     }
 }
