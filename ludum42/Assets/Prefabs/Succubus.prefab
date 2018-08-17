@@ -413,6 +413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   enemyID: 0
+  expDrop: 80
   maxHP: 10
   currentHP: 12
   attackCooldown: 2
@@ -420,11 +421,13 @@ MonoBehaviour:
   enemyProjectile: {fileID: 1161049970281038, guid: 4288c8a3c8ecc714eb85d5d44ad0467a,
     type: 2}
   projectileExitPoint: {fileID: 4369253064311444}
-  isPlayerMinion: 0
   sightRadius: 1.2
-  playerTransform: {fileID: 0}
+  isNearTargetEnemy: 0
+  isPlayerMinion: 0
   minionSightController: {fileID: 1231958782978642, guid: ba4d24fda09f3ff49bac1d5a8fb560ec,
     type: 2}
+  otherEnemyTransform: {fileID: 0}
+  playerTransform: {fileID: 0}
   parentSpawnPoint: {fileID: 0}
   enemyAnimator: {fileID: 95390630348827852}
   deathAnimation: {fileID: 7400000, guid: dbc688bd9eaca364aba5061e4f20ede9, type: 2}

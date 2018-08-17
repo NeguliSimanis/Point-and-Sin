@@ -25,6 +25,7 @@ public class EnemyController : MonoBehaviour {
 
     float moveSpeed = 0.13f;
     public int enemyID = 0;
+    [SerializeField]
     private int expDrop = 40; // how much exp is gained by killing this mofo
     public int maxHP = 12;
     public int currentHP = 12;
@@ -123,7 +124,14 @@ public class EnemyController : MonoBehaviour {
 
         //  prepare a copy of this object in case it is neeeded to spawn a minion
         if (PlayerData.current.isSinSkill0Active)
+        {
             enemyCopy = this.gameObject;
+        }
+        // change stats for minion
+        if (isPlayerMinion)
+        {
+            moveSpeed *= 1.5f;
+        }
     }
 
     void Update ()
@@ -171,6 +179,19 @@ public class EnemyController : MonoBehaviour {
 
     void CheckWhereEnemyIsFacing()
     {
+        // check if isFacing right variable has correct value
+        if (isFacingRight && transform.localScale.x < 0)
+        {
+           // Debug.Log("mistake - isn't facing right");
+            isFacingRight = false;
+        }
+        else if (!isFacingRight && transform.localScale.x > 0)
+        {
+           // Debug.Log("mistake - is facing right");
+            isFacingRight = true;
+        }
+
+        // modify local scale to fit the direction where enemy is facing
         if (isFacingRight && dirNormalized.x < 0)
         {
             isFacingRight = false;
@@ -377,10 +398,20 @@ public class EnemyController : MonoBehaviour {
         MoveEnemy();
     }
 
+    // only player minions do this
     void FollowOtherEnemy()
     {
-       /* if (!isPlayerMinion && (isNearPlayer || isPlayerInProjectileRange))
-            return;*/
+        // prioritize following player if he is far
+        if (!isPlayerVisible)
+        {
+            FollowPlayer();
+            return; 
+        }
+        // stop and shoot if near enemey
+        if (isNearTargetEnemy)
+        {
+            return;
+        }
         targetPosition = otherEnemyTransform.position;
         GetTargetPositionAndDirection();
         MoveEnemy();
@@ -394,6 +425,7 @@ public class EnemyController : MonoBehaviour {
 
     void MoveEnemy()
     {
+        //CheckWhereEnemyIsFacing();
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * moveSpeed * Time.deltaTime;
     }
 
@@ -407,23 +439,27 @@ public class EnemyController : MonoBehaviour {
             Die();
     }
 
-    void Die()
+    public void Die()
     {
         if (!isDying)
         {
             isDying = true;
 
             // update player stats
-            if (!isPlayerMinion)
+            if (!isPlayerMinion && fatalBlowSource != DamageSource.Undefined)
             {
                 PlayerData.current.AddExp(expDrop);
                 PlayerData.current.enemiesKilled++;
+            }
+            else
+            {
+                PlayerData.current.currentMinions--;
             }
 
             // check player victory condition
             if (type == EnemyType.SkullBoss)
             {
-                playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
+               playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
             }
 
             // play death audio
@@ -452,20 +488,40 @@ public class EnemyController : MonoBehaviour {
         {
             RespawnAsPlayerMinion();
         }
+        Debug.Log(PlayerData.current.enemiesKilled + " enemies killed");
         Destroy(gameObject);
     }
 
     private void RespawnAsPlayerMinion()
     {
+        // player has more minions than allowed, destroy the old minion before replacing it with a fresh one
+        if (PlayerData.current.currentMinions >= PlayerData.current.maxMinions)
+        {
+            PlayerData.current.minions[0].fatalBlowSource = DamageSource.Undefined;
+            PlayerData.current.minions[0].Die();
+        }
+
         // instantiate minion
         GameObject copy = Instantiate(enemyCopy, transform.position, transform.rotation);
         EnemyController minionController = copy.GetComponent<EnemyController>();
         minionController.isPlayerMinion = true;
         copy.tag = "PlayerMinion";
 
+        // update player data
+        PlayerData.current.currentMinions++;
+        PlayerData.current.minions.Add(minionController);
+
         // add enemy detection to minion
         Instantiate(minionSightController, transform.position, transform.rotation, copy.transform);
 
         minionController.enemyAnimator.gameObject.GetComponent<SpriteRenderer>().color = new Color(0.4117647f, 1, 0.5094506f);
+    }
+
+    private void OnDestroy()
+    {
+        if(isPlayerMinion)
+        {
+            PlayerData.current.minions.Remove(gameObject.GetComponent<EnemyController>());
+        }
     }
 }

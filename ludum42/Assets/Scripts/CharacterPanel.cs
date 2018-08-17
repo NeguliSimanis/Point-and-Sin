@@ -8,10 +8,12 @@ public class CharacterPanel : MonoBehaviour {
     [SerializeField] Text wrathPointsText;
     [SerializeField] Text pridePointsText;
     [SerializeField] Text lustPointsText;
+    [SerializeField] Text slothPointsText;
 
     [SerializeField] Button addWrathButton;
     [SerializeField] Button addPrideButton;
     [SerializeField] Button addLustButton;
+    [SerializeField] Button addSlothButton;
 
     [SerializeField] Text currentLVText;
     [SerializeField] Text currentSinPointsText;
@@ -41,6 +43,13 @@ public class CharacterPanel : MonoBehaviour {
         PlayerData.current.sinPoints--;
         UpdateSinPointsText();
     }
+
+    public void AddSloth()
+    {
+        PlayerData.current.AddSloth(1);
+        PlayerData.current.sinPoints--;
+        UpdateSinPointsText();
+    }
     private void Update()
     {
         if (!gameObject.activeInHierarchy)
@@ -58,12 +67,14 @@ public class CharacterPanel : MonoBehaviour {
             addWrathButton.gameObject.SetActive(true);
             addPrideButton.gameObject.SetActive(true);
             addLustButton.gameObject.SetActive(true);
+            addSlothButton.gameObject.SetActive(true);
         }
         else
         {
             addWrathButton.gameObject.SetActive(false);
             addPrideButton.gameObject.SetActive(false);
             addLustButton.gameObject.SetActive(false);
+            addSlothButton.gameObject.SetActive(false);
         }
     }
 
@@ -85,5 +96,6 @@ public class CharacterPanel : MonoBehaviour {
         wrathPointsText.text = PlayerData.current.wrath.ToString();
         pridePointsText.text = PlayerData.current.pride.ToString();
         lustPointsText.text = PlayerData.current.lust.ToString();
+        slothPointsText.text = PlayerData.current.sloth.ToString();
     }
 }

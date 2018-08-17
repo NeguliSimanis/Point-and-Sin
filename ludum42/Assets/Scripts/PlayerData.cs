@@ -88,12 +88,19 @@ public class PlayerData
     public int wrath = 1;
     public int pride = 1;
     public int lust = 1;
+    public int sloth = 0;
+    #endregion
+
+    #region MINIONS
+    public int currentMinions = 0;
+    public int maxMinions = 1;
+    public List<EnemyController> minions = new List<EnemyController>();
     #endregion
 
     #region SIN TREE
     public SinTree playerSinTree;
     public int sinTreePoints;
-    public bool isSinSkill0Active = false;  // Used to test the first skill. TO-DO: CHANGE THIS
+    public bool isSinSkill0Active = true;  // Used to test the first skill. TO-DO: CHANGE THIS
     #endregion
     public PlayerData()
     {
@@ -104,12 +111,16 @@ public class PlayerData
 
     public void Reset()
     {
+        // RESET MINIONS
+        minions.Clear();
+
         // reset game state
         isGamePaused = false;
 
         // reset stats
         enemiesKilled = 0;
         playTime = 0;
+        currentMinions = 0;
 
         // reset life
         currentLife = defaultMaxLife;
@@ -128,6 +139,7 @@ public class PlayerData
         wrath = 1;
         pride = 1;
         lust = 1;
+        sloth = 1;
 
         // reset exp
         currentExp = 0;
@@ -202,6 +214,10 @@ public class PlayerData
         //Debug.Log("Melee crit chance " + meleeCritChance);
     }
 
+    public void AddSloth(int amount)
+    {
+        sloth += amount;
+    }
     private void LevelUp()
     {
         currentLevel++;

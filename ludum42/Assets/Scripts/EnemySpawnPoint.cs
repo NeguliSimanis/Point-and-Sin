@@ -42,7 +42,7 @@ public class EnemySpawnPoint : MonoBehaviour
     {
         if (!isVisible && aliveEnemyCount < maxAliveEnemyCount)
         {
-            //Debug.Log("SPAWNED");
+            Debug.Log("SPAWNED");
             GameObject newEnemy = Instantiate(enemy, transform.position, transform.rotation);
             newEnemy.GetComponent<EnemyController>().maxHP += totalSpawnedCount + spawnPointDifficulty;
             newEnemy.GetComponent<EnemyController>().parentSpawnPoint = this;

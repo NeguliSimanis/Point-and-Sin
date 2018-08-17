@@ -8,7 +8,6 @@ public class LoadLevel : MonoBehaviour
     public void Load()
     {
         PlayerData.current.Reset();
-        Debug.Log(PlayerData.current.isGamePaused);
         SceneManager.LoadScene("SampleScene");
     }
 }
