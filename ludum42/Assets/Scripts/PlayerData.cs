@@ -92,20 +92,22 @@ public class PlayerData
     #endregion
 
     #region MINIONS
+    public bool summonMinionOnMeleeKill = false;       // Used to test the first skill. TO-DO: CHANGE THIS
     public int currentMinions = 0;
-    public int maxMinions = 1;
+    public int maxMinions = 0;
     public List<EnemyController> minions = new List<EnemyController>();
     #endregion
 
     #region SIN TREE
-    public SinTree playerSinTree;
-    public int sinTreePoints;
-    public bool isSinSkill0Active = true;  // Used to test the first skill. TO-DO: CHANGE THIS
+    public int sinTreePoints = 0;
+    public int killsRequiredForNextPoint = 1;   // if you die before killing this number of enemies, you don't get points
     #endregion
+
     public PlayerData()
     {
+        if (SinTree.current == null)
+            SinTree.current = new SinTree();
         isGamePaused = false;
-        playerSinTree = new SinTree();
         Reset();
     }
 
@@ -113,6 +115,14 @@ public class PlayerData
     {
         // RESET MINIONS
         minions.Clear();
+
+        // reset sin tree effects
+        if (SinTree.allSkills[0].skillLV == 0)
+        {
+            summonMinionOnMeleeKill = false; 
+            currentMinions = 0;
+            maxMinions = 0;
+        }
 
         // reset game state
         isGamePaused = false;
@@ -146,6 +156,30 @@ public class PlayerData
         requiredExp = defaultRequiredExp;
     }
 
+   /* public SinTreeSkill UpgradeSinTreeSkill(int skillID)
+    {
+        SinTreeSkill skillToUpgrade = playerSinTree.allSkills[skillID];
+
+        // spend resources
+        sinTreePoints -= skillToUpgrade.skillCost;
+
+        // update skill data
+        skillToUpgrade.skillCost += 2;
+        skillToUpgrade.skillLV += 1;
+
+        if (skillToUpgrade.skillID == 0)
+        {
+            summonMinionOnMeleeKill = true;
+            maxMinions++;
+        }
+        return skillToUpgrade;
+    }
+
+    public SinTreeSkill GetSkillInfo(int skillID)
+    {
+        return playerSinTree.allSkills[skillID];
+    }*/
+
     public void Pause(bool isPaused)
     {
         isGamePaused = isPaused;
@@ -161,6 +195,7 @@ public class PlayerData
         }
     }
 
+    #region UPGRADING SINS
     public void AddWrath(int amount)
     {
         wrath += amount;
@@ -218,6 +253,8 @@ public class PlayerData
     {
         sloth += amount;
     }
+    #endregion
+
     private void LevelUp()
     {
         currentLevel++;
@@ -241,5 +278,12 @@ public class PlayerData
             currentLife = 0;
         else
             currentLife -= damageAmount;
+    }
+
+    // returns the cost of cheapest sin tree skill
+    public int CheapestSinTreeSkill()
+    {
+        // TODO
+        return -1;
     }
 }

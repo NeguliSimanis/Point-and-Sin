@@ -118,15 +118,16 @@ public class EnemyController : MonoBehaviour {
             EnemyData.current = new EnemyData();
         if (playerTransform == null)
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        if (PlayerData.current == null)
+            PlayerData.current = new PlayerData();
+
         enemyID = EnemyData.current.GetEnemyID();
         enemyAudioSource = gameObject.GetComponent<AudioSource>();
         currentHP = maxHP;
 
         //  prepare a copy of this object in case it is neeeded to spawn a minion
-        if (PlayerData.current.isSinSkill0Active)
-        {
-            enemyCopy = this.gameObject;
-        }
+        enemyCopy = this.gameObject;
+        
         // change stats for minion
         if (isPlayerMinion)
         {
@@ -459,7 +460,8 @@ public class EnemyController : MonoBehaviour {
             // check player victory condition
             if (type == EnemyType.SkullBoss)
             {
-               playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
+                PlayerData.current.sinTreePoints++;
+                playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
             }
 
             // play death audio
@@ -484,7 +486,7 @@ public class EnemyController : MonoBehaviour {
         yield return new WaitForSeconds(xSeconds);
 
         // player has a skill that summons a minion upon killing enemy
-        if (PlayerData.current.isSinSkill0Active && !isPlayerMinion && fatalBlowSource == DamageSource.PlayerMelee)
+        if (PlayerData.current.summonMinionOnMeleeKill && !isPlayerMinion && fatalBlowSource == DamageSource.PlayerMelee)
         {
             RespawnAsPlayerMinion();
         }
@@ -497,6 +499,7 @@ public class EnemyController : MonoBehaviour {
         // player has more minions than allowed, destroy the old minion before replacing it with a fresh one
         if (PlayerData.current.currentMinions >= PlayerData.current.maxMinions)
         {
+            Debug.Log("current minions: " + PlayerData.current.currentMinions + "| MAX minions: " + PlayerData.current.maxMinions);
             PlayerData.current.minions[0].fatalBlowSource = DamageSource.Undefined;
             PlayerData.current.minions[0].Die();
         }

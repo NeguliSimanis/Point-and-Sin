@@ -49,8 +49,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Image manaBar;
     [SerializeField] Image expBar;
     [SerializeField] Image fireballCooldownBar;
-    [SerializeField] GameObject skillPointsButton;
     [SerializeField] GameObject defeatPanel;
+    UnspentSkillpointCheck unspentSkillPointCheck;
     [SerializeField] GameObject skillPointNotification; // active if player has unspent skillpoints
     [SerializeField] GameObject victoryScreen;
     #endregion
@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        unspentSkillPointCheck = new UnspentSkillpointCheck();
         lastKnownPlayerLevel = PlayerData.current.currentLevel;
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         audioSource = gameObject.GetComponent<AudioSource>();
@@ -195,6 +196,10 @@ public class PlayerController : MonoBehaviour
 
             // this check is added to fix a bug where you dont regen mana after level up
             isRegeneratingMana = false;
+
+            // update relevant UI
+            // update skill points notification
+            unspentSkillPointCheck.ShowUIIfEnoughSkillPoints(skillPointNotification);
         }
     }
 
@@ -307,6 +312,13 @@ public class PlayerController : MonoBehaviour
             canPauseGame = false;
             PlayerData.current.isGamePaused = true;
 
+            // GET SIN TREE POINTS
+            if(PlayerData.current.killsRequiredForNextPoint < PlayerData.current.enemiesKilled)
+            {
+                PlayerData.current.sinTreePoints++;
+                PlayerData.current.killsRequiredForNextPoint++;
+            }
+
             playerAnimator.SetBool("isDead", true);
             StartCoroutine(DisplayDefeatPanelAfterXSeconds(2f));
             // 
@@ -344,16 +356,6 @@ public class PlayerController : MonoBehaviour
 
         // update exp bar
         expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
-
-        // update skill points notification
-        if (PlayerData.current.sinPoints > 0)
-        {
-            skillPointNotification.SetActive(true);
-        }
-        else
-        {
-            skillPointNotification.SetActive(false);
-        }
 
         // update fireball cooldown bar
         if (hasCastSpellAtLeastOnce)
