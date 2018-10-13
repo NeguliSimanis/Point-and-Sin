@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private bool isAttackCooldown = false;
 
     private bool isRegeneratingMana = false;
-    private bool isCastingSpell = false;
+    public bool isCastingSpell = false;
     private bool isFireballCooldown = false;
     private bool hasCastSpellAtLeastOnce = false;
 
@@ -44,15 +44,23 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region UI
-    [SerializeField] GameObject pauseMenu; 
-    [SerializeField] Image healthBar;
-    [SerializeField] Image manaBar;
-    [SerializeField] Image expBar;
-    [SerializeField] Image fireballCooldownBar;
-    [SerializeField] GameObject defeatPanel;
+    [SerializeField]
+    GameObject pauseMenu;
+    [SerializeField]
+    Image healthBar;
+    [SerializeField]
+    Image manaBar;
+    [SerializeField]
+    Image expBar;
+    [SerializeField]
+    Image fireballCooldownBar;
+    [SerializeField]
+    GameObject defeatPanel;
     UnspentSkillpointCheck unspentSkillPointCheck;
-    [SerializeField] GameObject skillPointNotification; // active if player has unspent skillpoints
-    [SerializeField] GameObject victoryScreen;
+    [SerializeField]
+    GameObject skillPointNotification; // active if player has unspent skillpoints
+    [SerializeField]
+    GameObject victoryScreen;
     #endregion
 
     #region ANIMATION
@@ -61,10 +69,17 @@ public class PlayerController : MonoBehaviour
     float waitTimeBeforeIdleA = 0.5f;
     float idleAnimAStartTime;
     float meleeAttackAnimStartTime;
-    [SerializeField] Animator playerAnimator;
-    [SerializeField] AnimationClip meleeAttackAnimation;
-    [SerializeField] AnimationClip spellcastAnimation;
-    [SerializeField] AnimationClip victoryAnimation;
+    [SerializeField]
+    Animator playerAnimator;
+    [SerializeField]
+    AnimationClip meleeAttackAnimation;
+    [SerializeField]
+    AnimationClip spellcastAnimation;
+    [SerializeField]
+    AnimationClip victoryAnimation;
+
+    string player_ClipName;
+    AnimatorClipInfo[] player_CurrentClipInfo;
     #endregion
 
     #region ATTACK and TARGETTING
@@ -72,16 +87,21 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region SPELLCASTING
-    [SerializeField] Transform fireballExitPoint;
-    [SerializeField] GameObject fireBall;
+    [SerializeField]
+    Transform fireballExitPoint;
+    [SerializeField]
+    GameObject fireBall;
     private float spellcastEndTime;          // when casting animation is over
     private float fireballCooldownStartTime; // when you can cast fireball again
     #endregion
 
     #region AUDIO
-    [SerializeField] AudioClip meleeSFX;
-    [SerializeField] AudioClip lvUpSFX;
-    [SerializeField] GameObject audioManager;
+    [SerializeField]
+    AudioClip meleeSFX;
+    [SerializeField]
+    AudioClip lvUpSFX;
+    [SerializeField]
+    GameObject audioManager;
     float meleeSFXVolume = 0.2f;
     float lvUPSFXVolume = 0.1f;
     AudioSource audioSource;
@@ -94,7 +114,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         LoadPlayerData();
-    } 
+    }
 
     void LoadPlayerData()
     {
@@ -125,12 +145,22 @@ public class PlayerController : MonoBehaviour
         audioManager.SetActive(false);
     }
 
+    /// <summary>
+    /// Get animator info so that we can check a particular animation clip is playing
+    /// </summary>
+    private void GetAnimatorInfo()
+    {
+        player_CurrentClipInfo = this.playerAnimator.GetCurrentAnimatorClipInfo(0);
+        player_ClipName = player_CurrentClipInfo[0].clip.name;
+    }
+
     void Update()
     {
         UpdateHUD();
         ListenForGamePause();
         ListenForDamageTaken();
         ListenForPlayerDefeat();
+        GetAnimatorInfo();
         if (!isAlive)
             Die();
         if (PlayerData.current.isGamePaused || !isAlive)
@@ -279,7 +309,7 @@ public class PlayerController : MonoBehaviour
             if (!preparingIdleAnimationB)
                 idleAnimBStartTime = Time.time + waitTimeBeforeIdleB;
             preparingIdleAnimationB = true;
-            playerAnimator.SetBool("startIdleA", isIdleA); 
+            playerAnimator.SetBool("startIdleA", isIdleA);
         }
         if (preparingIdleAnimationB && Time.time > idleAnimBStartTime)
         {
@@ -313,7 +343,7 @@ public class PlayerController : MonoBehaviour
             PlayerData.current.isGamePaused = true;
 
             // GET SIN TREE POINTS
-            if(PlayerData.current.killsRequiredForNextPoint < PlayerData.current.enemiesKilled)
+            if (PlayerData.current.killsRequiredForNextPoint < PlayerData.current.enemiesKilled)
             {
                 PlayerData.current.sinTreePoints++;
                 PlayerData.current.killsRequiredForNextPoint++;
@@ -322,7 +352,7 @@ public class PlayerController : MonoBehaviour
             playerAnimator.SetBool("isDead", true);
             StartCoroutine(DisplayDefeatPanelAfterXSeconds(2f));
             // 
-        }   
+        }
     }
 
     private IEnumerator DisplayDefeatPanelAfterXSeconds(float xSeconds)
@@ -407,7 +437,7 @@ public class PlayerController : MonoBehaviour
         int meleeDamage = PlayerData.current.meleeDamage;
 
         // roll critical strike
-        if (Random.Range(0f,1f) < PlayerData.current.meleeCritChance)
+        if (Random.Range(0f, 1f) < PlayerData.current.meleeCritChance)
         {
             Debug.Log("CRITICAL");
             meleeDamage = (int)(meleeDamage * PlayerData.current.meleeCriticalEffect);
