@@ -17,9 +17,11 @@ public class PlayerController : MonoBehaviour
     private bool isIdleA = false;                 // is in idle animation state A
     private bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
     private bool preparingIdleAnimationB = false;
-    private bool isMovementLocked = false;        // happens when player atack anim plays
+    private bool isMovementLocked = false;          // happens when player atack anim plays
     private bool isWaitingToMove = false;           // true when movement is locked (e.g. casting spell) and has to remember the last clicked position where you shall move later
     #endregion
+
+    private bool hasRightClickedRecently = false;             // True if right click more recent than left click. Used to reset isWaitingToMove
 
     public bool isNearEnemy = false;              // used to check if player can melee attack
     public int nearEnemyID = -1;
@@ -180,12 +182,15 @@ public class PlayerController : MonoBehaviour
         // WALKING
         if (Input.GetMouseButton(0))
         {
+            hasRightClickedRecently = false;
             GetTargetPositionAndDirection();
             CheckIfPlayerIsWalking();
         }
         // SPELLCASTING / ACTIVE ABILITY
         if (Input.GetMouseButtonDown(1))
         {
+            hasRightClickedRecently = true;
+            isWaitingToMove = false; 
             GetTargetPositionAndDirection();
             CheckWherePlayerIsFacing();
             StartSpellcasting();
@@ -476,13 +481,17 @@ public class PlayerController : MonoBehaviour
         else if (isAttacking)
         {
             isWalking = false;
-            isWaitingToMove = true;
+            // make sure that you only register movement commands since after attack command
+            if (!hasRightClickedRecently)
+                isWaitingToMove = true;
         }
         // movement locked due to fireball animation
         else if (isCastingSpell)
         {
             isWalking = false;
-            isWaitingToMove = true;
+            // make sure that you only register movement commands since after attack command
+            if (!hasRightClickedRecently)
+                isWaitingToMove = true;
         }
         else if (isWalkingInObstacle)
         {

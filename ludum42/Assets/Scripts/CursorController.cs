@@ -87,7 +87,7 @@ public class CursorController : MonoBehaviour
     {
         if (playerController.isMouseOverEnemy)
         {
-            Debug.Log("Mouse over enemy!");
+            //Debug.Log("Mouse over enemy!");
         }
     }
 
