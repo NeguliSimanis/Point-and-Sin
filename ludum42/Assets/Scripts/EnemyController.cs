@@ -527,4 +527,10 @@ public class EnemyController : MonoBehaviour {
             PlayerData.current.minions.Remove(gameObject.GetComponent<EnemyController>());
         }
     }
+
+    public EnemyController.EnemyType GetEnemyType()
+    {
+        return type;
+    }
+
 }

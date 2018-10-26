@@ -9,6 +9,8 @@ public class CursorController : MonoBehaviour
 
     bool isLeftMouseDown = false;
     bool isRightMouseDown = false;
+    bool isMouseOverEnemy = false;
+
     private Animator cursorAnimator;
     string clipName;
     string clickClipName = "cursor_click_anim";
@@ -81,10 +83,19 @@ public class CursorController : MonoBehaviour
         }
     }
 
+    private void CheckMouseHoverOverEnemy()
+    {
+        if (playerController.isMouseOverEnemy)
+        {
+            Debug.Log("Mouse over enemy!");
+        }
+    }
+
     private void Update()
     {
         Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = cursorPos;
+        CheckMouseHoverOverEnemy();
         ManageLeftClick();
         ManageSpellClick();
         ManageMouseInput();

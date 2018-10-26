@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private bool isAlive = true;
     private bool isDeathAnimation = false;
     private bool canPauseGame = true;
+
+    #region MOVEMENT STATE
     private bool isFacingRight = true;
     private bool isWalking = false;
     private bool isWalkingInObstacle = false;     // detected collision with background - player has to stop walking
@@ -16,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
     private bool preparingIdleAnimationB = false;
     private bool isMovementLocked = false;        // happens when player atack anim plays
+    private bool isWaitingToMove = false;           // true when movement is locked (e.g. casting spell) and has to remember the last clicked position where you shall move later
+    #endregion
 
     public bool isNearEnemy = false;              // used to check if player can melee attack
     public int nearEnemyID = -1;
@@ -31,7 +35,10 @@ public class PlayerController : MonoBehaviour
     private bool hasCastSpellAtLeastOnce = false;
 
     private int lastKnownPlayerLevel;
+
+    // Mouse input
     public bool isClickingOnUI = false; // don't allow movement when clicking on certain UI elements 
+    public bool isMouseOverEnemy = false; // used by CursorController.cs to detect whether to animate cursor. NB! DOESN'T WORK ON SKULLBOSSS
     #endregion
 
     #region MOVEMENT
@@ -83,7 +90,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ATTACK and TARGETTING
-    EnemyController currentEnemy;
+    private EnemyController currentEnemy;
+    public EnemyController lastHoveredEnemy; // last enemy that you hovered mouse over
     #endregion
 
     #region SPELLCASTING
@@ -181,6 +189,10 @@ public class PlayerController : MonoBehaviour
             GetTargetPositionAndDirection();
             CheckWherePlayerIsFacing();
             StartSpellcasting();
+        }
+        if (isWaitingToMove)
+        {
+            CheckIfPlayerIsWalking();
         }
         if (isWalking)
         {
@@ -458,25 +470,30 @@ public class PlayerController : MonoBehaviour
         if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
         {
             isWalking = false;
+            isWaitingToMove = false;
         }
         // movement locked due to melee attack animation
         else if (isAttacking)
         {
             isWalking = false;
+            isWaitingToMove = true;
         }
         // movement locked due to fireball animation
         else if (isCastingSpell)
         {
             isWalking = false;
+            isWaitingToMove = true;
         }
         else if (isWalkingInObstacle)
         {
             isWalking = false;
+            isWaitingToMove = false;
             isWalkingInObstacle = false;
         }
         else if (isClickingOnUI)
         {
             isWalking = false;
+            isWaitingToMove = false;
             isClickingOnUI = false;
         }
         else
