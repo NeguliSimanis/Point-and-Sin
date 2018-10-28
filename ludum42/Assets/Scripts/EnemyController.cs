@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour {
     #region DATA variables
     [SerializeField] EnemyType type;
 
-    float moveSpeed = 0.13f;
+    [SerializeField] float moveSpeed = 0.23f;
     public int enemyID = 0;
     [SerializeField]
     private int expDrop = 40; // how much exp is gained by killing this mofo

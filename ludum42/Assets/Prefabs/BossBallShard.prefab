@@ -85,9 +85,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.022075176, y: -0.025188684}
+  m_Offset: {x: 0.016174793, y: -0.025188684}
   serializedVersion: 2
-  m_Radius: 0.03051216
+  m_Radius: 0.16032124
 --- !u!82 &82407056239724254
 AudioSource:
   m_ObjectHideFlags: 1
@@ -212,9 +212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33ec8ff980e5f748a0d6926c2c2e864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileDamage: 0
-  projectileDuration: 1
   type: 1
+  projectileDuration: 1
+  projectileDamage: 0
+  isMinionProjectile: 0
   childProjectile: {fileID: 1161049970281038, guid: 4288c8a3c8ecc714eb85d5d44ad0467a,
     type: 2}
   explosionAnimation: {fileID: 7400000, guid: f40fd92c4399890448e7448e105f2f60, type: 2}

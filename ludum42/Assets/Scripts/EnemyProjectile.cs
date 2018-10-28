@@ -8,10 +8,10 @@ public class EnemyProjectile : MonoBehaviour {
 
     #region DATA
     [SerializeField] ProjectileType type;
-    [SerializeField] private float projectileDuration = 0.3f;
+    [SerializeField] private float projectileDuration = 0.4f;
     public int projectileDamage;
     private float projectileDeathTime;          // automatically explodes after this duration
-    private float projectileMoveSpeed = 0.7f;
+    private float projectileMoveSpeed = 1.5f;
     #endregion
 
     #region PROJECTILE STATE

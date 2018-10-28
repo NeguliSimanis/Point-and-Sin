@@ -5,9 +5,9 @@ using UnityEngine;
 public class Fireball : MonoBehaviour {
 
     private float fireBallDamage;
-    private float fireBallDuration = 0.3f;
+    private float fireBallDuration = 0.4f;
     private float fireBallDeathTime;
-    private float fireBallMoveSpeed = 1f;
+    private float fireBallMoveSpeed = 2f;
     bool fireBallStarted = false;
     bool flyingRight;
     bool isExploding = false;

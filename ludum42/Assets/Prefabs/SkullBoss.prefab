@@ -144,7 +144,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1444195352466860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.159, y: -0.064, z: 0}
+  m_LocalPosition: {x: 0.3, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4685480307611210}
@@ -157,7 +157,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1393764648040066}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.31, y: 6.48, z: 0}
+  m_LocalPosition: {x: 3.56, y: 21.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4300161811759034}
@@ -199,7 +199,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.20061645, y: -0.022664785}
+  m_Offset: {x: 1.5426687, y: -0.15424633}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -210,7 +210,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.50746137, y: 0.24779034}
+  m_Size: {x: 3.1915662, y: 0.59072685}
   m_EdgeRadius: 0
 --- !u!61 &61226663218645428
 BoxCollider2D:
@@ -224,7 +224,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.010025561, y: -0.0015333444}
+  m_Offset: {x: -0.04306853, y: -0.010322571}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -235,7 +235,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.23803222, y: 0.33789232}
+  m_Size: {x: 0.7312639, y: 1.2377892}
   m_EdgeRadius: 0
 --- !u!61 &61489923238582838
 BoxCollider2D:
@@ -412,7 +412,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+  moveSpeed: 0.33
   enemyID: 0
+  expDrop: 40
   maxHP: 140
   currentHP: 140
   attackCooldown: 1.5
@@ -420,21 +422,23 @@ MonoBehaviour:
   enemyProjectile: {fileID: 1195192534903462, guid: 3744e2acd785c744bb6fa653eba41239,
     type: 2}
   projectileExitPoint: {fileID: 4682266990580396}
+  sightRadius: 5.4
+  isNearTargetEnemy: 0
   isPlayerMinion: 0
-  sightRadius: 1.3
   minionSightController: {fileID: 1231958782978642, guid: ba4d24fda09f3ff49bac1d5a8fb560ec,
     type: 2}
+  otherEnemyTransform: {fileID: 0}
   playerTransform: {fileID: 0}
   parentSpawnPoint: {fileID: 0}
   enemyAnimator: {fileID: 95595780873388540}
-  deathAnimation: {fileID: 7400000, guid: dbc688bd9eaca364aba5061e4f20ede9, type: 2}
+  deathAnimation: {fileID: 7400000, guid: d586720ae9a483647bd181e92543adc9, type: 2}
   attackAnimation: {fileID: 7400000, guid: d158e120af0b87d449f9ec4e61942354, type: 2}
   shootSFX: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
-  deathSFX: {fileID: 8300000, guid: 088385538c237ca4b81544bc14efbe22, type: 3}
+  deathSFX: {fileID: 8300000, guid: d5de0f042c6317742b737362c1fd5409, type: 3}
   woundedSFX: {fileID: 8300000, guid: 312b908824d2cdf4f93e767ab361a9c1, type: 3}
   noticPlayerSFX: {fileID: 8300000, guid: 0e049a87601ee6c448e4402e80ce6076, type: 3}
   shootSFXVolume: 0.03
-  deathSFXVolume: 0.9
+  deathSFXVolume: 1
   woundedSFXVolume: 1
   noticePlayerSFXVolume: 1
   bossLifeBar: {fileID: 0}

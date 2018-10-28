@@ -22,7 +22,7 @@ public class PlayerData
     #endregion
 
     #region MOVEMENT
-    public float moveSpeed = 0.8f;
+    public float moveSpeed = 2.2f;
     #endregion
 
     #region LIFE

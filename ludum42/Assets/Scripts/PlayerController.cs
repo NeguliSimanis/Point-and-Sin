@@ -472,7 +472,7 @@ public class PlayerController : MonoBehaviour
 
     void CheckIfPlayerIsWalking()
     {
-        if (Vector2.Distance(targetPosition, transform.position) <= 0.01f)
+        if (Vector2.Distance(targetPosition, transform.position) <= 0.02f)
         {
             isWalking = false;
             isWaitingToMove = false;
