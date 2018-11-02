@@ -22,12 +22,20 @@ public class DetectPlayerInteraction : MonoBehaviour
         playerController.TargetEnemy(enemyController.enemyID, enemyController);
     }
 
+    /// <summary>
+    /// Display enemy HP bar on mouse hover
+    /// </summary>
     private void OnMouseOver()
     {
+        // boss hp bar is triggered by being noticed by the boss instead
         if (enemyController.GetEnemyType() != EnemyController.EnemyType.SkullBoss)
         {
-            playerController.lastHoveredEnemy = enemyController;
-            playerController.isMouseOverEnemy = true;
+            // don't display player minion hp bars
+            if (!enemyController.isPlayerMinion)
+            {
+                playerController.lastHoveredEnemy = enemyController;
+                playerController.isMouseOverEnemy = true;
+            }
         }
     }
 
