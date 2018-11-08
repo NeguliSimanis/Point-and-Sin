@@ -44,7 +44,12 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region MOVEMENT
-    private Vector2 targetPosition;
+    float minMousePressTime = 0.1f; // if you press mouse for a shorter duration than this, it will be considered a click
+    float mousePressStartTime;      
+    bool isCountingMousePress = false;
+    bool isMousePress = false;
+
+    public Vector2 targetPosition;
     private Vector2 dirNormalized;
     #endregion
 
@@ -106,6 +111,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region AUDIO
+    [SerializeField]
+    PlayerSFX playerSFX;
+
     [SerializeField]
     AudioClip meleeSFX;
     [SerializeField]
@@ -179,13 +187,8 @@ public class PlayerController : MonoBehaviour
         }
         ListenToLVChange();
         UpdateTimePlayed();
-        // WALKING
-        if (Input.GetMouseButton(0))
-        {
-            hasRightClickedRecently = false;
-            GetTargetPositionAndDirection();
-            CheckIfPlayerIsWalking();
-        }
+        ManageLeftMouseInput(); // for walking
+
         // SPELLCASTING / ACTIVE ABILITY
         if (Input.GetMouseButtonDown(1))
         {
@@ -228,6 +231,39 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void ManageLeftMouseInput()
+    {
+        // WALKING
+        if (Input.GetMouseButton(0))
+        {
+            hasRightClickedRecently = false;
+            GetTargetPositionAndDirection();
+            //CheckIfPlayerIsWalking();
+        }
+        // walking - player is holding key down
+        if (Input.GetMouseButtonDown(0))
+        {
+            // only consider it a mouse press if player has held the key down for minMousePressTime seconds
+            if (!isCountingMousePress)
+            {
+                isCountingMousePress = true;
+                mousePressStartTime = Time.time + minMousePressTime;
+            }
+            else if (Time.time > mousePressStartTime)
+            {
+                isMousePress = true;
+                CheckIfPlayerIsWalking();
+            }
+        }
+
+        // resetting mouse press to move
+        if (Input.GetMouseButtonUp(0))
+        {
+            isMousePress = false;
+            isCountingMousePress = false;
+        }
+    }
+
     void UpdateTimePlayed()
     {
         PlayerData.current.playTime += Time.deltaTime;
@@ -252,11 +288,16 @@ public class PlayerController : MonoBehaviour
 
     void ListenForDamageTaken()
     {
+        // player is wounded
         if (PlayerData.current.playerWoundDetected == true)
         {
             PlayerData.current.playerWoundDetected = false;
-            playerAnimator.SetTrigger("damageTaken");
-            dirNormalized = dirNormalized * -1f;
+            //dirNormalized = dirNormalized * -1f;
+            if (isAlive)
+            {
+                playerAnimator.SetTrigger("damageTaken");
+                playerSFX.PlayWoundedSFX();
+            }
         }
     }
 
@@ -470,7 +511,7 @@ public class PlayerController : MonoBehaviour
         isClickingOnUI = true;
     }
 
-    void CheckIfPlayerIsWalking()
+    public void CheckIfPlayerIsWalking()
     {
         if (Vector2.Distance(targetPosition, transform.position) <= 0.02f)
         {
@@ -529,7 +570,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void MovePlayer()
+    private void MovePlayer()
     {
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * PlayerData.current.moveSpeed * Time.deltaTime;
     }
