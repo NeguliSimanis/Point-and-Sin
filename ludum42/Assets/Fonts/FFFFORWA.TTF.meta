@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 7672af899e58ff846a02d2d1b68d2841
+guid: b796ab330ea9e5a4aadc9c788ac5d8c1
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 400
+  fontSize: 500
   forceTextureCase: -1
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Knights Quest
+  fontName: FFF Forward
   fontNames:
-  - Knights Quest
+  - FFF Forward
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

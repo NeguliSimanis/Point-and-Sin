@@ -114,14 +114,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     PlayerSFX playerSFX;
 
-    [SerializeField]
-    AudioClip meleeSFX;
-    [SerializeField]
-    AudioClip lvUpSFX;
+    //[SerializeField]
+   // AudioClip meleeSFX;
+    //[SerializeField]
+    //AudioClip lvUpSFX;
     [SerializeField]
     GameObject audioManager;
-    float meleeSFXVolume = 0.2f;
-    float lvUPSFXVolume = 0.1f;
+    //float meleeSFXVolume = 0.2f;
+    //float lvUPSFXVolume = 0.1f;
     AudioSource audioSource;
     #endregion
 
@@ -205,6 +205,7 @@ public class PlayerController : MonoBehaviour
         if (isWalking)
         {
             CheckIfPlayerIsWalking();
+            PlayWalkSFX();
             MovePlayer();
         }
         CheckWherePlayerIsFacing();
@@ -229,6 +230,25 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(RegenerateMana());
             }
         }
+    }
+
+    void PlayWalkSFX()
+    {
+        if (!isWalking)
+        {
+            return;
+        }
+        if (playerSFX.isWalkingSFXCooldown && Time.time > playerSFX.walkingSFXCooldownResetTime)
+        {
+            playerSFX.isWalkingSFXCooldown = false;
+        }
+        else if (playerSFX.isWalkingSFXCooldown)
+        {
+            return;
+        }
+        playerSFX.PlayWalkingSFX();
+        playerSFX.isWalkingSFXCooldown = true;
+        playerSFX.walkingSFXCooldownResetTime = Time.time + playerSFX.walkingSFXCooldown;
     }
 
     void ManageLeftMouseInput()
@@ -275,7 +295,7 @@ public class PlayerController : MonoBehaviour
         {
             // PLAY LV UP SFX
             lastKnownPlayerLevel = PlayerData.current.currentLevel;
-            audioSource.PlayOneShot(lvUpSFX, lvUPSFXVolume);
+            playerSFX.PlayLvUpSFX();
 
             // this check is added to fix a bug where you dont regen mana after level up
             isRegeneratingMana = false;
@@ -490,7 +510,7 @@ public class PlayerController : MonoBehaviour
         isWalking = false;
         meleeAttackAnimStartTime = Time.time;
         playerAnimator.SetTrigger("meleeAttack");
-        audioSource.PlayOneShot(meleeSFX, meleeSFXVolume);
+        playerSFX.PlayMeleeSFX();
 
         int meleeDamage = PlayerData.current.meleeDamage;
 
