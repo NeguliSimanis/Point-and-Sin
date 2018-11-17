@@ -205,7 +205,6 @@ public class PlayerController : MonoBehaviour
         if (isWalking)
         {
             CheckIfPlayerIsWalking();
-            PlayWalkSFX();
             MovePlayer();
         }
         CheckWherePlayerIsFacing();
@@ -230,25 +229,6 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(RegenerateMana());
             }
         }
-    }
-
-    void PlayWalkSFX()
-    {
-        if (!isWalking)
-        {
-            return;
-        }
-        if (playerSFX.isWalkingSFXCooldown && Time.time > playerSFX.walkingSFXCooldownResetTime)
-        {
-            playerSFX.isWalkingSFXCooldown = false;
-        }
-        else if (playerSFX.isWalkingSFXCooldown)
-        {
-            return;
-        }
-        playerSFX.PlayWalkingSFX();
-        playerSFX.isWalkingSFXCooldown = true;
-        playerSFX.walkingSFXCooldownResetTime = Time.time + playerSFX.walkingSFXCooldown;
     }
 
     void ManageLeftMouseInput()

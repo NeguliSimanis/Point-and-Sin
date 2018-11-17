@@ -11,8 +11,8 @@ public class MusicControl : MonoBehaviour
     {
         if (!isPlayingBackgroundMusic && PlayerData.current.canPlayBackgroundMusic)
         {
-            isPlayingBackgroundMusic = true;
-            PlayBackgroundMusic();
+            /*isPlayingBackgroundMusic = true;
+            PlayBackgroundMusic();*/
         }
         
 	}

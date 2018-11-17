@@ -30,21 +30,26 @@ public class PlayerSFX : MonoBehaviour
     float playerWoundedSFXVolume = 0.8F;
     int playerWoundedSFXCount;
 
-    // walking 
+    #region walking
+    /* Selects a random step sound and plays it when called outside of this script
+     * 
+     *           */
     [Header("Walking")]
     [SerializeField]
     bool playWalkSFX;
+
     [SerializeField]
-    AudioClip playerWalkingSFX;
-    float playerWalkingSFXVolume = 0.4F;
-    public float walkingSFXCooldown = 2.8f;
-    public float walkingSFXCooldownResetTime;
-    public bool isWalkingSFXCooldown = false;
+    AudioClip [] playerWalkingSFX;
+    float playerWalkingSFXVolume = 0.3F;
+    int lastPlayedWalkSFXID = 0;
+    int playerWalkSFXCount; // how many walking sfx are in the given array
+    #endregion
 
 
     private void Start()
     {
         playerWoundedSFXCount = playerWoundedSFX.Length - 1;
+        playerWalkSFXCount = playerWalkingSFX.Length - 1;
     }
 
     public void PlayWoundedSFX()
@@ -52,10 +57,27 @@ public class PlayerSFX : MonoBehaviour
         audioSource.PlayOneShot(playerWoundedSFX[Random.Range(0, playerWoundedSFXCount)], playerWoundedSFXVolume);
     }
 
+
+    private int GetRandomWalkingSfxID()
+    {
+        int tempID = Random.Range(0, playerWalkSFXCount);
+        if (playerWalkSFXCount > 0)
+        {
+            while (tempID == lastPlayedWalkSFXID)
+            {
+                tempID = Random.Range(0, playerWalkSFXCount);
+            }
+        }
+        lastPlayedWalkSFXID = tempID;
+        return tempID;
+    }
+
     public void PlayWalkingSFX()
     {
-        if (playWalkSFX)
-            audioSource.PlayOneShot(playerWalkingSFX, playerWalkingSFXVolume);
+        if (!playWalkSFX)
+            return;
+
+        audioSource.PlayOneShot(playerWalkingSFX[GetRandomWalkingSfxID()], playerWalkingSFXVolume);
     }
 
     public void PlayLvUpSFX()

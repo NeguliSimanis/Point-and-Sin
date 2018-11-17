@@ -12786,6 +12786,7 @@ GameObject:
   - component: {fileID: 1334543375}
   - component: {fileID: 1334543377}
   - component: {fileID: 1334543376}
+  - component: {fileID: 1334543378}
   m_Layer: 2
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -12870,6 +12871,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1334543378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1334543374}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 746a8de545bc17e4db2a869bdcf05b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSFXController: {fileID: 1640662360}
 --- !u!1 &1335152512
 GameObject:
   m_ObjectHideFlags: 0
@@ -15276,11 +15289,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 115e02ecc0bae434592d4772507df170, type: 3}
   - {fileID: 8300000, guid: 50ec3f04ee0f3144587e9454b40628e9, type: 3}
   - {fileID: 8300000, guid: 312b908824d2cdf4f93e767ab361a9c1, type: 3}
-  playWalkSFX: 0
-  playerWalkingSFX: {fileID: 8300000, guid: ec5b886925018394c87cdee92810b246, type: 3}
-  walkingSFXCooldown: 1.9
-  walkingSFXCooldownResetTime: 0
-  isWalkingSFXCooldown: 0
+  playWalkSFX: 1
+  playerWalkingSFX:
+  - {fileID: 8300000, guid: ad4b638022be35c458953d3b26bf0260, type: 3}
+  - {fileID: 8300000, guid: 0d1a199387707344b863d8a0d7ca1781, type: 3}
+  - {fileID: 8300000, guid: 1c44e7bd6d489174c92307d720e4f39f, type: 3}
+  - {fileID: 8300000, guid: dfd2634f8cb83334c80df8c75c37bf46, type: 3}
+  - {fileID: 8300000, guid: 40ffb506e549832428ecc3b942894f7a, type: 3}
+  - {fileID: 8300000, guid: dfa79d4545c026f479da61a92892d51a, type: 3}
 --- !u!1 &1666794551
 GameObject:
   m_ObjectHideFlags: 0
