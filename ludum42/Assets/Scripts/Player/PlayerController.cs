@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,16 +28,22 @@ public class PlayerController : MonoBehaviour
     public int nearEnemyID = -1;
     public int targetEnemyID = -2;
 
-    private float attackCooldownResetTime;
+    //public float attackCooldownStartTime;
     private bool isAttacking = false;
     private bool isAttackCooldown = false;
 
     private bool isRegeneratingMana = false;
     public bool isCastingSpell = false;
     private bool isFireballCooldown = false;
-    private bool hasCastSpellAtLeastOnce = false;
+    public bool hasCastSpellAtLeastOnce = false;
+    public bool hasMeleeAttackedAtLeastOnce = false;
 
     private int lastKnownPlayerLevel;
+    #endregion
+
+    #region PLAYER INPUT & CONTROLS
+
+    //Input switchActiveSkillKey = Input.GetKeyDown(KeyCode.Tab);
 
     // Mouse input
     public bool isClickingOnUI = false; // don't allow movement when clicking on certain UI elements 
@@ -45,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     #region MOVEMENT
     float minMousePressTime = 0.1f; // if you press mouse for a shorter duration than this, it will be considered a click
-    float mousePressStartTime;      
+    float mousePressStartTime;
     bool isCountingMousePress = false;
     bool isMousePress = false;
 
@@ -82,13 +89,11 @@ public class PlayerController : MonoBehaviour
     float idleAnimBStartTime;
     float waitTimeBeforeIdleA = 0.5f;
     float idleAnimAStartTime;
-    float meleeAttackAnimStartTime;
+    public float meleeAttackAnimStartTime;
     [SerializeField]
     Animator playerAnimator;
-    [SerializeField]
-    AnimationClip meleeAttackAnimation;
-    [SerializeField]
-    AnimationClip spellcastAnimation;
+    public AnimationClip meleeAttackAnimation;
+    public AnimationClip spellcastAnimation;
     [SerializeField]
     AnimationClip victoryAnimation;
 
@@ -97,8 +102,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ATTACK and TARGETTING
-    private EnemyController currentEnemy;
+    //private EnemyController currentEnemy;
     public EnemyController lastHoveredEnemy; // last enemy that you hovered mouse over
+    public List<EnemyController> enemiesInMeleeRange = new List<EnemyController>(); // all enemies that may get damaged if you perform a melee attack
     #endregion
 
     #region SPELLCASTING
@@ -107,27 +113,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     GameObject fireBall;
     private float spellcastEndTime;          // when casting animation is over
-    private float fireballCooldownStartTime; // when you can cast fireball again
+    public float fireballCooldownStartTime; // when you can cast fireball again
     #endregion
 
     #region AUDIO
     [SerializeField]
     PlayerSFX playerSFX;
-
-    //[SerializeField]
-   // AudioClip meleeSFX;
-    //[SerializeField]
-    //AudioClip lvUpSFX;
     [SerializeField]
     GameObject audioManager;
-    //float meleeSFXVolume = 0.2f;
-    //float lvUPSFXVolume = 0.1f;
     AudioSource audioSource;
     #endregion
 
-    #region ACTIVE SIN SKILLS
-    //bool isSkill0Active; // Used to test the first skill. TO-DO: CHANGE THIS
+    #region ACTIVE ABILITY
+    PlayerActiveAbilityManager playerActiveAbilityManager;
     #endregion
+
 
     private void Awake()
     {
@@ -143,10 +143,21 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        InitializeVariables();
+        GetComponents();
+    }
+
+    private void InitializeVariables()
+    {
         unspentSkillPointCheck = new UnspentSkillpointCheck();
         lastKnownPlayerLevel = PlayerData.current.currentLevel;
+    }
+
+    private void GetComponents()
+    {
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         audioSource = gameObject.GetComponent<AudioSource>();
+        playerActiveAbilityManager = gameObject.GetComponent<PlayerActiveAbilityManager>();
     }
 
     public void WinGame()
@@ -175,29 +186,27 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         UpdateHUD();
-        ListenForGamePause();
-        ListenForDamageTaken();
-        ListenForPlayerDefeat();
         GetAnimatorInfo();
         if (!isAlive)
+        {
             Die();
+        }
         if (PlayerData.current.isGamePaused || !isAlive)
         {
             return;
         }
+
+        ListenForDamageTaken();
+        ListenForPlayerDefeat();
         ListenToLVChange();
         UpdateTimePlayed();
-        ManageLeftMouseInput(); // for walking
 
-        // SPELLCASTING / ACTIVE ABILITY
-        if (Input.GetMouseButtonDown(1))
-        {
-            hasRightClickedRecently = true;
-            isWaitingToMove = false; 
-            GetTargetPositionAndDirection();
-            CheckWherePlayerIsFacing();
-            StartSpellcasting();
-        }
+        // PLAYER INPUT
+        ListenForGamePause();
+        ListenForActiveSkillSwitch();
+        ManageLeftMouseInput();         // for walking
+        ManageRightMouseInput();        // for active ability
+
         if (isWaitingToMove)
         {
             CheckIfPlayerIsWalking();
@@ -231,6 +240,43 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void ManageRightMouseInput()
+    {
+        // SPELLCASTING / ACTIVE ABILITY
+        if (Input.GetMouseButtonDown(1))
+        {
+            hasRightClickedRecently = true;
+            isWaitingToMove = false;
+            GetTargetPositionAndDirection();
+            CheckWherePlayerIsFacing();
+
+            if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.SpellFireball)
+            {
+                StartSpellcasting();
+            }
+            else if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.MeleeSword)
+            {
+                StartMeleeSwordAttacking();
+            }
+        }
+    }
+
+    void ListenForActiveSkillSwitch()
+    {
+        if (!PlayerData.current.isGamePaused)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                ToggleActiveSkill();
+            }
+        }
+    }
+
+    void ToggleActiveSkill()
+    {
+        playerActiveAbilityManager.SwitchActiveAbility();
+    }
+
     void ManageLeftMouseInput()
     {
         // WALKING
@@ -238,7 +284,12 @@ public class PlayerController : MonoBehaviour
         {
             hasRightClickedRecently = false;
             GetTargetPositionAndDirection();
-            //CheckIfPlayerIsWalking();
+
+            // Move only if the cursor is not above UI element
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                CheckIfPlayerIsWalking();
+            }
         }
         // walking - player is holding key down
         if (Input.GetMouseButtonDown(0))
@@ -409,7 +460,6 @@ public class PlayerController : MonoBehaviour
 
             playerAnimator.SetBool("isDead", true);
             StartCoroutine(DisplayDefeatPanelAfterXSeconds(2f));
-            // 
         }
     }
 
@@ -445,8 +495,9 @@ public class PlayerController : MonoBehaviour
         // update exp bar
         expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
 
-        // update fireball cooldown bar
-        if (hasCastSpellAtLeastOnce)
+        // update active skil cooldown - this is donne in PlayerActiveAbilityManager.cs
+
+        /*if (hasCastSpellAtLeastOnce)
         {
             // bar fill
             fireballCooldownBar.fillAmount = (Time.time - fireballCooldownStartTime) / (PlayerData.current.fireballCastCooldown + spellcastAnimation.length);
@@ -456,7 +507,7 @@ public class PlayerController : MonoBehaviour
                 fireballCooldownBar.color = new Color(0.613f, 0.362f, 0.362f);
             else
                 fireballCooldownBar.color = Color.white;
-        }
+        }*/
     }
 
     void GetTargetPositionAndDirection()
@@ -472,26 +523,42 @@ public class PlayerController : MonoBehaviour
         dirNormalized = dirNormalized.normalized;
     }
 
-    public void TargetEnemy(int enemyID, EnemyController target)
+    /// <summary>
+    /// If attack is not on cooldown - play melee anim, sfx; if also near enemies - damage them
+    /// </summary>
+    private void StartMeleeSwordAttacking()
     {
         if (isAttacking || isAttackCooldown)
+        {
             return;
-        targetEnemyID = enemyID;
-        currentEnemy = target;
-        if (nearEnemyID == enemyID)
+        }
+        hasMeleeAttackedAtLeastOnce = true;
+        PlayMeleeSwordAttackAnimation();
+        if (isNearEnemy)
         {
             MeleeAttack();
         }
     }
 
-    private void MeleeAttack()
+    /// <summary>
+    /// locks player movement and plays the attack animation and sfx
+    /// </summary>
+    private void PlayMeleeSwordAttackAnimation()
     {
         isAttacking = true;
         isWalking = false;
+
+        
         meleeAttackAnimStartTime = Time.time;
         playerAnimator.SetTrigger("meleeAttack");
         playerSFX.PlayMeleeSFX();
+    }
 
+    /// <summary>
+    /// Deal melee damage to all enemies within range with a chance of critical hit
+    /// </summary>
+    private void MeleeAttack()
+    {
         int meleeDamage = PlayerData.current.meleeDamage;
 
         // roll critical strike
@@ -502,13 +569,10 @@ public class PlayerController : MonoBehaviour
         }
 
         // deal damage
-        currentEnemy.TakeDamage(meleeDamage, DamageSource.PlayerMelee);
-    }
-
-    // called from buttons attached to UI elements
-    public void IgnoreMouseClick()
-    {
-        isClickingOnUI = true;
+        foreach (EnemyController enemyInMeleeRange in enemiesInMeleeRange)
+        {
+            enemyInMeleeRange.TakeDamage(meleeDamage, DamageSource.PlayerMelee);
+        }
     }
 
     public void CheckIfPlayerIsWalking()

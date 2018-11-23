@@ -15,13 +15,20 @@ public class PlayerEnemyDetector : MonoBehaviour {
         if (col.gameObject.tag == "Enemy")
         {
             playerController.isNearEnemy = true;
-            int enemyID = col.gameObject.GetComponent<EnemyController>().enemyID;
+
+            // add nearby enemy to list of possible melee targets
+            EnemyController nearbyEnemy = col.gameObject.GetComponent<EnemyController>();
+
+            playerController.enemiesInMeleeRange.Add(nearbyEnemy);
+            Debug.Log("Added " + nearbyEnemy.gameObject.name);
+
+        /*   int enemyID = col.gameObject.GetComponent<EnemyController>().enemyID;
             playerController.nearEnemyID = enemyID;
 
             if (playerController.targetEnemyID == enemyID)
             {
                 playerController.TargetEnemy(enemyID, col.gameObject.GetComponent<EnemyController>());
-            }
+            }*/
             //Debug.Log("entering melee zone of enemy " + enemyID);
         }
     }
@@ -32,7 +39,11 @@ public class PlayerEnemyDetector : MonoBehaviour {
         {
             //Debug.Log("exiting melee zone");
             playerController.isNearEnemy = false;
-            playerController.nearEnemyID = -1;
+
+            // TODO remove nearby enemy from list of possible melee targets
+            EnemyController farEnemy = col.gameObject.GetComponent<EnemyController>();
+            Debug.Log("Removed " + farEnemy.gameObject.name);
+            playerController.enemiesInMeleeRange.Remove(farEnemy);
         }
     }
 }

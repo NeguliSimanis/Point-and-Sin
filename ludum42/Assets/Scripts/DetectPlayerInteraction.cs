@@ -16,11 +16,11 @@ public class DetectPlayerInteraction : MonoBehaviour
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
-    private void OnMouseDown()
+    /*private void OnMouseDown()
     {
         //Debug.Log("Enemy " + enemyController.enemyID + " targeted");
-        playerController.TargetEnemy(enemyController.enemyID, enemyController);
-    }
+        //playerController.TargetEnemy(enemyController.enemyID, enemyController);
+    }*/
 
     /// <summary>
     /// Display enemy HP bar on mouse hover
