@@ -16,6 +16,10 @@ public class CursorController : MonoBehaviour
     string clickClipName = "cursor_click_anim";
     AnimatorClipInfo[] currentClipInfo;
 
+    // used to correct the position of cursor sprite - the cursor hotspot should be at the tip of the sprite
+    float cursorXOffset = 0.2f; 
+    float cursorYOffset = -0.2f;   
+
     private void Start()
     {
         Cursor.visible = false;
@@ -93,7 +97,8 @@ public class CursorController : MonoBehaviour
 
     private void Update()
     {
-        Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 cursorPos = new Vector2 (Camera.main.ScreenToWorldPoint(Input.mousePosition).x + cursorXOffset,
+            Camera.main.ScreenToWorldPoint(Input.mousePosition).y + cursorYOffset);
         transform.position = cursorPos;
         CheckMouseHoverOverEnemy();
         ManageLeftClick();

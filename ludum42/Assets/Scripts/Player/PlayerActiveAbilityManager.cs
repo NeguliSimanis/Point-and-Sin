@@ -239,7 +239,6 @@ public class PlayerActiveAbilityManager : MonoBehaviour
            
             if (playerController.hasMeleeAttackedAtLeastOnce)
             {
-                Debug.Log("hey bois");
                 // bar fill
                 currentActiveAbility.cooldownBar.fillAmount = (Time.time - playerController.meleeAttackAnimStartTime) /
                     (PlayerData.current.meleeAttackCooldown + playerController.meleeAttackAnimation.length);                
