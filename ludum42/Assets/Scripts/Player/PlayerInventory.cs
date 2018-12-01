@@ -10,7 +10,7 @@ public class PlayerInventory : MonoBehaviour
     GameObject[] inventorySlots;
     [SerializeField]
     GameObject inventorySlotContainer;
-    int inventorySize = 1;
+    int inventorySize = 16;
     
     //= new GameObject[];
 
@@ -33,6 +33,11 @@ public class PlayerInventory : MonoBehaviour
 
     private int FindNextFreeSlot()
     {
+        for (int i = 0; i < inventorySize; i++)
+        {
+            if (!inventorySlots[i].GetComponent<InventorySlot>().isFilled)
+                return i;
+        }
         return 0;
     }
 

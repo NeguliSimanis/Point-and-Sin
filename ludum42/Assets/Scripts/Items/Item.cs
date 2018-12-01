@@ -20,7 +20,9 @@ public class Item : MonoBehaviour
     public bool canBePickedUp = false;
 
     #region ITEM PROPERTIES
-    string itemName;
+    static int largestItemID = 0; // used only when generating item ID
+    int itemID;
+    public string itemName;
     int wrath = 0; 
     int pride = 0;
     int lust = 0; 
@@ -32,8 +34,10 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
+        itemID = largestItemID;
+        largestItemID++;
+
         playerInventory = GameObject.FindGameObjectWithTag(playerTag).GetComponent<PlayerInventory>();
-        
         GenerateItemProperties();
     }
 
@@ -42,7 +46,15 @@ public class Item : MonoBehaviour
         // get image
         itemImage = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
 
+        // intialize Item generator
+        if (ItemGenerator.current == null)
+        {
+            ItemGenerator.current = new ItemGenerator();
+        }
+
         // get name
+        itemName = ItemGenerator.current.GetItemName(itemID, itemType);
+        Debug.Log(itemName);
 
         // get stats
     }

@@ -31,14 +31,13 @@ public class InventorySlot : MonoBehaviour
 
     private void OnMouseOver()
     {
-        Debug.Log("hey");
         if (isFilled)
-            itemInfoPanel.DisplayItemInfo();
+            itemInfoPanel.DisplayItemInfo(itemInSlot);
     }
 
     private void OnMouseExit()
     {
         if (isFilled)
-            itemInfoPanel.DisplayItemInfo(false);
+            itemInfoPanel.DisplayItemInfo(itemInSlot,false);
     }
 }
