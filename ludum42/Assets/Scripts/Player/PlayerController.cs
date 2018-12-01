@@ -265,14 +265,24 @@ public class PlayerController : MonoBehaviour
     {
         if (!PlayerData.current.isGamePaused)
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            // SCROLLL UP - select previous skill in list
+            if (Input.mouseScrollDelta.y > 0)
             {
-                ToggleActiveSkill();
+                ToggleActiveSkill(false);
+            }
+            // SCROLLL DOWN - select next skill in list
+            else if (Input.mouseScrollDelta.y < 0)
+            {
+                ToggleActiveSkill(true);
             }
         }
     }
 
-    void ToggleActiveSkill()
+    /// <summary>
+    /// Switches between player active skils depending on mouse wheel input
+    /// </summary>
+    /// <param name="selectNextSkill">if this is true - select next active skill in list, if false - the previous skill </param>
+    void ToggleActiveSkill(bool selectNextSkill = true)
     {
         playerActiveAbilityManager.SwitchActiveAbility();
     }
