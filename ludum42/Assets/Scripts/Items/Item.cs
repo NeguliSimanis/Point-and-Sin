@@ -27,8 +27,14 @@ public class Item : MonoBehaviour
     public int pride = 0;
     public int lust = 0;
     public string effectDescription; // how big is the wrath, pride, lust bonus
-
     public SpriteRenderer itemImage;
+    #endregion
+
+    #region AUDIO
+    AudioSource audioSource;
+    [SerializeField]
+    AudioClip itemInteractSFX;
+    float sfxVolume = 0.6f;
     #endregion
 
     private void Start()
@@ -38,6 +44,13 @@ public class Item : MonoBehaviour
 
         playerInventory = GameObject.FindGameObjectWithTag(playerTag).GetComponent<PlayerInventory>();
         GenerateItemProperties();
+
+        audioSource = gameObject.GetComponent<AudioSource>();
+    }
+
+    public void PlayPickUpSFX()
+    {
+        audioSource.PlayOneShot(itemInteractSFX, sfxVolume);
     }
 
     private void GenerateItemProperties()
@@ -59,7 +72,7 @@ public class Item : MonoBehaviour
     }
 
 
-    private void OnMouseDown()
+    public void AttemptPickUp()
     {
         if (currentState == ItemState.OnGround && canBePickedUp)
         {
@@ -107,5 +120,19 @@ public class Item : MonoBehaviour
             return "Hand";
         }
         return "BOI";
+    }
+
+    /// <summary>
+    /// Changes player stats in PlayerData when this item is equipped or unequipped.
+    /// </summary>
+    /// <param name="multiplier">multiplier at which the change is applied. Change to -1 when unequipping an item</param>
+    public void AddStatBoost(int multiplier = 1)
+    {
+        if (wrath > 0)
+            PlayerData.current.AddWrath(wrath * multiplier);
+        if (pride > 0)
+            PlayerData.current.AddPride(pride * multiplier, true);
+        if (lust > 0)
+            PlayerData.current.AddLust(lust * multiplier);
     }
 }

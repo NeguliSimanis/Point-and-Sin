@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 61114745988731674}
   - component: {fileID: 114016969767847380}
   - component: {fileID: 82906024390542772}
+  - component: {fileID: 114850045978786464}
   m_Layer: 0
   m_Name: Succubus
   m_TagString: Enemy
@@ -118,7 +119,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1951207186085140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.927, y: -2.944, z: 0}
+  m_LocalPosition: {x: -28.19, y: -8.972954, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4402037591105036}
@@ -412,6 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
+  moveSpeed: 0.23
   enemyID: 0
   expDrop: 80
   maxHP: 10
@@ -454,6 +456,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyController: {fileID: 114662002927111390}
+--- !u!114 &114850045978786464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1951207186085140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f621fd03a3f5b408395c2481662bd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eye: {fileID: 1470851104573380, guid: 9277fb0d7e37244489e774ba9309731f, type: 2}
+  hand: {fileID: 1457315488172168, guid: b3d5e9a884fa1a3408f2b8620464e106, type: 2}
+  heart: {fileID: 1114428370084442, guid: a91490a8dc1361a499a9ef2e953416ce, type: 2}
 --- !u!212 &212006373180281156
 SpriteRenderer:
   m_ObjectHideFlags: 1

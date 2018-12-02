@@ -8,6 +8,8 @@ public class Fireball : MonoBehaviour {
     private float fireBallDuration = 0.4f;
     private float fireBallDeathTime;
     private float fireBallMoveSpeed = 2f;
+    private float fireBallSFXVolume = 1.2f;
+    private float fireBallExplodeSFXVolume = 1.5f;
     bool fireBallStarted = false;
     bool flyingRight;
     bool isExploding = false;
@@ -29,7 +31,7 @@ public class Fireball : MonoBehaviour {
     public void StartFireball(bool isFlyingRight)
     {
         audioControl = GameObject.Find("Audio").GetComponent<AudioSource>();
-        audioControl.PlayOneShot(fireballSFX, 0.9F);
+        audioControl.PlayOneShot(fireballSFX, fireBallSFXVolume);
         fireBallStarted = true;
         flyingRight = isFlyingRight;
         fireBallDeathTime = fireBallDuration + Time.time;
@@ -53,7 +55,7 @@ public class Fireball : MonoBehaviour {
             return;
         isExploding = true;
         animator.SetTrigger("explode");
-        audioControl.PlayOneShot(explosionSFX, 1F);
+        audioControl.PlayOneShot(explosionSFX, fireBallExplodeSFXVolume);
         StartCoroutine(SelfDestruct());
     }
 

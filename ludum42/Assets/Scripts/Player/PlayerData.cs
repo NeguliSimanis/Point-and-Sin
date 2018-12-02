@@ -6,6 +6,13 @@ public class PlayerData
 {
     public static PlayerData current;
 
+    #region ITEM DROPRATES
+    public float itemDropRate = 0.4f;       // chance of finding an item from a kill
+    public float armDropRate = 2f;          // chance of finding an arm as compared to other items
+    public float eyeDropRate = 1f;
+    public float heartDropRate = 0.5f;
+    #endregion
+
     #region STATS
     public int enemiesKilled = 0;
     public float playTime = 0;
@@ -61,7 +68,7 @@ public class PlayerData
 
     // WRATH MODIFIERS
     private int wrathFireballCostIncrease = 1;
-    private int wrathFireballDamageIncrease = 2;
+    private int wrathFireballDamageIncrease = 1 ;
     #endregion
 
     #region MELEE ATTACK
@@ -165,30 +172,6 @@ public class PlayerData
         requiredExp = defaultRequiredExp;
     }
 
-   /* public SinTreeSkill UpgradeSinTreeSkill(int skillID)
-    {
-        SinTreeSkill skillToUpgrade = playerSinTree.allSkills[skillID];
-
-        // spend resources
-        sinTreePoints -= skillToUpgrade.skillCost;
-
-        // update skill data
-        skillToUpgrade.skillCost += 2;
-        skillToUpgrade.skillLV += 1;
-
-        if (skillToUpgrade.skillID == 0)
-        {
-            summonMinionOnMeleeKill = true;
-            maxMinions++;
-        }
-        return skillToUpgrade;
-    }
-
-    public SinTreeSkill GetSkillInfo(int skillID)
-    {
-        return playerSinTree.allSkills[skillID];
-    }*/
-
     public void Pause(bool isPaused)
     {
         isGamePaused = isPaused;
@@ -208,38 +191,54 @@ public class PlayerData
     public void AddWrath(int amount)
     {
         wrath += amount;
+        RecalculateWrathEffect();
+    }
 
+    private void RecalculateWrathEffect()
+    {
         // melee damage increase
         meleeDamage = defaultMeleeDamage + (wrath - 1) * wrathMeleeDamageIncrease;
-        //Debug.Log("Melee damage " + meleeDamage);
+       // Debug.Log("Melee damage " + meleeDamage);
 
         // fireball damage increase
         fireballDamage = defaultFireballDamage + (wrath - 1) * wrathFireballDamageIncrease;
-        //Debug.Log("Fireball damage " + fireballDamage);
+       // Debug.Log("Fireball damage " + fireballDamage);
 
         // fireball cost increase
         fireballManaCost = defaultFireballCost + (wrath - 1) * wrathFireballCostIncrease;
         //Debug.Log("Fireball cost " + fireballManaCost);
     }
 
-    public void AddPride(int amount)
+    public void AddPride(int amount, bool isPrideFromItem = false)
     {
         pride += amount;
+        RecalculatePrideEffect(isPrideFromItem);
+    }
 
+    private void RecalculatePrideEffect(bool isPrideFromItem)
+    {
         // max mana increase
         maxMana = (int)(defaultMaxMana * (1f + (pride - 1) * prideMaxManaIncrease));
         //Debug.Log("Max mana " + maxMana);
 
         // max life increase
         maxLife = (int)(defaultMaxLife + (currentLevel - 1) * lifePerLevel + (pride - 1) * prideLifeIncrease);
-       // Debug.Log("Max life " + maxLife);
-        currentLife = maxLife;
+        
+        if (!isPrideFromItem)
+            currentLife = maxLife;
+
+       // Debug.Log("Current Pride " + pride);
+        //Debug.Log("Max life " + maxLife);
     }
 
     public void AddLust(int amount)
     {
         lust += amount;
+        RecalculateLustEffect();
+    }
 
+    private void RecalculateLustEffect()
+    {
         // mana regen increase
         manaRegenPerSecond = defaultManaRegenPerSecond + (lust - 1) * lustManaRegenIncrease;
         //Debug.Log("Mana regen " + manaRegenPerSecond);
@@ -251,12 +250,13 @@ public class PlayerData
             totalLustCooldownEffect *= lustFireballCooldownReduce;
         }
         fireballCastCooldown = totalLustCooldownEffect;
-        //Debug.Log("Fireball cooldown " + fireballCastCooldown);
+       // Debug.Log("Fireball cooldown " + fireballCastCooldown);
 
         // increase melee critical chance
         meleeCritChance = defaultMeleeCritChance + (lust - 1) * lustMeleeCriticalIncrease;
-        //Debug.Log("Melee crit chance " + meleeCritChance);
+       // Debug.Log("Melee crit chance " + meleeCritChance);
     }
+
 
     public void AddSloth(int amount)
     {

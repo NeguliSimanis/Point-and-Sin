@@ -18,6 +18,8 @@ public class InventorySlot : MonoBehaviour
     Image itemImage;
     [SerializeField]
     ItemInfoPanel itemInfoPanel;
+    [SerializeField]
+    CharacterPanel characterPanel;  
 
     #region HIGHLIGHTING
     Color highlightColor = Color.yellow;
@@ -53,17 +55,35 @@ public class InventorySlot : MonoBehaviour
 
     private void EquipItemInSlot()
     {
+        itemInSlot.PlayPickUpSFX();
+
+        // adds item to equipped slot
         playerInventory.EquipItem(itemInSlot);
+
+        // applies the effect of item
+        itemInSlot.AddStatBoost();
+        characterPanel.UpdateSinPointsText();
+
+        // removes the item from backpack slot
         RemoveItemFromSlot();
     }
 
     public void RemoveItemFromSlot()
     {
+        itemInSlot.PlayPickUpSFX();
+
         isFilled = false;
         itemImage.enabled = false;
         
         // hide additional window with item info
         itemInfoPanel.DisplayItemInfo(itemInSlot, false);
+
+        // removes the positive effect of the item when it is unequipped
+        if (!isBackpackSlot)
+        {
+            itemInSlot.AddStatBoost(-1);
+            characterPanel.UpdateSinPointsText();
+        }
     }
 
     /// <summary>

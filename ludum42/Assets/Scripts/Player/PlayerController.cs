@@ -65,8 +65,14 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region UI
+    [Header("UI")]
     [SerializeField]
     GameObject pauseMenu;
+    [SerializeField]
+    ToggleActiveState characterPanelToggle;
+    [SerializeField]
+    ToggleActiveState inventoryPanelToggle;
+
     [SerializeField]
     Image healthBar;
     [SerializeField]
@@ -90,6 +96,8 @@ public class PlayerController : MonoBehaviour
     float waitTimeBeforeIdleA = 0.5f;
     float idleAnimAStartTime;
     public float meleeAttackAnimStartTime;
+
+    [Header("ANIMATION")]
     [SerializeField]
     Animator playerAnimator;
     public AnimationClip meleeAttackAnimation;
@@ -102,12 +110,14 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ATTACK and TARGETTING
+    [Header("ATTACK AND TARGETTING")]
     //private EnemyController currentEnemy;
     public EnemyController lastHoveredEnemy; // last enemy that you hovered mouse over
     public List<EnemyController> enemiesInMeleeRange = new List<EnemyController>(); // all enemies that may get damaged if you perform a melee attack
     #endregion
 
     #region SPELLCASTING
+    [Header("SPELLS")]
     [SerializeField]
     Transform fireballExitPoint;
     [SerializeField]
@@ -117,6 +127,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region AUDIO
+    [Header("AUDIO")]
     [SerializeField]
     PlayerSFX playerSFX;
     [SerializeField]
@@ -203,6 +214,7 @@ public class PlayerController : MonoBehaviour
 
         // PLAYER INPUT
         ListenForGamePause();
+        ListenForMenuOpen();            // opening character panel / inventory via keyboard input
         ListenForActiveSkillSwitch();
         ManageLeftMouseInput();         // for walking
         ManageRightMouseInput();        // for active ability
@@ -237,6 +249,18 @@ public class PlayerController : MonoBehaviour
                 isRegeneratingMana = true;
                 StartCoroutine(RegenerateMana());
             }
+        }
+    }
+
+    void ListenForMenuOpen()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            characterPanelToggle.Toggle();
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            inventoryPanelToggle.Toggle();
         }
     }
 
@@ -572,7 +596,7 @@ public class PlayerController : MonoBehaviour
         int meleeDamage = PlayerData.current.meleeDamage;
 
         // roll critical strike
-        if (Random.Range(0f, 1f) < PlayerData.current.meleeCritChance)
+        if (Random.Range(0f, 1f) <= PlayerData.current.meleeCritChance)
         {
             Debug.Log("CRITICAL");
             meleeDamage = (int)(meleeDamage * PlayerData.current.meleeCriticalEffect);

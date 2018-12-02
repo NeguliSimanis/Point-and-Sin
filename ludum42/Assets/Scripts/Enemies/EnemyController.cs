@@ -446,6 +446,10 @@ public class EnemyController : MonoBehaviour {
         {
             isDying = true;
 
+            // roll chance to drop item and drop item
+            if (type != EnemyType.SkullBoss)
+                gameObject.GetComponent<EnemyItemDropper>().DropItem();
+
             // update player stats
             if (!isPlayerMinion && fatalBlowSource != DamageSource.Undefined)
             {

@@ -20,7 +20,7 @@ public class PlayerEnemyDetector : MonoBehaviour {
             EnemyController nearbyEnemy = col.gameObject.GetComponent<EnemyController>();
 
             playerController.enemiesInMeleeRange.Add(nearbyEnemy);
-            Debug.Log("Added " + nearbyEnemy.gameObject.name);
+            //Debug.Log("Added " + nearbyEnemy.gameObject.name);
 
         /*   int enemyID = col.gameObject.GetComponent<EnemyController>().enemyID;
             playerController.nearEnemyID = enemyID;
@@ -42,7 +42,7 @@ public class PlayerEnemyDetector : MonoBehaviour {
 
             // TODO remove nearby enemy from list of possible melee targets
             EnemyController farEnemy = col.gameObject.GetComponent<EnemyController>();
-            Debug.Log("Removed " + farEnemy.gameObject.name);
+            //Debug.Log("Removed " + farEnemy.gameObject.name);
             playerController.enemiesInMeleeRange.Remove(farEnemy);
         }
     }

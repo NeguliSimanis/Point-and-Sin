@@ -205,7 +205,7 @@ public class CharacterPanel : MonoBehaviour {
             currentSinPointsText.gameObject.SetActive(false);
         }
     }
-    void UpdateSinPointsText()
+    public void UpdateSinPointsText()
     {
         wrathPointsText.text = PlayerData.current.wrath.ToString();
         pridePointsText.text = PlayerData.current.pride.ToString();
