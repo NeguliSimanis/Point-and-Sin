@@ -23,14 +23,13 @@ public class Item : MonoBehaviour
     static int largestItemID = 0; // used only when generating item ID
     int itemID;
     public string itemName;
-    int wrath = 0; 
-    int pride = 0;
-    int lust = 0; 
+    public int wrath = 0;
+    public int pride = 0;
+    public int lust = 0;
+    public string effectDescription; // how big is the wrath, pride, lust bonus
 
     public SpriteRenderer itemImage;
     #endregion
-
-
 
     private void Start()
     {
@@ -54,9 +53,9 @@ public class Item : MonoBehaviour
 
         // get name
         itemName = ItemGenerator.current.GetItemName(itemID, itemType);
-        Debug.Log(itemName);
 
         // get stats
+        ItemGenerator.current.SetItemStats(this);
     }
 
 
@@ -73,7 +72,7 @@ public class Item : MonoBehaviour
         //Debug.Log("added to packpack");
         canBePickedUp = false;
         currentState = ItemState.InBackpack;
-        playerInventory.AddItemToInventory(this);
+        playerInventory.AddItemToBackpack(this);
         DisableChildrenAndColliders();
     }
 
@@ -91,5 +90,22 @@ public class Item : MonoBehaviour
         {
             gameObject.GetComponent<CircleCollider2D>().enabled = false;
         }
+    }
+
+    public string GetItemTypeString()
+    {
+        if (itemType == ItemType.Eye)
+        {
+            return "Eyes";
+        }
+        else if (itemType == ItemType.Heart)
+        {
+            return "Heart";
+        }
+        else if (itemType == ItemType.Hand)
+        {
+            return "Hand";
+        }
+        return "BOI";
     }
 }

@@ -141,6 +141,15 @@ public class PlayerData
         maxMana = defaultMaxMana;
         GetManaRegenPerInterval();
 
+        // reset MELEE 
+        meleeDamage = defaultMeleeDamage;
+        meleeCritChance = defaultMeleeCritChance;
+
+        // reset SPELLS
+        fireballDamage = defaultFireballDamage;
+        fireballManaCost = defaultFireballCost;
+        fireballCastCooldown = defaultFireballCastCooldown;
+
         // reset level
         currentLevel = 1;
 

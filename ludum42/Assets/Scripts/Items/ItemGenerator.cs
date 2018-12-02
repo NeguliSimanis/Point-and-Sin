@@ -7,10 +7,10 @@ public class ItemGenerator
     public static ItemGenerator current;
 
     int lastItemID;
-    int attributeBonusForNextItem = 0;
+    static int attributeBonusForNextItem = 0;
 
-    float additionalPrefixChance = 0.12f;
-    float additionalSuffixChance = 0.15f;
+    float additionalPrefixChance = 0.04f;
+    float additionalSuffixChance = 0.03f;
 
     #region NAME GENERATION
     #region ARM NAMES
@@ -24,7 +24,9 @@ public class ItemGenerator
         "Fingers",
         "Fist",
         "Stump",
-        "Paw"
+        "Paw",
+        "Nails",
+        "Fingernails"
     };  
 
     #endregion
@@ -38,7 +40,8 @@ public class ItemGenerator
         "Retina",
         "Eye",
         "Lens",
-        "Sclera"
+        "Sclera",
+        "Gaze"
     };
     #endregion
 
@@ -48,7 +51,8 @@ public class ItemGenerator
         "Soul",
         "Heart",
         "Desire",
-        "Atrium"
+        "Atrium",
+        "Chest"
     };
     #endregion
 
@@ -68,7 +72,9 @@ public class ItemGenerator
         "Pale",
         "Eneel’s",
         "Madman’s",
-        "Depraved"
+        "Alien",
+        "Depraved",
+        "Dog's"
     };
     #endregion
 
@@ -121,13 +127,13 @@ public class ItemGenerator
         }
 
         // roll chance for additional prefix
-        if (hasPrefix == false && Random.Range(0,1) < additionalPrefixChance)
+        if (hasPrefix == false && Random.Range(0f, 1f) < additionalPrefixChance)
         {
             hasPrefix = true;
             attributeBonusForNextItem++;
         }
         // roll chance for additional suffix
-        else if (hasSuffix == false && Random.Range(0, 1) < additionalSuffixChance)
+        else if (hasSuffix == false && Random.Range(0f, 1f) < additionalSuffixChance)
         {
             hasSuffix = true;
             attributeBonusForNextItem++;
@@ -219,9 +225,65 @@ public class ItemGenerator
         return "BOI";
     }
 
+    public void SetItemStats(Item itemToBoost)
+    {
+        for (int i = attributeBonusForNextItem*2 + Random.Range(0, 3); i > 0; i--)
+        {
+            // roll chance for each stat to be increased
+            int statRoll = Random.Range(0, 3);
+
+            // increase WRATH
+            if (statRoll == 0)
+            {
+                itemToBoost.wrath++;
+            }
+            // increase PRIDE
+            else if (statRoll == 1)
+            {
+                itemToBoost.pride++;
+            }
+            // increase LUST
+            else if (statRoll == 2)
+            {
+                itemToBoost.lust++;
+            }
+        }
+        SetItemEffectDescription(itemToBoost);
+    }
+
+    private void SetItemEffectDescription(Item itemToDescribe)
+    {
+        string itemDescription = "";
+        bool hasWrath = false;
+        bool hasPride = false;
+
+        if (itemToDescribe.wrath > 0)
+        {
+            itemDescription = "+ " + itemToDescribe.wrath + " wrath";
+            hasWrath = true;
+        }
+        if (itemToDescribe.pride > 0)
+        {
+            if (hasWrath)
+                itemDescription = itemDescription + '\n' + "+ " + itemToDescribe.pride + " pride";
+            else
+                itemDescription = "+ " + itemToDescribe.pride + " pride";
+            hasPride = true;
+        }
+        if (itemToDescribe.lust > 0)
+        {
+            if (hasWrath || hasPride)
+                itemDescription = itemDescription + '\n' + "+ " + itemToDescribe.lust + " lust";
+            else
+                itemDescription = "+ " + itemToDescribe.lust + " lust";
+        }
+        itemToDescribe.effectDescription = itemDescription;
+
+    }
+
     private bool GetRandomBool()
     {
-        if (Random.Range(0,1) > 0.49f)
+        if (Random.Range(0f,1f) > 0.49f)
         {
             return true;
         }
