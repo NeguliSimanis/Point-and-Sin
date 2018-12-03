@@ -26,7 +26,8 @@ public class ItemGenerator
         "Stump",
         "Paw",
         "Nails",
-        "Fingernails"
+        "Fingernails",
+        "Clasp"
     };  
 
     #endregion
@@ -74,7 +75,9 @@ public class ItemGenerator
         "Madman’s",
         "Alien",
         "Depraved",
-        "Dog's"
+        "Dog's",
+        "Putrid",
+        "Pulsating"
     };
     #endregion
 
@@ -105,7 +108,9 @@ public class ItemGenerator
         "of Love",
         "of Titans",
         "of Passion",
-        "of Rage"
+        "of Rage",
+        "of the Spider",
+        "of Torment"
     };
     #endregion
     #endregion
