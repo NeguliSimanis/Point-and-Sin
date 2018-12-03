@@ -91,6 +91,7 @@ public class Item : MonoBehaviour
 
         if (isVictoryItem)
         {
+            PlayerData.current.isBrutalUnlocked = true;
             playerInventory.gameObject.GetComponent<PlayerController>().WinGame();
         }
     }

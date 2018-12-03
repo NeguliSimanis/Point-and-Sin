@@ -14,7 +14,6 @@ public class ItemPickupArea : MonoBehaviour
     {
         if (attemptPickUpInThisScript)
         {
-            Debug.Log("attempted");
             item.AttemptPickUp();
             item.PlayPickUpSFX();
         }

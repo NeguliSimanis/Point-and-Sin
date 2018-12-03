@@ -377,12 +377,14 @@ public class EnemyController : MonoBehaviour {
 
     void ShowBossHPBar()
     {
-        bossLifeBarObject.SetActive(true); 
+        if (!PlayerData.current.isPlayingBrutalMode)
+            bossLifeBarObject.SetActive(true); 
     }
 
     void UpdateBossHPBar()
     {
-        bossLifeBar.fillAmount = (float)currentHP / (float)maxHP;
+        if (!PlayerData.current.isPlayingBrutalMode)
+            bossLifeBar.fillAmount = (float)currentHP / (float)maxHP;
     }
 
     void PatrolArea()
@@ -493,7 +495,7 @@ public class EnemyController : MonoBehaviour {
         {
             RespawnAsPlayerMinion();
         }
-        Debug.Log(PlayerData.current.enemiesKilled + " enemies killed");
+       // Debug.Log(PlayerData.current.enemiesKilled + " enemies killed");
         Destroy(gameObject);
     }
 

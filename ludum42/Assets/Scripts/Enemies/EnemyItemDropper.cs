@@ -28,7 +28,7 @@ public class EnemyItemDropper : MonoBehaviour
         // check chance that item will actually drop
         if (Random.Range(0f, 1f) > PlayerData.current.itemDropRate)
         {
-            Debug.Log("item not dropped");
+            //Debug.Log("item not dropped");
             return;
         }
 
@@ -38,19 +38,19 @@ public class EnemyItemDropper : MonoBehaviour
         if (Random.Range(0, PlayerData.current.armDropRate + PlayerData.current.eyeDropRate + PlayerData.current.heartDropRate) >
             PlayerData.current.armDropRate + PlayerData.current.eyeDropRate)
         {
-            Debug.Log("Dropping heart");
+            //Debug.Log("Dropping heart");
         }
         //
         else if (Random.Range(0, PlayerData.current.armDropRate + PlayerData.current.eyeDropRate + PlayerData.current.heartDropRate) >
             PlayerData.current.armDropRate)
         {
-            Debug.Log("Dropping eye");
+            //Debug.Log("Dropping eye");
             itemToDrop = eye;
         }
         //
         else
         {
-            Debug.Log("Dropping arm");
+           // Debug.Log("Dropping arm");
             itemToDrop = hand;
         }
         

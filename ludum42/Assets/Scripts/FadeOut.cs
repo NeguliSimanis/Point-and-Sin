@@ -17,7 +17,6 @@ public class FadeOut : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("HEY");
         StartCoroutine("FadeOutImage");
         StartCoroutine("FadeOutText");
     }
