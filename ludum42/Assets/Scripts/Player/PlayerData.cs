@@ -6,6 +6,11 @@ public class PlayerData
 {
     public static PlayerData current;
 
+    #region GAME MODE
+    public bool isBrutalUnlocked = false;
+    public bool isPlayingBrutalMode = false;
+    #endregion
+
     #region ITEM DROPRATES
     public float itemDropRate = 0.4f;       // chance of finding an item from a kill
     public float armDropRate = 2f;          // chance of finding an arm as compared to other items

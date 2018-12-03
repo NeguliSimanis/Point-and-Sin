@@ -5,6 +5,9 @@ using UnityEngine;
 public class EnemyItemDropper : MonoBehaviour
 {
     [SerializeField]
+    GameObject victoryItem;
+
+    [SerializeField]
     GameObject eye;
 
     [SerializeField]
@@ -12,6 +15,13 @@ public class EnemyItemDropper : MonoBehaviour
 
     [SerializeField]
     GameObject heart;
+
+    public void DropVictoryItem()
+    {
+        GameObject drop = Instantiate(victoryItem);
+        drop.GetComponent<Item>().isVictoryItem = true;
+        drop.transform.position = gameObject.transform.position;
+    }
 
     public void DropItem()
     {

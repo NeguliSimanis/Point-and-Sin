@@ -22,6 +22,7 @@ public class Item : MonoBehaviour
     #region ITEM PROPERTIES
     static int largestItemID = 0; // used only when generating item ID
     int itemID;
+    public bool isVictoryItem = false; // pick up this item to win the game
     public string itemName;
     public int wrath = 0;
     public int pride = 0;
@@ -69,7 +70,7 @@ public class Item : MonoBehaviour
 
         // get stats
         ItemGenerator.current.SetItemStats(this);
-    }
+    }   
 
 
     public void AttemptPickUp()
@@ -87,6 +88,11 @@ public class Item : MonoBehaviour
         currentState = ItemState.InBackpack;
         playerInventory.AddItemToBackpack(this);
         DisableChildrenAndColliders();
+
+        if (isVictoryItem)
+        {
+            playerInventory.gameObject.GetComponent<PlayerController>().WinGame();
+        }
     }
 
     /// <summary>

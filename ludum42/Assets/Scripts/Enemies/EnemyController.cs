@@ -464,8 +464,7 @@ public class EnemyController : MonoBehaviour {
             // check player victory condition
             if (type == EnemyType.SkullBoss)
             {
-                PlayerData.current.sinTreePoints++;
-                playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
+                HandleBossDefeat();
             }
 
             // play death audio
@@ -535,6 +534,16 @@ public class EnemyController : MonoBehaviour {
     public EnemyController.EnemyType GetEnemyType()
     {
         return type;
+    }
+
+    private void HandleBossDefeat()
+    { 
+        if (!PlayerData.current.isPlayingBrutalMode)
+        {
+            PlayerData.current.sinTreePoints++;
+            gameObject.GetComponent<EnemyItemDropper>().DropVictoryItem();
+            //playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
+        }
     }
 
 }
