@@ -23,18 +23,19 @@ public class Item : MonoBehaviour
     static int largestItemID = 0; // used only when generating item ID
     int itemID;
     public bool isVictoryItem = false; // pick up this item to win the game
+    public bool isUniqueItem = false;
     public string itemName;
     public int wrath = 0;
     public int pride = 0;
     public int lust = 0;
     public string effectDescription; // how big is the wrath, pride, lust bonus
+    public string flavorText;
     public SpriteRenderer itemImage;
     #endregion
 
     #region AUDIO
     AudioSource audioSource;
-    [SerializeField]
-    AudioClip itemInteractSFX;
+    public AudioClip itemInteractSFX;
     float sfxVolume = 0.6f;
     #endregion
 
@@ -54,7 +55,7 @@ public class Item : MonoBehaviour
         audioSource.PlayOneShot(itemInteractSFX, sfxVolume);
     }
 
-    private void GenerateItemProperties()
+    public void GenerateItemProperties()
     {
         // get image
         itemImage = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
@@ -65,11 +66,19 @@ public class Item : MonoBehaviour
             ItemGenerator.current = new ItemGenerator();
         }
 
-        // get name
-        itemName = ItemGenerator.current.GetItemName(itemID, itemType);
+        if (!isUniqueItem)
+        {
+            // get name
+            itemName = ItemGenerator.current.GetItemName(itemID, itemType);
 
-        // get stats
-        ItemGenerator.current.SetItemStats(this);
+            // get stats
+            ItemGenerator.current.SetItemStats(this);
+        }
+        else
+        {
+            // Unique item properties are set in UniqueItemGenerator
+            ItemGenerator.current.SetSpecialItemProperties(this);
+        }
     }   
 
 

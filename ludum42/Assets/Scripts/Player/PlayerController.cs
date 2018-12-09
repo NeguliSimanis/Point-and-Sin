@@ -88,6 +88,9 @@ public class PlayerController : MonoBehaviour
     GameObject skillPointNotification; // active if player has unspent skillpoints
     [SerializeField]
     GameObject victoryScreen;
+    [SerializeField]
+    Text brutalVictoryText;
+    string brutalVictoryString = "IN BRUTAL MODE";
     #endregion
 
     #region ANIMATION
@@ -176,6 +179,12 @@ public class PlayerController : MonoBehaviour
         PlayerData.current.isGamePaused = true;
         victoryScreen.SetActive(true);
         victoryScreen.GetComponent<AudioSource>().enabled = true;
+
+        if (PlayerData.current.isPlayingBrutalMode)
+        {
+            brutalVictoryText.text = brutalVictoryString;
+        }
+
         StartCoroutine(Win());
     }
 

@@ -28,7 +28,7 @@ public class DetectPlayerInteraction : MonoBehaviour
     private void OnMouseOver()
     {
         // boss hp bar is triggered by being noticed by the boss instead
-        if (enemyController.GetEnemyType() != EnemyController.EnemyType.SkullBoss)
+        if (!enemyController.isFinalBoss || PlayerData.current.isPlayingBrutalMode)
         {
             // don't display player minion hp bars
             if (!enemyController.isPlayerMinion)
@@ -41,7 +41,7 @@ public class DetectPlayerInteraction : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (enemyController.GetEnemyType() != EnemyController.EnemyType.SkullBoss)
+        if (!enemyController.isFinalBoss || PlayerData.current.isPlayingBrutalMode)
             playerController.isMouseOverEnemy = false;
     }
 }

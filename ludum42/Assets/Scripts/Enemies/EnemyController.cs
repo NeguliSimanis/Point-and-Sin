@@ -22,8 +22,9 @@ public class EnemyController : MonoBehaviour {
 
     #region DATA variables
     [SerializeField] EnemyType type;
-
-    [SerializeField] float moveSpeed = 0.23f;
+    public bool isFinalBoss = false;
+  
+    public float moveSpeed = 0.23f;
     public int enemyID = 0;
     [SerializeField]
     private int expDrop = 40; // how much exp is gained by killing this mofo
@@ -31,7 +32,7 @@ public class EnemyController : MonoBehaviour {
     public int currentHP = 12;
 
     [SerializeField] float attackCooldown;      // deals damage to player once per this interval
-    [SerializeField] int damagePerAttack;  // how much damage is dealt in one attack
+    public int damagePerAttack;  // how much damage is dealt in one attack
     #endregion
 
     #region ENEMY PROJECTILES
@@ -53,8 +54,8 @@ public class EnemyController : MonoBehaviour {
     #endregion
     
     #region SIGHT
-    [SerializeField]
-    float sightRadius = 3f;              // if player moves closer than this, he will be noticed    
+    
+    public float sightRadius = 3f;              // if player moves closer than this, he will be noticed    
     bool isPlayerVisible = false;        // if true, move towards player to attack. If false, patrol the area
     bool isNearPlayer = false;           // if true, stop to attack the player
     bool isPlayerInProjectileRange = false;
@@ -70,6 +71,8 @@ public class EnemyController : MonoBehaviour {
 
     #region DEATH
     DamageSource fatalBlowSource; // what damage caused death
+    [SerializeField]
+    GameObject victoryItem;
     #endregion
 
     #region MOVEMENT and TARGETTING 
@@ -111,6 +114,18 @@ public class EnemyController : MonoBehaviour {
     [SerializeField] Image bossLifeBar;
     [SerializeField] GameObject bossLifeBarObject;
     #endregion
+
+    public string GetEnemyName()
+    {
+        if (type == EnemyType.SkullBoss)
+        {
+            return "LESSER SKULL CLERIC";
+        }
+        else
+        {
+            return "SUCCUBUS";
+        }
+    }
 
     private void Start()
     {
@@ -539,12 +554,18 @@ public class EnemyController : MonoBehaviour {
     }
 
     private void HandleBossDefeat()
-    { 
+    {
+        if (isFinalBoss)
+            victoryItem.gameObject.SetActive(true);
         if (!PlayerData.current.isPlayingBrutalMode)
         {
             PlayerData.current.sinTreePoints++;
-            gameObject.GetComponent<EnemyItemDropper>().DropVictoryItem();
+            //gameObject.GetComponent<EnemyItemDropper>().DropVictoryItem();
             //playerTransform.gameObject.GetComponent<PlayerController>().WinGame();
+        }
+        else
+        {   
+            gameObject.GetComponent<EnemyItemDropper>().RollChanceForSpecialItem();
         }
     }
 

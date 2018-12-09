@@ -19,7 +19,9 @@ public class InventorySlot : MonoBehaviour
     [SerializeField]
     ItemInfoPanel itemInfoPanel;
     [SerializeField]
-    CharacterPanel characterPanel;  
+    CharacterPanel characterPanel;
+    [SerializeField]
+    GameObject itemFlairTextPanel;
 
     #region HIGHLIGHTING
     Color highlightColor = Color.yellow;
@@ -78,6 +80,9 @@ public class InventorySlot : MonoBehaviour
         // hide additional window with item info
         itemInfoPanel.DisplayItemInfo(itemInSlot, false);
 
+        // hide flair text panel
+        itemFlairTextPanel.gameObject.SetActive(false);
+
         // removes the positive effect of the item when it is unequipped
         if (!isBackpackSlot)
         {
@@ -101,6 +106,7 @@ public class InventorySlot : MonoBehaviour
         if (isItemUnequipped)
         {
             itemInfoPanel.DisplayItemInfo(itemInSlot, false);
+            itemFlairTextPanel.gameObject.SetActive(false);
         }
     }
 
@@ -113,14 +119,24 @@ public class InventorySlot : MonoBehaviour
     private void OnMouseOver()
     {
         if (isFilled)
+        {
             itemInfoPanel.DisplayItemInfo(itemInSlot);
+            if (itemInSlot.isUniqueItem)
+            {
+                itemFlairTextPanel.SetActive(true);
+                itemFlairTextPanel.GetComponent<SetUIText>().SetItemFlavorText(itemInSlot.flavorText);
+            }
+        }
         slotBackgroundImage.color = highlightColor;
     }
 
     private void OnMouseExit()
     {
         if (isFilled)
-            itemInfoPanel.DisplayItemInfo(itemInSlot,false);
+        {
+            itemInfoPanel.DisplayItemInfo(itemInSlot, false);
+            itemFlairTextPanel.SetActive(false);
+        }
         slotBackgroundImage.color = defaultColor;
     }
 }

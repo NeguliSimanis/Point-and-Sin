@@ -12,6 +12,18 @@ public class ItemGenerator
     float additionalPrefixChance = 0.04f;
     float additionalSuffixChance = 0.03f;
 
+    #region special items
+    // Stored in uniqueItemProperties and generated in UniqueItemGenerator
+    /*string [] specialItemNames =
+    {
+        "Blood of the Virgin",
+        "Skull of the Reaper"
+    };
+    int specialItemWrath = 6;
+    int specialItemPride = 6;
+    int specialItemLust = 6;*/
+    #endregion
+
     #region NAME GENERATION
     #region ARM NAMES
     string[] armNames =
@@ -284,6 +296,11 @@ public class ItemGenerator
         }
         itemToDescribe.effectDescription = itemDescription;
 
+    }
+
+    public void SetSpecialItemProperties(Item specialItem)
+    {
+        SetItemEffectDescription(specialItem);
     }
 
     private bool GetRandomBool()

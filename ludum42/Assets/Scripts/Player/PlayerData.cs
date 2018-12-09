@@ -12,10 +12,14 @@ public class PlayerData
     #endregion
 
     #region ITEM DROPRATES
-    public float itemDropRate = 0.4f;       // chance of finding an item from a kill
-    public float armDropRate = 2f;          // chance of finding an arm as compared to other items
+    public float itemDropRate = 0.4f;           // chance of finding an item from a kill
+    public float armDropRate = 2f;              // chance of finding an arm as compared to other items
     public float eyeDropRate = 1f;
     public float heartDropRate = 0.5f;
+
+    // UNIQUE ITEMS
+    public float uniqueItemDropRate = 0.06f;    // chance to drop unique item in brutal mode
+    // other unique properties are set in UniqueItemProperties.current
     #endregion
 
     #region STATS

@@ -23,6 +23,19 @@ public class CharacterPanel : MonoBehaviour {
     [SerializeField] Button addLustButton;
     [SerializeField] Button addSlothButton;
 
+    #region SIN EFFECT
+    [Header("Sin effect")]
+    [SerializeField]
+    Text wrathEffectText;
+
+    [SerializeField]
+    Text prideEffectText;
+
+    [SerializeField]
+    Text lustEffectText;
+    #endregion
+
+
     #region SIN TREE
     int activeSkillID = 0;
     SinTreeSkill activeSinTreeSkill;
@@ -211,5 +224,15 @@ public class CharacterPanel : MonoBehaviour {
         pridePointsText.text = PlayerData.current.pride.ToString();
         lustPointsText.text = PlayerData.current.lust.ToString();
         slothPointsText.text = PlayerData.current.sloth.ToString();
+
+        UpdateSinEffectText();
+    }
+
+    void UpdateSinEffectText()
+    {
+        wrathEffectText.text = "MELEE DAMAGE: " + PlayerData.current.meleeDamage + "\nSPELL DAMAGE: " + PlayerData.current.fireballDamage + "\nSPELL COST: " + PlayerData.current.fireballManaCost;
+        prideEffectText.text = "MAX HEALTH:  " + PlayerData.current.maxLife + "\nMAX MANA: " + PlayerData.current.maxMana;
+        lustEffectText.text = "MANA REGEN:  " + PlayerData.current.manaRegenPerSecond + "/s\nMELEE CRIT CHANCE: " + PlayerData.current.meleeCritChance*100 + "%\nSPELL COOLDOWN: " + PlayerData.current.fireballCastCooldown +"s";
+
     }
 }

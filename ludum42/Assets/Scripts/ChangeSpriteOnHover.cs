@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class ChangeSpriteOnHover : MonoBehaviour
 {
-
-    [SerializeField]
-    Sprite spriteOnMouseOver;
+    public Sprite spriteOnMouseOver;
 
     SpriteRenderer spriteRenderer;
-    Sprite defaultSprite;
+    public Sprite defaultSprite;
 
     private void Start()
     {

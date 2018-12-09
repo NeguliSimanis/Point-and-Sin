@@ -33,6 +33,10 @@ public class EnemySpawnPoint : MonoBehaviour
     float brutalEnemyChance = 0.4f;
     int brutalEnemyHP = 20;
 
+    float enemyBrutalMoveSpeedBuffPerKill = 0.1f; // all enemies in brutal mode move faster by this amount
+    int enemyBrutalDamageBuffPerKill = 1;
+    float enemyBrutalSightBuff = 1.2f;
+
     private void OnBecameVisible()
     {
         isVisible = true;
@@ -48,14 +52,14 @@ public class EnemySpawnPoint : MonoBehaviour
     void Start()
     {
         Debug.Log("I am awake " + Time.time);
-        //StartCoroutine(BeginSpawnLoopAfterXSeconds());
-        if (!isVisible)
+        StartCoroutine(BeginSpawnLoopAfterXSeconds());
+       /* if (!isVisible)
         {
             SpawnEnemy();
-        }   
+        } */  
     }
 
-    /*private IEnumerator BeginSpawnLoopAfterXSeconds()
+    private IEnumerator BeginSpawnLoopAfterXSeconds()
     {
         yield return new WaitForSeconds(spawnCooldown);
         Debug.Log("first corouting is working " + Time.time);
@@ -68,7 +72,7 @@ public class EnemySpawnPoint : MonoBehaviour
         {
             SpawnEnemy();
         }
-    }*/
+    }
 
     void SpawnEnemy()
     {
@@ -91,14 +95,13 @@ public class EnemySpawnPoint : MonoBehaviour
                         EnemyController newEnemyController = newEnemy.GetComponent<EnemyController>();
                         newEnemyController.maxHP = brutalEnemyHP;
                         newEnemyController.currentHP = brutalEnemyHP;
+                        newEnemyController.isFinalBoss = false;
                     }
                 }
 
                 newEnemy = Instantiate(newEnemy, transform.position, transform.rotation);
-                EnemyController newEnemyControllerB = newEnemy.GetComponent<EnemyController>();
-                newEnemyControllerB.maxHP += totalSpawnedCount + spawnPointDifficulty;
-                newEnemyControllerB.currentHP += totalSpawnedCount + spawnPointDifficulty;
-                newEnemyControllerB.parentSpawnPoint = this;
+                BuffEnemy(newEnemy.GetComponent<EnemyController>());
+
 
                 Debug.Log("spawning enemy " + Time.time);
 
@@ -109,6 +112,26 @@ public class EnemySpawnPoint : MonoBehaviour
         }
         //Debug.Log("COROTINE called");
         StartCoroutine(SpawnCooldown());
+    }
+
+    /// <summary>
+    /// Increases enemy stats depending on the game mode and spawn difficulty
+    /// </summary>
+    private void BuffEnemy(EnemyController enemyToBuff)
+    {
+        // buff hp
+        enemyToBuff.maxHP += totalSpawnedCount + spawnPointDifficulty;
+        enemyToBuff.currentHP += totalSpawnedCount + spawnPointDifficulty;
+
+        //buff brutal stuff
+        if (PlayerData.current.isPlayingBrutalMode)
+        {
+            enemyToBuff.moveSpeed += totalSpawnedCount * enemyBrutalMoveSpeedBuffPerKill;
+            enemyToBuff.damagePerAttack += totalSpawnedCount * enemyBrutalDamageBuffPerKill;
+            enemyToBuff.sightRadius += enemyBrutalSightBuff;
+        }
+
+        enemyToBuff.parentSpawnPoint = this;
     }
 
     private IEnumerator SpawnCooldown()

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SetUIText : MonoBehaviour
 {
+    [SerializeField]
+    Text itemFlavorTextUI;
 
     string[] uiTexts =
     {
@@ -12,9 +14,13 @@ public class SetUIText : MonoBehaviour
         "ABANDON HOPE ALL YE WHO ENTER HERE"
     };
 
-	public void SetText(int textID)
+	public void SetIntroText(int textID)
     {
         gameObject.GetComponent<Text>().text = uiTexts[textID];
     }
 
+    public void SetItemFlavorText(string itemFlavorText)
+    {
+        itemFlavorTextUI.text = itemFlavorText;
+    }
 }

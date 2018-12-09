@@ -5,6 +5,9 @@ using UnityEngine;
 public class EnemyItemDropper : MonoBehaviour
 {
     [SerializeField]
+    GameObject specialItem;
+
+    [SerializeField]
     GameObject victoryItem;
 
     [SerializeField]
@@ -22,6 +25,25 @@ public class EnemyItemDropper : MonoBehaviour
         drop.GetComponent<Item>().isVictoryItem = true;
         drop.transform.position = gameObject.transform.position;
     }
+
+    /// <summary>
+    /// Roll chance to drop a special item (available only in brutal mode when killing minibosses)
+    /// If unlucky, roll a chance for regular item
+    /// </summary>
+    public void RollChanceForSpecialItem()
+    {
+        if (Random.Range(0f,1f) <= PlayerData.current.uniqueItemDropRate)
+        {
+            
+            GameObject drop = Instantiate(specialItem);
+            drop.transform.position = gameObject.transform.position;
+        }
+        else
+        {
+            DropItem();
+        }
+    }
+
 
     public void DropItem()
     {

@@ -40,8 +40,9 @@ GameObject:
   - component: {fileID: 4451217844810530}
   - component: {fileID: 114595631862962580}
   - component: {fileID: 82053277122557108}
+  - component: {fileID: 114922100152344812}
   m_Layer: 0
-  m_Name: Vial
+  m_Name: SpecialItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1867630640934584}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.07, y: 1.51, z: 0}
+  m_LocalPosition: {x: 1.161, y: 1.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4687771749741742}
@@ -209,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteOnMouseOver: {fileID: 21300000, guid: ec2f0222ccfdea3429a4e047c208a402, type: 3}
+  defaultSprite: {fileID: 0}
 --- !u!114 &114595631862962580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,13 +226,35 @@ MonoBehaviour:
   currentState: 0
   canBePickedUp: 0
   isVictoryItem: 0
+  isUniqueItem: 0
   itemName: 
   wrath: 0
   pride: 0
   lust: 0
   effectDescription: 
+  flavorText: 
   itemImage: {fileID: 212906011114814580}
   itemInteractSFX: {fileID: 8300000, guid: 85a5ad478136cbf4393ff86860b71b37, type: 3}
+--- !u!114 &114922100152344812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1867630640934584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fb106477e199974e934f19dbc7f1f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSprites:
+  - {fileID: 21300000, guid: 7c29e131c216ef94abdd7b3344a87e7c, type: 3}
+  - {fileID: 21300000, guid: f6f0c5ba5ed0293408eff0f0a6e5afb4, type: 3}
+  itemHighlightedSprites:
+  - {fileID: 21300000, guid: ec2f0222ccfdea3429a4e047c208a402, type: 3}
+  - {fileID: 21300000, guid: f6f0c5ba5ed0293408eff0f0a6e5afb4, type: 3}
+  itemSFXs:
+  - {fileID: 8300000, guid: 85a5ad478136cbf4393ff86860b71b37, type: 3}
+  - {fileID: 8300000, guid: 9a46ff9c45aa6014b9d2774d7a86e81f, type: 3}
 --- !u!212 &212906011114814580
 SpriteRenderer:
   m_ObjectHideFlags: 1

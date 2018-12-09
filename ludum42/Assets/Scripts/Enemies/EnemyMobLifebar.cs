@@ -8,6 +8,7 @@ public class EnemyMobLifebar : MonoBehaviour
     [SerializeField] GameObject enemyLifebar;
     [SerializeField] Image lifebarImage;
     [SerializeField] PlayerController playerController;
+    [SerializeField] Text enemyName;
     
     bool isLifebarActive = false;
     public EnemyController currentEnemyController;
@@ -58,6 +59,10 @@ public class EnemyMobLifebar : MonoBehaviour
         {
             currentEnemyController = playerController.lastHoveredEnemy;
             UpdateLifebarFillAmount();
+            if (enemyName.text != currentEnemyController.GetEnemyName())
+            {
+                enemyName.text = currentEnemyController.GetEnemyName();
+            }
             if (currentEnemyController.currentHP <= 0)
             {
                 HideLifebar();
