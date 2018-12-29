@@ -8,20 +8,27 @@ public class Fireball : MonoBehaviour {
     private float fireBallDuration = 0.4f;
     private float fireBallDeathTime;
     private float fireBallMoveSpeed = 2f;
-    private float fireBallSFXVolume = 1.2f;
-    private float fireBallExplodeSFXVolume = 1.5f;
+
+    #region CURRENT STATE
     bool fireBallStarted = false;
     bool flyingRight;
     bool isExploding = false;
+    #endregion
 
+    #region EXPLOSION
     float explosionDuration;
     [SerializeField] AnimationClip explosionAnimation;
     [SerializeField] Animator animator;
+    #endregion
 
-    // AUDIO
+    #region AUDIO
+    private float fireBallSFXVolume = 1.2f;
+    private float fireBallExplodeSFXVolume = 1.5f;
+
     [SerializeField] AudioSource audioControl;
     [SerializeField] AudioClip fireballSFX;
     [SerializeField] AudioClip explosionSFX;
+    #endregion
 
     private void Start()
     {

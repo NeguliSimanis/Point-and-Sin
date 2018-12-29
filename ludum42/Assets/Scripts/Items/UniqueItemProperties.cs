@@ -8,8 +8,11 @@ public class UniqueItemProperties
 
     public UniqueItem[] uniqueItems =
     {
-        new UniqueItem("Blood of the Virgin", ItemType.Heart, 2f, 6, 6, 6, "Innocence trapped in glass"),
-        new UniqueItem("Skull of the Reaper", ItemType.Eye, 9f, 13, 6, 0, "In this world, only two things are inevitable" ),
+        // Blood of the Virgin - dropchance = 2x (16/12/2018) 
+        new UniqueItem("Blood of the Virgin", ItemType.Heart, 2f, 6, 6, 6, "Innocence trapped in glass"),  
+
+        // Skull of the Reaper - dropchance = 1x (16/12/2018) 
+        new UniqueItem("Skull of the Reaper", ItemType.Eye, 1f, 13, 6, 0, "In this world,\nonly two things are inevitable" ),
     };
     /*int itemID;
     string name;

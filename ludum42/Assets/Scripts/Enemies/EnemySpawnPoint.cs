@@ -51,7 +51,7 @@ public class EnemySpawnPoint : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("I am awake " + Time.time);
+        //Debug.Log("I am awake " + Time.time);
         StartCoroutine(BeginSpawnLoopAfterXSeconds());
        /* if (!isVisible)
         {

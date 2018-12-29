@@ -248,10 +248,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprites:
   - {fileID: 21300000, guid: 7c29e131c216ef94abdd7b3344a87e7c, type: 3}
-  - {fileID: 21300000, guid: f6f0c5ba5ed0293408eff0f0a6e5afb4, type: 3}
+  - {fileID: 21300000, guid: 3490f704f490e384e8b5eb55af6214bc, type: 3}
   itemHighlightedSprites:
   - {fileID: 21300000, guid: ec2f0222ccfdea3429a4e047c208a402, type: 3}
-  - {fileID: 21300000, guid: f6f0c5ba5ed0293408eff0f0a6e5afb4, type: 3}
+  - {fileID: 21300000, guid: f5a9708a8f55d6a4fbf6eb785c6b64c1, type: 3}
   itemSFXs:
   - {fileID: 8300000, guid: 85a5ad478136cbf4393ff86860b71b37, type: 3}
   - {fileID: 8300000, guid: 9a46ff9c45aa6014b9d2774d7a86e81f, type: 3}
