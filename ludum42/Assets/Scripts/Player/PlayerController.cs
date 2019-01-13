@@ -22,8 +22,6 @@ public class PlayerController : MonoBehaviour
     private bool isWaitingToMove = false;           // true when movement is locked (e.g. casting spell) and has to remember the last clicked position where you shall move later
     #endregion
 
-    private bool hasRightClickedRecently = false;             // True if right click more recent than left click. Used to reset isWaitingToMove
-
     public bool isNearEnemy = false;              // used to check if player can melee attack
     public int nearEnemyID = -1;
     public int targetEnemyID = -2;
@@ -41,13 +39,18 @@ public class PlayerController : MonoBehaviour
     private int lastKnownPlayerLevel;
     #endregion
 
+    #region PICKING UP ITEMS
+    public bool isWalkingToPickUpItem = false;
+    public Item itemAwaitingPickup;
+    public float lastItemPickupCommandTime;
+    #endregion
+
     #region PLAYER INPUT & CONTROLS
-
-    //Input switchActiveSkillKey = Input.GetKeyDown(KeyCode.Tab);
-
-    // Mouse input
+    /// MOUSE INPUT
+    public float lastClickedTime; // used for correctly managing picking up items        
+    private bool hasRightClickedRecently = false; // True if right click more recent than left click. Used to reset isWaitingToMove  
     public bool isClickingOnUI = false; // don't allow movement when clicking on certain UI elements 
-    public bool isMouseOverEnemy = false; // used by CursorController.cs to detect whether to animate cursor. NB! DOESN'T WORK ON SKULLBOSSS
+    public bool isMouseOverEnemy = false; // used by CursorController.cs to detect whether to animate cursor. NB! DOESN'T WORK ON SKULLBOSSS              
     #endregion
 
     #region MOVEMENT
@@ -127,6 +130,7 @@ public class PlayerController : MonoBehaviour
     GameObject fireBall;
     private float spellcastEndTime;          // when casting animation is over
     public float fireballCooldownStartTime; // when you can cast fireball again
+    private Vector2 fireballTargetPosition; 
     #endregion
 
     #region AUDIO
@@ -273,6 +277,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// For using active ability such as fireball or sword attack
+    /// </summary>
     void ManageRightMouseInput()
     {
         // SPELLCASTING / ACTIVE ABILITY
@@ -285,6 +292,7 @@ public class PlayerController : MonoBehaviour
 
             if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.SpellFireball)
             {
+                GetFireballTargetPosition();
                 StartSpellcasting();
             }
             else if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.MeleeSword)
@@ -323,6 +331,7 @@ public class PlayerController : MonoBehaviour
     void ManageLeftMouseInput()
     {
         // WALKING
+        // walking - player holds mouse key
         if (Input.GetMouseButton(0))
         {
             hasRightClickedRecently = false;
@@ -334,7 +343,7 @@ public class PlayerController : MonoBehaviour
                 CheckIfPlayerIsWalking();
             }
         }
-        // walking - player is holding key down
+        // walking - player clicks
         if (Input.GetMouseButtonDown(0))
         {
             // only consider it a mouse press if player has held the key down for minMousePressTime seconds
@@ -348,6 +357,8 @@ public class PlayerController : MonoBehaviour
                 isMousePress = true;
                 CheckIfPlayerIsWalking();
             }
+            // store last clicked time
+            lastClickedTime = Time.time;
         }
 
         // resetting mouse press to move
@@ -420,7 +431,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(spellcastAnimation.length);
         GameObject projectile = Instantiate(fireBall, fireballExitPoint.position, fireballExitPoint.rotation, fireballExitPoint);
-        projectile.GetComponent<Fireball>().StartFireball(isFacingRight);
+        projectile.GetComponent<Fireball>().StartFireball(isFacingRight, fireballTargetPosition);
         projectile.transform.parent = null;
     }
 
@@ -551,6 +562,12 @@ public class PlayerController : MonoBehaviour
             else
                 fireballCooldownBar.color = Color.white;
         }*/
+    }
+
+    void GetFireballTargetPosition()
+    {
+        fireballTargetPosition = Input.mousePosition;
+        fireballTargetPosition = Camera.main.ScreenToWorldPoint(fireballTargetPosition);
     }
 
     void GetTargetPositionAndDirection()

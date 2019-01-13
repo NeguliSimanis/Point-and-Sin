@@ -84,10 +84,17 @@ public class Item : MonoBehaviour
 
     public void AttemptPickUp()
     {
+        // item is on ground and player is standing near it
         if (currentState == ItemState.OnGround && canBePickedUp)
         {
             AddToBackpack();
+            PlayPickUpSFX();
         }
+        /*// item is on ground, but player is far away
+        else if (currentState == ItemState.OnGround)
+        {
+            
+        }*/
     }
 
     private void AddToBackpack()

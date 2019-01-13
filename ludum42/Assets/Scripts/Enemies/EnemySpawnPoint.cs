@@ -62,7 +62,7 @@ public class EnemySpawnPoint : MonoBehaviour
     private IEnumerator BeginSpawnLoopAfterXSeconds()
     {
         yield return new WaitForSeconds(spawnCooldown);
-        Debug.Log("first corouting is working " + Time.time);
+        //Debug.Log("first corouting is working " + Time.time);
         BeginSpawnLoop();
     }
 
@@ -103,7 +103,7 @@ public class EnemySpawnPoint : MonoBehaviour
                 BuffEnemy(newEnemy.GetComponent<EnemyController>());
 
 
-                Debug.Log("spawning enemy " + Time.time);
+                //Debug.Log("spawning enemy " + Time.time);
 
                 // update stats
                 aliveEnemyCount++;
