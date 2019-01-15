@@ -9,3 +9,6 @@
 
 ## Documentation
 - tasks: https://trello.com/b/GeNTAdMM/point-sin
+
+## Useful Links
+- public prototype: https://neguli.itch.io/point-sin
