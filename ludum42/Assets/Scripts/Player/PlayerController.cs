@@ -13,22 +13,18 @@ public class PlayerController : MonoBehaviour
 
     #region MOVEMENT STATE
     private bool isFacingRight = true;
-    private bool isWalking = false;
-    private bool isWalkingInObstacle = false;     // detected collision with background - player has to stop walking
-    private bool isIdleA = false;                 // is in idle animation state A
-    private bool preparingIdleAnimationA = false; // true if cooldown for idle animation A is started
+    public bool isWalking = false;
+    private bool isWalkingInObstacle = false;       // detected collision with background - player has to stop walking
+    private bool isIdleA = false;                   // is in idle animation state A
+    private bool preparingIdleAnimationA = false;   // true if cooldown for idle animation A is started
     private bool preparingIdleAnimationB = false;
     private bool isMovementLocked = false;          // happens when player atack anim plays
-    private bool isWaitingToMove = false;           // true when movement is locked (e.g. casting spell) and has to remember the last clicked position where you shall move later
+    public bool isWaitingToMove = false;            // true when movement is locked (e.g. casting spell) and has to remember the last clicked position where you shall move later
     #endregion
 
     public bool isNearEnemy = false;              // used to check if player can melee attack
     public int nearEnemyID = -1;
     public int targetEnemyID = -2;
-
-    //public float attackCooldownStartTime;
-    private bool isAttacking = false;
-    private bool isAttackCooldown = false;
 
     private bool isRegeneratingMana = false;
     public bool isCastingSpell = false;
@@ -60,7 +56,7 @@ public class PlayerController : MonoBehaviour
     bool isMousePress = false;
 
     public Vector2 targetPosition;
-    private Vector2 dirNormalized;
+    public Vector2 dirNormalized;
     #endregion
 
     #region COMPONENTS
@@ -120,6 +116,10 @@ public class PlayerController : MonoBehaviour
     //private EnemyController currentEnemy;
     public EnemyController lastHoveredEnemy; // last enemy that you hovered mouse over
     public List<EnemyController> enemiesInMeleeRange = new List<EnemyController>(); // all enemies that may get damaged if you perform a melee attack
+
+    private bool isAttacking = false;
+    private bool isAttackCooldown = false;
+
     #endregion
 
     #region SPELLCASTING
@@ -219,7 +219,6 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
         ListenForDamageTaken();
         ListenForPlayerDefeat();
         ListenToLVChange();
@@ -232,15 +231,6 @@ public class PlayerController : MonoBehaviour
         ManageLeftMouseInput();         // for walking
         ManageRightMouseInput();        // for active ability
 
-        if (isWaitingToMove)
-        {
-            CheckIfPlayerIsWalking();
-        }
-        if (isWalking)
-        {
-            CheckIfPlayerIsWalking();
-            MovePlayer();
-        }
         CheckWherePlayerIsFacing();
         // END MELEE ATTACK STATE
         if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length)
@@ -282,7 +272,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void ManageRightMouseInput()
     {
-        // SPELLCASTING / ACTIVE ABILITY
+        // RIGHT CLICK
         if (Input.GetMouseButtonDown(1))
         {
             hasRightClickedRecently = true;
@@ -290,15 +280,27 @@ public class PlayerController : MonoBehaviour
             GetTargetPositionAndDirection();
             CheckWherePlayerIsFacing();
 
-            if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.SpellFireball)
-            {
-                GetFireballTargetPosition();
-                StartSpellcasting();
-            }
-            else if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.MeleeSword)
-            {
-                StartMeleeSwordAttacking();
-            }
+            UseActiveAbility();
+        }
+        // RIGHT MOUSE BUTTON PRESS
+        else if (Input.GetMouseButton(1))
+        {
+            UseActiveAbility();
+        }
+    }
+
+    void UseActiveAbility()
+    {
+        // cast fireball
+        if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.SpellFireball)
+        {
+            GetFireballTargetPosition();
+            StartSpellcasting();
+        }
+        // melee attack
+        else if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.MeleeSword)
+        {
+            StartMeleeSwordAttacking();
         }
     }
 
@@ -328,6 +330,9 @@ public class PlayerController : MonoBehaviour
         playerActiveAbilityManager.SwitchActiveAbility();
     }
 
+    /// <summary>
+    /// Moves the main character if the player has clicked or is holding left mouse
+    /// </summary>
     void ManageLeftMouseInput()
     {
         // WALKING
@@ -335,11 +340,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             hasRightClickedRecently = false;
-            GetTargetPositionAndDirection();
+            
 
             // Move only if the cursor is not above UI element
             if (!EventSystem.current.IsPointerOverGameObject())
             {
+                GetTargetPositionAndDirection();
                 CheckIfPlayerIsWalking();
             }
         }
@@ -451,7 +457,7 @@ public class PlayerController : MonoBehaviour
 
     void LateUpdate()
     {
-        // ANIMATION
+        // ANIMATIONEventSystem.current.IsPointerOverGameObject
         playerAnimator.SetBool("isWalking", isWalking);
 
         if (isWalking)
@@ -588,10 +594,22 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void StartMeleeSwordAttacking()
     {
+        // Check if the sword attack is not on cooldown
+        if (Time.time <
+            meleeAttackAnimStartTime + PlayerData.current.meleeAttackCooldown + meleeAttackAnimation.length)
+        {
+            isAttackCooldown = true;
+        }
+        else
+        {
+            isAttackCooldown = false;
+        }
         if (isAttacking || isAttackCooldown)
         {
             return;
         }
+
+        // Start attack
         hasMeleeAttackedAtLeastOnce = true;
         PlayMeleeSwordAttackAnimation();
         if (isNearEnemy)
@@ -637,6 +655,7 @@ public class PlayerController : MonoBehaviour
 
     public void CheckIfPlayerIsWalking()
     {
+        // Player near target position - stop walking
         if (Vector2.Distance(targetPosition, transform.position) <= 0.02f)
         {
             isWalking = false;
@@ -694,8 +713,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void MovePlayer()
+    /*private void MovePlayer()
     {
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * PlayerData.current.moveSpeed * Time.deltaTime;
-    }
+    }*/
 }

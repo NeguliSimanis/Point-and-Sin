@@ -87,20 +87,24 @@ public class CursorController : MonoBehaviour
         }
     }
 
-    private void CheckMouseHoverOverEnemy()
+    /*private void CheckMouseHoverOverEnemy()
     {
         if (playerController.isMouseOverEnemy)
         {
             //Debug.Log("Mouse over enemy!");
         }
-    }
+    }*/
 
     private void Update()
     {
+        // update cursor position
         Vector2 cursorPos = new Vector2 (Camera.main.ScreenToWorldPoint(Input.mousePosition).x + cursorXOffset,
             Camera.main.ScreenToWorldPoint(Input.mousePosition).y + cursorYOffset);
         transform.position = cursorPos;
-        CheckMouseHoverOverEnemy();
+
+        /// CheckMouseHoverOverEnemy();
+
+        // change cursor animations
         ManageLeftClick();
         ManageSpellClick();
         ManageMouseInput();
