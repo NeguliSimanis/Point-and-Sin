@@ -32,9 +32,11 @@ public class EnemyItemDropper : MonoBehaviour
     /// </summary>
     public void RollChanceForSpecialItem()
     {
+        /*
         if (Random.Range(0f,1f) <= PlayerData.current.uniqueItemDropRate)
-        {
-            
+        {*/
+        if (true)
+        {             
             GameObject drop = Instantiate(specialItem);
             drop.transform.position = gameObject.transform.position;
         }

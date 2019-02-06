@@ -7,7 +7,7 @@ public class PlayerData
     public static PlayerData current;
 
     #region GAME MODE
-    public bool isBrutalUnlocked = false;
+    public bool isBrutalUnlocked = true;
     public bool isPlayingBrutalMode = false;
     #endregion
 

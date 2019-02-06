@@ -68,6 +68,7 @@ public class Item : MonoBehaviour
 
         if (!isUniqueItem)
         {
+            Debug.Log("this is not unuiq" + Time.time);
             // get name
             itemName = ItemGenerator.current.GetItemName(itemID, itemType);
 
@@ -76,6 +77,7 @@ public class Item : MonoBehaviour
         }
         else
         {
+            Debug.Log("item is unique" + Time.time);
             // Unique item properties are set in UniqueItemGenerator
             ItemGenerator.current.SetSpecialItemProperties(this);
         }
