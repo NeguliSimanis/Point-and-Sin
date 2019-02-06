@@ -298,9 +298,17 @@ public class ItemGenerator
 
     }
 
-    public void SetSpecialItemProperties(Item specialItem)
+    public void SetUniqueItemProperties(Item uniqueItem)
     {
-        SetItemEffectDescription(specialItem);
+        SetUniqueItemStats(uniqueItem);
+        SetItemEffectDescription(uniqueItem);
+    }
+
+    private void SetUniqueItemStats(Item uniqueItem)
+    {
+        uniqueItem.wrath = UniqueItemProperties.current.uniqueItems[uniqueItem.uniqueItemID].wrath;
+        uniqueItem.pride = UniqueItemProperties.current.uniqueItems[uniqueItem.uniqueItemID].pride;
+        uniqueItem.lust = UniqueItemProperties.current.uniqueItems[uniqueItem.uniqueItemID].lust;
     }
 
     private bool GetRandomBool()

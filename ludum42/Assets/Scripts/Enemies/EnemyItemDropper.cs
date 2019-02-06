@@ -30,55 +30,62 @@ public class EnemyItemDropper : MonoBehaviour
     /// Roll chance to drop a special item (available only in brutal mode when killing minibosses)
     /// If unlucky, roll a chance for regular item
     /// </summary>
-    public void RollChanceForSpecialItem()
+    public void RollChanceToDropUniqueItem()
     {
-        /*
-        if (Random.Range(0f,1f) <= PlayerData.current.uniqueItemDropRate)
-        {*/
-        if (true)
-        {             
+        //*
+        if (Random.Range(0f,1f) <= PlayerData.current.uniqueItemDropRate) //*/
+        //if (true)
+        {
             GameObject drop = Instantiate(specialItem);
             drop.transform.position = gameObject.transform.position;
         }
         else
         {
-            DropItem();
+            DropCommonItem();
         }
     }
 
-
-    public void DropItem()
+    private bool RollChanceToDropCommonItem()
     {
-        // check chance that item will actually drop
         if (Random.Range(0f, 1f) > PlayerData.current.itemDropRate)
         {
             //Debug.Log("item not dropped");
-            return;
+            return true;
         }
+        return false;
+    }
 
+    private GameObject RollCommonItemToDrop()
+    {
         GameObject itemToDrop = heart;
-
         // 
         if (Random.Range(0, PlayerData.current.armDropRate + PlayerData.current.eyeDropRate + PlayerData.current.heartDropRate) >
             PlayerData.current.armDropRate + PlayerData.current.eyeDropRate)
         {
-            //Debug.Log("Dropping heart");
+
         }
         //
         else if (Random.Range(0, PlayerData.current.armDropRate + PlayerData.current.eyeDropRate + PlayerData.current.heartDropRate) >
             PlayerData.current.armDropRate)
         {
-            //Debug.Log("Dropping eye");
             itemToDrop = eye;
         }
         //
         else
         {
-           // Debug.Log("Dropping arm");
+            // Debug.Log("Dropping arm");
             itemToDrop = hand;
         }
-        
-        GameObject drop = Instantiate(itemToDrop);
+        return itemToDrop;
+    }
+
+    public void DropCommonItem()
+    {
+        // check chance that item will actually drop
+        if (!RollChanceToDropCommonItem())
+            return;
+
+        GameObject drop = Instantiate(RollCommonItemToDrop());
         
         drop.transform.position = gameObject.transform.position;
     }

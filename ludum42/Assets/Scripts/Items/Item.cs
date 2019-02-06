@@ -23,7 +23,6 @@ public class Item : MonoBehaviour
     static int largestItemID = 0; // used only when generating item ID
     int itemID;
     public bool isVictoryItem = false; // pick up this item to win the game
-    public bool isUniqueItem = false;
     public string itemName;
     public int wrath = 0;
     public int pride = 0;
@@ -31,6 +30,10 @@ public class Item : MonoBehaviour
     public string effectDescription; // how big is the wrath, pride, lust bonus
     public string flavorText;
     public SpriteRenderer itemImage;
+
+    public bool isUniqueItem = false;
+    public int uniqueItemID = -1;  
+    private UniqueItemGenerator uniqueItemGenerator; // sets unique item properties
     #endregion
 
     #region AUDIO
@@ -41,12 +44,28 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
+        GetComponents();
+        DetermineIfUniqueItem();
         itemID = largestItemID;
         largestItemID++;
-
-        playerInventory = GameObject.FindGameObjectWithTag(playerTag).GetComponent<PlayerInventory>();
         GenerateItemProperties();
+    }
 
+    private void DetermineIfUniqueItem()
+    {
+        if (gameObject.GetComponent<UniqueItemGenerator>() != null)
+        {
+            isUniqueItem = true;
+            uniqueItemGenerator = gameObject.GetComponent<UniqueItemGenerator>();
+        }
+    }
+
+    /// <summary>
+    /// Intitialize necessary variables with getcomponent method
+    /// </summary>
+    private void GetComponents()
+    {
+        playerInventory = GameObject.FindGameObjectWithTag(playerTag).GetComponent<PlayerInventory>();
         audioSource = gameObject.GetComponent<AudioSource>();
     }
 
@@ -68,21 +87,56 @@ public class Item : MonoBehaviour
 
         if (!isUniqueItem)
         {
-            Debug.Log("this is not unuiq" + Time.time);
-            // get name
-            itemName = ItemGenerator.current.GetItemName(itemID, itemType);
-
-            // get stats
-            ItemGenerator.current.SetItemStats(this);
+            GenerateCommonItemProperties();
         }
         else
         {
-            Debug.Log("item is unique" + Time.time);
-            // Unique item properties are set in UniqueItemGenerator
-            ItemGenerator.current.SetSpecialItemProperties(this);
+            GenerateUniqueItemProperties();
         }
-    }   
+    }
 
+    void GenerateCommonItemProperties()
+    {
+        // get name
+        itemName = ItemGenerator.current.GetItemName(itemID, itemType);
+
+        // get stats
+        ItemGenerator.current.SetItemStats(this);
+    }
+
+    void GenerateUniqueItemProperties()
+    {
+        uniqueItemID = uniqueItemGenerator.RollUniqueItem();
+        itemType = UniqueItemProperties.current.uniqueItems[uniqueItemID].type;
+        flavorText = UniqueItemProperties.current.uniqueItems[uniqueItemID].flavorText;
+        itemName = UniqueItemProperties.current.uniqueItems[uniqueItemID].name;
+        SetUniqueItemSpriteAndSFX();
+
+        // Unique item stats are set in UniqueItemGenerator
+        ItemGenerator.current.SetUniqueItemProperties(this);
+    }
+
+    /// <summary>
+    /// Set the sprite and other game object properties if the item is unique
+    /// </summary>
+    private void SetUniqueItemSpriteAndSFX()
+    {
+        GameObject itemChildObject = gameObject.transform.GetChild(0).gameObject;
+
+        // set sprite
+        itemChildObject.GetComponent<SpriteRenderer>().sprite = uniqueItemGenerator.GetUniqueSprite();
+
+        // set highlighted sprite
+        ChangeSpriteOnHover changeSpriteOnHover = itemChildObject.GetComponent<ChangeSpriteOnHover>();
+        changeSpriteOnHover.spriteOnMouseOver = uniqueItemGenerator.GetUniqueHighlightedSprite();
+        changeSpriteOnHover.defaultSprite = uniqueItemGenerator.GetUniqueSprite();
+
+        // set item sprite
+        itemImage.sprite = uniqueItemGenerator.GetUniqueSprite();
+
+        // set audio
+        itemInteractSFX = uniqueItemGenerator.GetItemSFX();
+    }
 
     public void AttemptPickUp()
     {

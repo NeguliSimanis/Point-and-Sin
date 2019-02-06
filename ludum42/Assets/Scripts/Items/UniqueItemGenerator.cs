@@ -15,18 +15,13 @@ public class UniqueItemGenerator : MonoBehaviour
     [SerializeField]
     AudioClip[] itemSFXs;
 
-	void Start ()
-    {
-        RollUniqueItem();
-        SetUniqueItemProperties();
-	}
 
     /// <summary>
     /// We know that this is a unique item.
     /// 
     /// Determine which unique item it is
     /// </summary>
-    void RollUniqueItem()
+    public int RollUniqueItem()
     {
         if (UniqueItemProperties.current == null)
             UniqueItemProperties.current = new UniqueItemProperties();
@@ -37,9 +32,9 @@ public class UniqueItemGenerator : MonoBehaviour
 
         // GET TOTAL CHANCE OF DROPPING UNIQUE ITEMS
         float dropChanceSum = 0;
-        for  (int i = 0; i <= numberOfUniques; i++)
+        for (int i = 0; i <= numberOfUniques; i++)
         {
-            dropChanceSum += UniqueItemProperties.current.uniqueItems[i].dropChance;    
+            dropChanceSum += UniqueItemProperties.current.uniqueItems[i].dropChance;
         }
         ///Debug.Log("The sum of dropchances is " + dropChanceSum);
 
@@ -59,7 +54,8 @@ public class UniqueItemGenerator : MonoBehaviour
                 {
                     uniqueDropFound = true;
                     currentItemID = i;
-                   /// Debug.Log("Found at " + currentItemDoesNotDropChance);
+                    return currentItemID;
+                    /// Debug.Log("Found at " + currentItemDoesNotDropChance);
                 }
                 else
                 {
@@ -71,11 +67,31 @@ public class UniqueItemGenerator : MonoBehaviour
                 break;
             }
         }
+
+        return currentItemID;
         // currentItemID = (Random.Range(0, PlayerData.current.uniqueItemDropRates.Length - 1));
     }
-	
-    void SetUniqueItemProperties()
+
+    public Sprite GetUniqueSprite()
     {
+        return itemSprites[currentItemID];
+    }
+
+    public Sprite GetUniqueHighlightedSprite()
+    {
+        return itemHighlightedSprites[currentItemID];
+    }
+
+    public AudioClip GetItemSFX()
+    {
+        return itemSFXs[currentItemID];
+    }
+
+   /* void SetUniqueItemProperties()
+    {
+        Debug.Log("SETTING UNIQUE PROPERTIES" + Time.time);
+
+        /*
         #region GAME OBJECT PROPERTIES
         GameObject itemChildObject = gameObject.transform.GetChild(0).gameObject;
 
@@ -88,7 +104,7 @@ public class UniqueItemGenerator : MonoBehaviour
         changeSpriteOnHover.spriteOnMouseOver = itemHighlightedSprites[currentItemID];
         changeSpriteOnHover.defaultSprite = itemSprites[currentItemID];
         #endregion
-
+        
         #region ITEM PROPERTIES
         Item currentItem = gameObject.GetComponent<Item>();
         currentItem.isUniqueItem = true;
@@ -104,6 +120,7 @@ public class UniqueItemGenerator : MonoBehaviour
 
         // set effect
         currentItem.wrath = UniqueItemProperties.current.uniqueItems[currentItemID].wrath;
+        Debug.Log("UNIQUE PROPERTIES wrath" + UniqueItemProperties.current.uniqueItems[currentItemID].wrath);
         currentItem.pride = UniqueItemProperties.current.uniqueItems[currentItemID].pride;
         currentItem.lust = UniqueItemProperties.current.uniqueItems[currentItemID].lust;
 
@@ -113,6 +130,6 @@ public class UniqueItemGenerator : MonoBehaviour
         // set flavor text
         currentItem.flavorText = UniqueItemProperties.current.uniqueItems[currentItemID].flavorText;
         #endregion
-    }
+    }*/
 
 }

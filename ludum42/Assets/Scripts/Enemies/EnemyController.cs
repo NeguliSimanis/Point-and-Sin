@@ -465,7 +465,7 @@ public class EnemyController : MonoBehaviour {
 
             // roll chance to drop item and drop item
             if (type != EnemyType.SkullBoss)
-                gameObject.GetComponent<EnemyItemDropper>().DropItem();
+                gameObject.GetComponent<EnemyItemDropper>().DropCommonItem();
 
             // update player stats
             if (!isPlayerMinion && fatalBlowSource != DamageSource.Undefined)
@@ -478,10 +478,10 @@ public class EnemyController : MonoBehaviour {
                 PlayerData.current.currentMinions--;
             }
 
-            // check player victory condition
+            // check player victory condition OR defeating skull in brutal mode
             if (type == EnemyType.SkullBoss)
             {
-                HandleBossDefeat();
+                HandleSkullDefeat();
             }
 
             // play death audio
@@ -553,7 +553,7 @@ public class EnemyController : MonoBehaviour {
         return type;
     }
 
-    private void HandleBossDefeat()
+    private void HandleSkullDefeat()
     {
         if (isFinalBoss)
             victoryItem.gameObject.SetActive(true);
@@ -565,7 +565,7 @@ public class EnemyController : MonoBehaviour {
         }
         else
         {   
-            gameObject.GetComponent<EnemyItemDropper>().RollChanceForSpecialItem();
+            gameObject.GetComponent<EnemyItemDropper>().RollChanceToDropUniqueItem();
         }
     }
 
