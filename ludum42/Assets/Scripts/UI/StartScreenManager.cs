@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class StartScreenManager : MonoBehaviour
 {
+
     [SerializeField]
     GameObject mainButtonPanel;
 

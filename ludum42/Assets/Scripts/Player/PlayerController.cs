@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region PLAYER INPUT & CONTROLS
+    public bool checkPlayerInput = false;
+
     /// MOUSE INPUT
     public float lastClickedTime; // used for correctly managing picking up items        
     private bool hasRightClickedRecently = false; // True if right click more recent than left click. Used to reset isWaitingToMove  
@@ -130,7 +132,7 @@ public class PlayerController : MonoBehaviour
     GameObject fireBall;
     private float spellcastEndTime;          // when casting animation is over
     public float fireballCooldownStartTime; // when you can cast fireball again
-    private Vector2 fireballTargetPosition; 
+    private Vector2 fireballTargetPosition;
     #endregion
 
     #region AUDIO
@@ -225,11 +227,14 @@ public class PlayerController : MonoBehaviour
         UpdateTimePlayed();
 
         // PLAYER INPUT
-        ListenForGamePause();
-        ListenForMenuOpen();            // opening character panel / inventory via keyboard input
-        ListenForActiveSkillSwitch();
-        ManageLeftMouseInput();         // for walking
-        ManageRightMouseInput();        // for active ability
+        if (checkPlayerInput)   // this is enabled by UnfreezePlayer.cs when you end the intro
+        {
+            ListenForGamePause();
+            ListenForMenuOpen();            // opening character panel / inventory via keyboard input
+            ListenForActiveSkillSwitch();
+            ManageLeftMouseInput();         // for walking
+            ManageRightMouseInput();        // for active ability
+        }
 
         CheckWherePlayerIsFacing();
         // END MELEE ATTACK STATE
@@ -340,7 +345,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             hasRightClickedRecently = false;
-            
+
 
             // Move only if the cursor is not above UI element
             if (!EventSystem.current.IsPointerOverGameObject())
@@ -568,6 +573,23 @@ public class PlayerController : MonoBehaviour
             else
                 fireballCooldownBar.color = Color.white;
         }*/
+    }
+
+    /// <summary>
+    /// Unfreezes player after a delay
+    /// </summary>
+    /// <param name="delay"></param>
+    public void UnfreezeMovement(float delay)
+    {
+        Debug.Log("CALLED");
+        StartCoroutine(EnablePlayerInputAfterXSeconds(delay));
+    }
+
+    private IEnumerator EnablePlayerInputAfterXSeconds(float xSeconds)
+    {
+        yield return new WaitForSeconds(xSeconds);
+        Debug.Log("enabling movement");
+        checkPlayerInput = true;
     }
 
     void GetFireballTargetPosition()
