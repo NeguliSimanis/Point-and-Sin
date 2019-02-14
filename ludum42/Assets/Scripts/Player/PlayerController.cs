@@ -227,6 +227,13 @@ public class PlayerController : MonoBehaviour
         UpdateTimePlayed();
 
         // PLAYER INPUT
+        if (!checkPlayerInput)
+        {
+            if (Input.GetKey(KeyCode.P))
+            {
+                UnfreezeMovement(0.2f);
+            }
+        }
         if (checkPlayerInput)   // this is enabled by UnfreezePlayer.cs when you end the intro
         {
             ListenForGamePause();
