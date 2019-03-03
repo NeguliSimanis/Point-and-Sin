@@ -26,7 +26,7 @@ public class ItemPickupArea : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //Debug.Log(item.name + " pickup area: " + Time.time);
+        Debug.Log(item.name + " pickup area: " + Time.time);
         playerController.itemAwaitingPickup = item;
         playerController.isWalkingToPickUpItem = true;
 
@@ -37,6 +37,7 @@ public class ItemPickupArea : MonoBehaviour
     {
         if (collision.gameObject.tag == playerTag)
         {
+            Debug.Log("entering");
             ManageItemPickupArea();
         }
     }
@@ -54,15 +55,21 @@ public class ItemPickupArea : MonoBehaviour
         /// STEP 1
         // player has entered the pickup area, so the item is near enough to be picked up
         item.canBePickedUp = true;
-        
+        /*if (!playerController.isWalkingToPickUpItem)
+          Debug.Log("managing!");
+
+        if (item != playerController.itemAwaitingPickup)
+            Debug.Log("wjat managing!");*/
         /// STEP 2
         // player was walking to pickup an item and this is that item
         if (playerController.isWalkingToPickUpItem && item == playerController.itemAwaitingPickup)
         {
+            Debug.Log("im here!");
             /// STEP 3
             // the last clicked thing was this item
             if (Mathf.Approximately(playerController.lastItemPickupCommandTime, playerController.lastClickedTime))
             {
+                Debug.Log("wjat atter,[t!");
                 // pick up item
                 item.AttemptPickUp();
                 playerController.isWalkingToPickUpItem = false;

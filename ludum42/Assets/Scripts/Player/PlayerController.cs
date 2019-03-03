@@ -13,13 +13,13 @@ public class PlayerController : MonoBehaviour
 
     #region MOVEMENT STATE
     private bool isFacingRight = true;
-    public bool isWalking = false;
-    private bool isWalkingInObstacle = false;       // detected collision with background - player has to stop walking
+    //public bool isWalking = false;
+    //public bool isWalkingInObstacle = false;       // detected collision with background - player has to stop walking
     private bool isIdleA = false;                   // is in idle animation state A
     private bool preparingIdleAnimationA = false;   // true if cooldown for idle animation A is started
     private bool preparingIdleAnimationB = false;
     private bool isMovementLocked = false;          // happens when player atack anim plays
-    public bool isWaitingToMove = false;            // true when movement is locked (e.g. casting spell) and has to remember the last clicked position where you shall move later
+    //public bool isWaitingToMove = false;            // true when movement is locked (e.g. casting spell) and has to remember the last clicked position where you shall move later
     #endregion
 
     public bool isNearEnemy = false;              // used to check if player can melee attack
@@ -44,21 +44,32 @@ public class PlayerController : MonoBehaviour
     #region PLAYER INPUT & CONTROLS
     public bool checkPlayerInput = false;
 
-    /// MOUSE INPUT
-    public float lastClickedTime; // used for correctly managing picking up items        
-    private bool hasRightClickedRecently = false; // True if right click more recent than left click. Used to reset isWaitingToMove  
-    public bool isClickingOnUI = false; // don't allow movement when clicking on certain UI elements 
-    public bool isMouseOverEnemy = false; // used by CursorController.cs to detect whether to animate cursor. NB! DOESN'T WORK ON SKULLBOSSS              
+    // MOUSE INPUT
+    /// <summary>
+    /// used for correctly managing picking up items 
+    /// </summary>
+    public float lastClickedTime;
+    /// <summary>
+    /// <para>True if right click more recent than left click. Used to reset isWaitingToMove</para>
+    /// <para>Ensures that you can click somewhere while using active ability and the character will move there after completing the ability</para> 
+    /// </summary>
+    public bool hasRightClickedRecently = false;
+    /// <summary>
+    /// don't allow movement when clicking on certain UI elements
+    /// </summary>
+    public bool isClickingOnUI = false; //  
+    /// <summary>
+    /// used by CursorController.cs to detect whether to animate cursor. NB! DOESN'T WORK ON SKULLBOSSS 
+    /// </summary>
+    public bool isMouseOverEnemy = false;              
     #endregion
 
     #region MOVEMENT
-    float minMousePressTime = 0.1f; // if you press mouse for a shorter duration than this, it will be considered a click
-    float mousePressStartTime;
-    bool isCountingMousePress = false;
-    bool isMousePress = false;
-
-    public Vector2 targetPosition;
-    public Vector2 dirNormalized;
+    //float minMousePressTime = 0.1f; // if you press mouse for a shorter duration than this, it will be considered a click
+    //float mousePressStartTime;
+    //bool isCountingMousePress = false;
+   // bool isMousePress = false;
+    PlayerMovement playerMovement;
     #endregion
 
     #region COMPONENTS
@@ -119,7 +130,7 @@ public class PlayerController : MonoBehaviour
     public EnemyController lastHoveredEnemy; // last enemy that you hovered mouse over
     public List<EnemyController> enemiesInMeleeRange = new List<EnemyController>(); // all enemies that may get damaged if you perform a melee attack
 
-    private bool isAttacking = false;
+    public bool isAttacking = false;
     private bool isAttackCooldown = false;
 
     #endregion
@@ -178,6 +189,7 @@ public class PlayerController : MonoBehaviour
         rigidBody2D = gameObject.GetComponent<Rigidbody2D>();
         audioSource = gameObject.GetComponent<AudioSource>();
         playerActiveAbilityManager = gameObject.GetComponent<PlayerActiveAbilityManager>();
+        playerMovement = gameObject.GetComponent<PlayerMovement>();
     }
 
     public void WinGame()
@@ -288,8 +300,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             hasRightClickedRecently = true;
-            isWaitingToMove = false;
-            GetTargetPositionAndDirection();
+            playerMovement.isWaitingToMove = false;
+            playerMovement.GetTargetPositionAndDirection();
             CheckWherePlayerIsFacing();
 
             UseActiveAbility();
@@ -347,44 +359,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void ManageLeftMouseInput()
     {
-        // WALKING
-        // walking - player holds mouse key
-        if (Input.GetMouseButton(0))
-        {
-            hasRightClickedRecently = false;
-
-
-            // Move only if the cursor is not above UI element
-            if (!EventSystem.current.IsPointerOverGameObject())
-            {
-                GetTargetPositionAndDirection();
-                CheckIfPlayerIsWalking();
-            }
-        }
-        // walking - player clicks
-        if (Input.GetMouseButtonDown(0))
-        {
-            // only consider it a mouse press if player has held the key down for minMousePressTime seconds
-            if (!isCountingMousePress)
-            {
-                isCountingMousePress = true;
-                mousePressStartTime = Time.time + minMousePressTime;
-            }
-            else if (Time.time > mousePressStartTime)
-            {
-                isMousePress = true;
-                CheckIfPlayerIsWalking();
-            }
-            // store last clicked time
-            lastClickedTime = Time.time;
-        }
-
-        // resetting mouse press to move
-        if (Input.GetMouseButtonUp(0))
-        {
-            isMousePress = false;
-            isCountingMousePress = false;
-        }
+        playerMovement.ManageMovementInput();
     }
 
     void UpdateTimePlayed()
@@ -470,15 +445,15 @@ public class PlayerController : MonoBehaviour
     void LateUpdate()
     {
         // ANIMATIONEventSystem.current.IsPointerOverGameObject
-        playerAnimator.SetBool("isWalking", isWalking);
+        playerAnimator.SetBool("isWalking", playerMovement.isWalking);
 
-        if (isWalking)
+        if (playerMovement.isWalking)
         {
             preparingIdleAnimationA = false;
             isIdleA = false;
         }
         // set start time for playing idle animation A
-        if (!isWalking && !preparingIdleAnimationA)
+        if (!playerMovement.isWalking && !preparingIdleAnimationA)
         {
             preparingIdleAnimationA = true;
             idleAnimAStartTime = Time.time + waitTimeBeforeIdleA;
@@ -503,12 +478,12 @@ public class PlayerController : MonoBehaviour
     {
         if (isAttacking || isCastingSpell)
             return;
-        if (isFacingRight && dirNormalized.x < 0)
+        if (isFacingRight && playerMovement.dirNormalized.x < 0)
         {
             isFacingRight = false;
             gameObject.transform.localScale = new Vector2(-1f, 1f);
         }
-        else if (!isFacingRight && dirNormalized.x > 0)
+        else if (!isFacingRight && playerMovement.dirNormalized.x > 0)
         {
             isFacingRight = true;
             gameObject.transform.localScale = new Vector2(1f, 1f);
@@ -568,18 +543,6 @@ public class PlayerController : MonoBehaviour
         expBar.fillAmount = (PlayerData.current.currentExp * 1f) / PlayerData.current.requiredExp;
 
         // update active skil cooldown - this is donne in PlayerActiveAbilityManager.cs
-
-        /*if (hasCastSpellAtLeastOnce)
-        {
-            // bar fill
-            fireballCooldownBar.fillAmount = (Time.time - fireballCooldownStartTime) / (PlayerData.current.fireballCastCooldown + spellcastAnimation.length);
-
-            // bar color changes if insufficient mana
-            if (PlayerData.current.currentMana < PlayerData.current.fireballManaCost)
-                fireballCooldownBar.color = new Color(0.613f, 0.362f, 0.362f);
-            else
-                fireballCooldownBar.color = Color.white;
-        }*/
     }
 
     /// <summary>
@@ -588,14 +551,12 @@ public class PlayerController : MonoBehaviour
     /// <param name="delay"></param>
     public void UnfreezeMovement(float delay)
     {
-        Debug.Log("CALLED");
         StartCoroutine(EnablePlayerInputAfterXSeconds(delay));
     }
 
     private IEnumerator EnablePlayerInputAfterXSeconds(float xSeconds)
     {
         yield return new WaitForSeconds(xSeconds);
-        Debug.Log("enabling movement");
         checkPlayerInput = true;
     }
 
@@ -603,19 +564,6 @@ public class PlayerController : MonoBehaviour
     {
         fireballTargetPosition = Input.mousePosition;
         fireballTargetPosition = Camera.main.ScreenToWorldPoint(fireballTargetPosition);
-    }
-
-    void GetTargetPositionAndDirection()
-    {
-        targetPosition = Input.mousePosition;
-        targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-        GetDirNormalized(targetPosition);
-    }
-
-    void GetDirNormalized(Vector2 sourceVector)
-    {
-        dirNormalized = new Vector2(sourceVector.x - transform.position.x, sourceVector.y - transform.position.y);
-        dirNormalized = dirNormalized.normalized;
     }
 
     /// <summary>
@@ -653,7 +601,7 @@ public class PlayerController : MonoBehaviour
     private void PlayMeleeSwordAttackAnimation()
     {
         isAttacking = true;
-        isWalking = false;
+        playerMovement.isWalking = false;
 
         
         meleeAttackAnimStartTime = Time.time;
@@ -682,68 +630,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void CheckIfPlayerIsWalking()
-    {
-        // Player near target position - stop walking
-        if (Vector2.Distance(targetPosition, transform.position) <= 0.02f)
-        {
-            isWalking = false;
-            isWaitingToMove = false;
-        }
-        // movement locked due to melee attack animation
-        else if (isAttacking)
-        {
-            isWalking = false;
-            // make sure that you only register movement commands since after attack command
-            if (!hasRightClickedRecently)
-                isWaitingToMove = true;
-        }
-        // movement locked due to fireball animation
-        else if (isCastingSpell)
-        {
-            isWalking = false;
-            // make sure that you only register movement commands since after attack command
-            if (!hasRightClickedRecently)
-                isWaitingToMove = true;
-        }
-        else if (isWalkingInObstacle)
-        {
-            isWalking = false;
-            isWaitingToMove = false;
-            isWalkingInObstacle = false;
-        }
-        else if (isClickingOnUI)
-        {
-            isWalking = false;
-            isWaitingToMove = false;
-            isClickingOnUI = false;
-        }
-        else
-        {
-            isWalking = true;
-        }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Background")
-        {
-            isWalkingInObstacle = true;
-            //Debug.Log("walked into obstacle");
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Background")
-        {
-            isWalkingInObstacle = false;
-            //Debug.Log("walked OUT");
-        }
-    }
-
-    /*private void MovePlayer()
-    {
-        transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * PlayerData.current.moveSpeed * Time.deltaTime;
-    }*/
 }

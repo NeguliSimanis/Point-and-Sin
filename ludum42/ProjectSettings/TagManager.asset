@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - PlayerProjectile
   - PlayerMinion
+  - PlayerLeg
   layers:
   - Default
   - TransparentFX
@@ -17,13 +18,13 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - WalkableGround
+  - ObstacleOnGround
+  - Enemy
+  - TopBorder
+  - LeftBorder
+  - BottomBorder
+  - RightBorder
   - 
   - 
   - 

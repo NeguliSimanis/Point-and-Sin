@@ -7,7 +7,7 @@ TextureImporter:
     21300004: necro-serge-idle-right_2
     21300006: necro-serge-idle-right_3
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,7 +89,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,7 +100,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -124,7 +124,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f230d1b2be2bdd5459b97de82a9746e2
+      spriteID: 0485516cd1401b741b6170e30fb0a10c
       vertices: []
       indices: 
       edges: []
@@ -144,7 +144,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f87de40b8feb81b4a90476fb56311745
+      spriteID: a1b86377275b1d54a88a3d538aa1b3a8
       vertices: []
       indices: 
       edges: []
@@ -164,7 +164,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9d92d0f6ed37584e8a685411b88175e
+      spriteID: b0482da3edda916448af44a5845fd6ed
       vertices: []
       indices: 
       edges: []
@@ -184,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 372e99adab73a7245bc6f9445f09a1aa
+      spriteID: 88f4ad2ccb934fb4892c3d6332ccc01f
       vertices: []
       indices: 
       edges: []

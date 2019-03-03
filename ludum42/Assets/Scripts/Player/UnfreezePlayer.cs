@@ -22,7 +22,7 @@ public class UnfreezePlayer : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("SCRIPT DISABLED");
+        //Debug.Log("SCRIPT DISABLED");
         if (unfreezeOnDisableObject)
         {
             playerController.UnfreezeMovement(unfreezeDelay);

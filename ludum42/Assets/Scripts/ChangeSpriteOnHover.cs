@@ -17,6 +17,7 @@ public class ChangeSpriteOnHover : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        //Debug.Log("mouse over!");
         spriteRenderer.sprite = spriteOnMouseOver;
     }
 
