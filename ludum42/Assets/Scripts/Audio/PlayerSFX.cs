@@ -40,7 +40,9 @@ public class PlayerSFX : MonoBehaviour
 
     [SerializeField]
     AudioClip [] playerWalkingSFX;
-    float playerWalkingSFXVolume = 0.5F;
+    float playerWalkingSFXVolume;// = 0.5F;
+    float playerWalkingSFXMaxVolume = 0.2f;
+    float playerWalkingSFWMinVolume = 0.04f;
     int lastPlayedWalkSFXID = 0;
     int playerWalkSFXCount; // how many walking sfx are in the given array
     #endregion
@@ -69,7 +71,13 @@ public class PlayerSFX : MonoBehaviour
             }
         }
         lastPlayedWalkSFXID = tempID;
+        //Debug.Log("WALLK ID: " + tempID);
         return tempID;
+    }
+
+    private float RandomWalkingSFXVolume()
+    {
+        return Random.Range(playerWalkingSFWMinVolume, playerWalkingSFXMaxVolume);
     }
 
     public void PlayWalkingSFX()
@@ -77,7 +85,7 @@ public class PlayerSFX : MonoBehaviour
         if (!playWalkSFX)
             return;
 
-        audioSource.PlayOneShot(playerWalkingSFX[GetRandomWalkingSfxID()], playerWalkingSFXVolume);
+        audioSource.PlayOneShot(playerWalkingSFX[GetRandomWalkingSfxID()], RandomWalkingSFXVolume());
     }
 
     public void PlayLvUpSFX()

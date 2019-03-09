@@ -118,8 +118,10 @@ public class InventorySlot : MonoBehaviour
 
     private void OnMouseOver()
     {
+        
         if (isFilled)
         {
+            Debug.Log("mouse over fille " + Time.time);
             itemInfoPanel.DisplayItemInfo(itemInSlot);
             if (itemInSlot.isUniqueItem)
             {

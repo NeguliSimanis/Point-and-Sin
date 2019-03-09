@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8357619003610187093
+--- !u!1 &965920510313047825
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,36 +8,36 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8357619003610187094}
-  - component: {fileID: 800728323479071393}
-  m_Layer: 12
-  m_Name: left_border_no_sprite
+  - component: {fileID: 965920510313047826}
+  - component: {fileID: 2356088718366139141}
+  m_Layer: 14
+  m_Name: right_border_no_sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8357619003610187094
+--- !u!4 &965920510313047826
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8357619003610187093}
+  m_GameObject: {fileID: 965920510313047825}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.757, y: -0.088, z: 0}
-  m_LocalScale: {x: 38.21452, y: 204.46977, z: 1}
+  m_LocalPosition: {x: 1.82, y: 0.087, z: 0}
+  m_LocalScale: {x: 41.37752, y: 216.20079, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &800728323479071393
+--- !u!60 &2356088718366139141
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8357619003610187093}
+  m_GameObject: {fileID: 965920510313047825}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}

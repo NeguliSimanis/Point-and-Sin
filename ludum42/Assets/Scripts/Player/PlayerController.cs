@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    GameObject testObject;
+
     #region CURRENT STATE
     private bool isAlive = true;
     private bool isDeathAnimation = false;
@@ -15,9 +18,6 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight = true;
     //public bool isWalking = false;
     //public bool isWalkingInObstacle = false;       // detected collision with background - player has to stop walking
-    private bool isIdleA = false;                   // is in idle animation state A
-    private bool preparingIdleAnimationA = false;   // true if cooldown for idle animation A is started
-    private bool preparingIdleAnimationB = false;
     private bool isMovementLocked = false;          // happens when player atack anim plays
     //public bool isWaitingToMove = false;            // true when movement is locked (e.g. casting spell) and has to remember the last clicked position where you shall move later
     #endregion
@@ -105,11 +105,17 @@ public class PlayerController : MonoBehaviour
     string brutalVictoryString = "IN BRUTAL MODE";
     #endregion
 
+    #region IDLE STATE
+    private bool isIdle = false;                       // is in idle animation state A
+    private bool isWaitingForSecondIdleAnim = false;   // 
+    //private bool preparingIdleAnimationA = false;   // true if cooldown for idle animation A is started
+    //private bool preparingIdleAnimationB = false;
+
+    float delayUntilSecondIdleAnimation = 5f;
+    float secondIdleAnimStartTime;
+    #endregion
+
     #region ANIMATION
-    float waitTimeBeforeIdleB = 5f;
-    float idleAnimBStartTime;
-    float waitTimeBeforeIdleA = 0.5f;
-    float idleAnimAStartTime;
     public float meleeAttackAnimStartTime;
 
     [Header("ANIMATION")]
@@ -237,6 +243,7 @@ public class PlayerController : MonoBehaviour
         ListenForPlayerDefeat();
         ListenToLVChange();
         UpdateTimePlayed();
+        
 
         // PLAYER INPUT
         if (!checkPlayerInput)
@@ -259,13 +266,12 @@ public class PlayerController : MonoBehaviour
         // END MELEE ATTACK STATE
         if (isAttacking && Time.time > meleeAttackAnimStartTime + meleeAttackAnimation.length)
         {
-            preparingIdleAnimationB = false;
             isAttacking = false;
         }
         // END SPELL CAST STATE
         if (isCastingSpell && Time.time > spellcastEndTime)
         {
-            preparingIdleAnimationB = false;
+            Debug.Log("ended cast time " + Time.time);
             isCastingSpell = false;
         }
         // MANA REGEN
@@ -277,6 +283,57 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(RegenerateMana());
             }
         }
+    }
+
+    void ManageIdleState()
+    {
+        // check if player is idle
+        if (!playerMovement.isWalking && !isAttacking && !isCastingSpell) // what about death?
+        {
+            isIdle = true;
+        }
+        else
+        {
+            isIdle = false;
+            isWaitingForSecondIdleAnim = false;
+        }
+
+        if (isIdle && !isWaitingForSecondIdleAnim)
+        {
+            isWaitingForSecondIdleAnim = true;
+            secondIdleAnimStartTime = Time.time + delayUntilSecondIdleAnimation;
+        }
+        else if (isIdle && Time.time > secondIdleAnimStartTime)
+        {
+            playerAnimator.SetTrigger("playIdleB");
+            secondIdleAnimStartTime = Time.time + delayUntilSecondIdleAnimation;
+        }
+        //playerAnimator.SetTrigger("playIdleB");
+
+        /*if (playerMovement.isWalking)
+        {
+            isIdleA = false;
+        }
+        // set start time for playing idle animation A
+        if (!playerMovement.isWalking && !preparingIdleAnimationA)
+        {
+            preparingIdleAnimationA = true;
+            idleAnimAStartTime = Time.time + waitTimeBeforeIdleA;
+        }
+        // start playing idle animation A
+        if (Time.time > idleAnimAStartTime && isAlive)
+        {
+            isIdleA = true;
+            if (!preparingIdleAnimationB)
+                idleAnimBStartTime = Time.time + waitTimeBeforeIdleB;
+            preparingIdleAnimationB = true;
+            playerAnimator.SetBool("startIdleA", isIdleA);
+        }
+        if (preparingIdleAnimationB && Time.time > idleAnimBStartTime)
+        {
+            playerAnimator.SetTrigger("playIdleB");
+            preparingIdleAnimationB = false;
+        }*/
     }
 
     void ListenForMenuOpen()
@@ -309,6 +366,7 @@ public class PlayerController : MonoBehaviour
         // RIGHT MOUSE BUTTON PRESS
         else if (Input.GetMouseButton(1))
         {
+            GetFireballTargetPosition();
             UseActiveAbility();
         }
     }
@@ -318,7 +376,7 @@ public class PlayerController : MonoBehaviour
         // cast fireball
         if (playerActiveAbilityManager.currentActiveAbility.abilityType == PlayerActiveAbilityTypes.SpellFireball)
         {
-            GetFireballTargetPosition();
+            //GetFireballTargetPosition();
             StartSpellcasting();
         }
         // melee attack
@@ -410,10 +468,13 @@ public class PlayerController : MonoBehaviour
         if (PlayerData.current.currentMana >= PlayerData.current.fireballManaCost)
         {
             hasCastSpellAtLeastOnce = true;
+            GetFireballTargetPosition();
             isCastingSpell = true;
+            CheckWherePlayerIsFacing(true);
             spellcastEndTime = Time.time + spellcastAnimation.length;
             fireballCooldownStartTime = Time.time;
             playerAnimator.SetTrigger("castSpellA");
+            CheckWherePlayerIsFacing();
             StartCoroutine(ShootFireBall());
             PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
         }
@@ -426,6 +487,10 @@ public class PlayerController : MonoBehaviour
         GameObject projectile = Instantiate(fireBall, fireballExitPoint.position, fireballExitPoint.rotation, fireballExitPoint);
         projectile.GetComponent<Fireball>().StartFireball(isFacingRight, fireballTargetPosition);
         projectile.transform.parent = null;
+
+        //Debug.Log("Target location " + fireballTargetPosition);
+       // GameObject testy = Instantiate(testObject, fireballTargetPosition, fireballExitPoint.rotation, fireballExitPoint);
+        //testy.transform.parent = null;
     }
 
     public IEnumerator RegenerateMana()
@@ -447,43 +512,29 @@ public class PlayerController : MonoBehaviour
         // ANIMATIONEventSystem.current.IsPointerOverGameObject
         playerAnimator.SetBool("isWalking", playerMovement.isWalking);
 
-        if (playerMovement.isWalking)
-        {
-            preparingIdleAnimationA = false;
-            isIdleA = false;
-        }
-        // set start time for playing idle animation A
-        if (!playerMovement.isWalking && !preparingIdleAnimationA)
-        {
-            preparingIdleAnimationA = true;
-            idleAnimAStartTime = Time.time + waitTimeBeforeIdleA;
-        }
-        // start playing idle animation A
-        if (Time.time > idleAnimAStartTime && isAlive)
-        {
-            isIdleA = true;
-            if (!preparingIdleAnimationB)
-                idleAnimBStartTime = Time.time + waitTimeBeforeIdleB;
-            preparingIdleAnimationB = true;
-            playerAnimator.SetBool("startIdleA", isIdleA);
-        }
-        if (preparingIdleAnimationB && Time.time > idleAnimBStartTime)
-        {
-            playerAnimator.SetTrigger("playIdleB");
-            preparingIdleAnimationB = false;
-        }
+        ManageIdleState();
+        
     }
 
-    void CheckWherePlayerIsFacing()
+    /// <summary>
+    /// Rotates player sprite depending on which direction he is facing
+    /// </summary>
+    /// <param name="overrideReturn">used to force executing this function once per spellcast/melee attack</param>
+    void CheckWherePlayerIsFacing(bool overrideReturn = false)
     {
-        if (isAttacking || isCastingSpell)
+        if ((isAttacking || isCastingSpell) && !overrideReturn)
             return;
-        if (isFacingRight && playerMovement.dirNormalized.x < 0)
+
+        if (isFacingRight && 
+            (playerMovement.isWalking || isCastingSpell || isAttacking) && 
+            playerMovement.dirNormalized.x < 0 )
         {
             isFacingRight = false;
             gameObject.transform.localScale = new Vector2(-1f, 1f);
         }
-        else if (!isFacingRight && playerMovement.dirNormalized.x > 0)
+        else if (!isFacingRight && 
+            (playerMovement.isWalking || isCastingSpell || isAttacking) && 
+            playerMovement.dirNormalized.x > 0)
         {
             isFacingRight = true;
             gameObject.transform.localScale = new Vector2(1f, 1f);
@@ -562,6 +613,9 @@ public class PlayerController : MonoBehaviour
 
     void GetFireballTargetPosition()
     {
+        if (isCastingSpell)
+            return;
+        //Debug.Log("Updating fb pos " + Time.time);
         fireballTargetPosition = Input.mousePosition;
         fireballTargetPosition = Camera.main.ScreenToWorldPoint(fireballTargetPosition);
     }
@@ -601,6 +655,7 @@ public class PlayerController : MonoBehaviour
     private void PlayMeleeSwordAttackAnimation()
     {
         isAttacking = true;
+        CheckWherePlayerIsFacing(true);
         playerMovement.isWalking = false;
 
         

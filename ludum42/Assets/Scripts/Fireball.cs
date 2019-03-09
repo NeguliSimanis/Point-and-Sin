@@ -153,9 +153,9 @@ public class Fireball : MonoBehaviour {
         if (cathetusB != 0)
         {
             float arctangent = Mathf.Atan(cathetusA / cathetusB);
-            Debug.Log("x " + cathetusB);
-            Debug.Log("y " + cathetusA);
-            Debug.Log("arctangent " + Mathf.Rad2Deg * arctangent);
+            //Debug.Log("x " + cathetusB);
+            ///Debug.Log("y " + cathetusA);
+            //Debug.Log("arctangent " + Mathf.Rad2Deg * arctangent);
 
             if (cathetusB > 0)
                 rotationAngle = Mathf.Rad2Deg * arctangent;

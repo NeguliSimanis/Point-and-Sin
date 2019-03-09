@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour {
             CheckIfPlayerIsWalking();
             MovePlayer();
         }
+        //Debug.Log(dirNormalized + " " + Time.time);
     }
 
     public void GetTargetPositionAndDirection()
@@ -83,7 +84,7 @@ public class PlayerMovement : MonoBehaviour {
         if ((moveUpDisabled || isOnNorthBorder) && dirNormalized.y > 0 )
         {
             dirNormalized = new Vector2(dirNormalized.x, 0);
-            Debug.Log("up forbidden ");
+            //Debug.Log("up forbidden ");
         }
         // DOWN
         if ((moveDownDisabled || isOnSouthBorder) && dirNormalized.y < 0 )
@@ -95,13 +96,13 @@ public class PlayerMovement : MonoBehaviour {
         if ((moveLeftDisabled || isOnWestBorder) && dirNormalized.x < 0 )
         {
             dirNormalized = new Vector2(0, dirNormalized.y);
-            Debug.Log("left forbidden ");
+            //Debug.Log("left forbidden ");
         }
         // RIGHT
         if ((moveRightDisabled || isOnEastBorder) && dirNormalized.x > 0 )
         {
             dirNormalized = new Vector2(0, dirNormalized.y);
-            Debug.Log("right forbidden ");
+            //Debug.Log("right forbidden ");
         }
     }
 
@@ -114,7 +115,6 @@ public class PlayerMovement : MonoBehaviour {
         // clicked on UI - walking not allowedd
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("clicking on ui");
             return true;
         }
         // not clicking on UI
@@ -187,7 +187,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private bool CheckOnWhichBorderIsPlayer()
     {
-        Debug.Log("LOOKING " + Time.time);
+        //Debug.Log("LOOKING " + Time.time);
         RaycastHit2D[] hits = Physics2D.RaycastAll(playerLegTransform.position, Vector2.zero);
         bool topBorderFound = false;
         bool bottomBorderFound = false;
