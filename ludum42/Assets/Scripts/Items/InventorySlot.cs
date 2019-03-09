@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
-public class InventorySlot : MonoBehaviour
+public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
     public bool isBackpackSlot = true; 
@@ -116,7 +117,11 @@ public class InventorySlot : MonoBehaviour
         itemImage.sprite = itemInSlot.itemImage.sprite;
     }
 
-    private void OnMouseOver()
+    /// <summary>
+    /// This method is used instead of onMouseEnter, because it cannot be used for UI elements
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerEnter(PointerEventData eventData)
     {
         
         if (isFilled)
@@ -132,7 +137,11 @@ public class InventorySlot : MonoBehaviour
         slotBackgroundImage.color = highlightColor;
     }
 
-    private void OnMouseExit()
+    /// <summary>
+    /// This method is used instead of onMouseExit, because it cannot be used for UI elements
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnPointerExit(PointerEventData eventData)
     {
         if (isFilled)
         {
