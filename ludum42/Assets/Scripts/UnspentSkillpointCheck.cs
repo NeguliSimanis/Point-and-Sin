@@ -7,7 +7,7 @@ public class UnspentSkillpointCheck
     public void ShowUIIfEnoughSkillPoints(GameObject notificationUI)
     {
         // update skill points notification
-        if (PlayerData.current.sinPoints > 0 || PlayerData.current.sinTreePoints > 0) // TODO - CHANGE HERE TO USE CheapestSinTreeSkill()
+        if (PlayerData.current.sinPoints > 0) // || PlayerData.current.sinTreePoints > 0) 
         {
             notificationUI.SetActive(true);
         }

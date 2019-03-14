@@ -41,7 +41,9 @@ public class PlayerSFX : MonoBehaviour
     [SerializeField]
     AudioClip [] playerWalkingSFX;
     float playerWalkingSFXVolume;// = 0.5F;
+    [SerializeField]
     float playerWalkingSFXMaxVolume = 0.2f;
+    [SerializeField]
     float playerWalkingSFWMinVolume = 0.04f;
     int lastPlayedWalkSFXID = 0;
     int playerWalkSFXCount; // how many walking sfx are in the given array

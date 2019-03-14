@@ -474,7 +474,7 @@ public class PlayerController : MonoBehaviour
             spellcastEndTime = Time.time + spellcastAnimation.length;
             fireballCooldownStartTime = Time.time;
             playerAnimator.SetTrigger("castSpellA");
-            CheckWherePlayerIsFacing();
+            //CheckWherePlayerIsFacing();
             StartCoroutine(ShootFireBall());
             PlayerData.current.currentMana -= PlayerData.current.fireballManaCost;
         }

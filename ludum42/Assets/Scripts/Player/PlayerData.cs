@@ -44,7 +44,7 @@ public class PlayerData
     #region LIFE
     public int currentLife;
     public int maxLife = 100;
-    private int defaultMaxLife = 100;
+    private int defaultMaxLife = 100; //100
     private int lifePerLevel = 5;
     private int prideLifeIncrease = 5;
     #endregion

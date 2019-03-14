@@ -119,9 +119,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_1
       rect:
         serializedVersion: 2
-        x: 31
+        x: 30
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -139,9 +139,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_2
       rect:
         serializedVersion: 2
-        x: 62
+        x: 61
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -159,9 +159,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_3
       rect:
         serializedVersion: 2
-        x: 93
+        x: 92
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -179,9 +179,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_4
       rect:
         serializedVersion: 2
-        x: 124
+        x: 123
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -199,7 +199,7 @@ TextureImporter:
       name: ps-color-cycle-top-lava_5
       rect:
         serializedVersion: 2
-        x: 155
+        x: 154
         y: 0
         width: 30
         height: 153
@@ -219,9 +219,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_6
       rect:
         serializedVersion: 2
-        x: 186
+        x: 184
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -239,9 +239,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_7
       rect:
         serializedVersion: 2
-        x: 217
+        x: 215
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -259,9 +259,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_8
       rect:
         serializedVersion: 2
-        x: 248
+        x: 246
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -279,9 +279,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_9
       rect:
         serializedVersion: 2
-        x: 279
+        x: 277
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -299,9 +299,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_10
       rect:
         serializedVersion: 2
-        x: 310
+        x: 308
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
@@ -319,9 +319,9 @@ TextureImporter:
       name: ps-color-cycle-top-lava_11
       rect:
         serializedVersion: 2
-        x: 341
+        x: 339
         y: 0
-        width: 30
+        width: 31
         height: 153
       alignment: 6
       pivot: {x: 0, y: 0}
