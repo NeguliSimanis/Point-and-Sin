@@ -4,7 +4,7 @@
 - Artstyle: pixel
 - Engine:
 - - Unity 2018.2.2f (for original prototype)
-- - Unity 2018.2.14f1 (for latest version)
+- - Unity 2018.3.5f (for latest version)
 - Platforms: windows desktop
 
 ## Documentation
