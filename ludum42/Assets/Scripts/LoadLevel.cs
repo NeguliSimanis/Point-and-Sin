@@ -8,6 +8,6 @@ public class LoadLevel : MonoBehaviour
     public void Load()
     {
         PlayerData.current.Reset();
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Main");
     }
 }
