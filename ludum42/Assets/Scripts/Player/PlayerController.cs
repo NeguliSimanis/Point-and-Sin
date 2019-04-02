@@ -575,15 +575,40 @@ public class PlayerController : MonoBehaviour
 
     void ListenForGamePause()
     {
-        if ((Input.GetKeyDown(KeyCode.P) || (Input.GetKeyDown(KeyCode.Escape) && canPauseGame)))
+        if (canPauseGame)
         {
-            pauseMenu.SetActive(true);
-            PlayerData.current.isGamePaused = !PlayerData.current.isGamePaused;
+            // p - pause game
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                CallPauseGame();
+            }
+            // escape - check if you can close active menus before closing game
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                HUDManager hudManager = GameObject.FindGameObjectWithTag("HUDManager").GetComponent<HUDManager>();
+                if (!hudManager.CheckIfHudOpen())
+                {
+                    CallPauseGame();
+                }
+                else
+                {
+                    hudManager.CloseActiveHUD();
+                }
+            }
         }
     }
 
-    void UpdateHUD()
+    void CallPauseGame()
     {
+        if (PauseGame.current == null)
+        {
+            PauseGame.current = new PauseGame();
+        }
+        PauseGame.current.Pause(pauseMenu);
+    }
+
+    void UpdateHUD()
+    {   
         // update hp bar
         healthBar.fillAmount = (PlayerData.current.currentLife * 1f) / PlayerData.current.maxLife;
 
