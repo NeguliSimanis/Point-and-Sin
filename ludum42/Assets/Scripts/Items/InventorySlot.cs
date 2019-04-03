@@ -89,6 +89,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             itemInSlot.AddStatBoost(-1);
             characterPanel.UpdateSinPointsText();
+            itemInSlot.currentState = ItemState.InBackpack;
         }
     }
 
@@ -104,10 +105,14 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         itemInSlot = itemToAdd;
         ShowItemImage();
 
+        if (!isBackpackSlot)
+            itemInSlot.currentState = ItemState.Equipped;
+
         if (isItemUnequipped)
         {
             itemInfoPanel.DisplayItemInfo(itemInSlot, false);
             itemFlairTextPanel.gameObject.SetActive(false);
+            
         }
     }
 

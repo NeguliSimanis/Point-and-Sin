@@ -13,6 +13,10 @@ public class ItemInfoPanel : MonoBehaviour
     Text itemType;
     [SerializeField]
     Image itemImage;
+    [SerializeField]
+    GameObject itemEquippedLabel;
+    [SerializeField]
+    GameObject itemNotEquippedLabel;
 
 	public void DisplayItemInfo(Item itemToDisplay, bool display = true)
     {
@@ -28,6 +32,18 @@ public class ItemInfoPanel : MonoBehaviour
             itemStats.text = itemToDisplay.effectDescription;
             //Debug.Log("displaying item info");
 
+            if (itemToDisplay.currentState == ItemState.Equipped)
+            {
+                Debug.Log("item is equipped");
+                itemEquippedLabel.SetActive(true);
+                itemNotEquippedLabel.SetActive(false);
+            }
+            else
+            {
+                Debug.Log("item is NOT equipped");
+                itemEquippedLabel.SetActive(false);
+                itemNotEquippedLabel.SetActive(true);
+            }
         }
         else
         {
