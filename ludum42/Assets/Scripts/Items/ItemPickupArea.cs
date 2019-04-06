@@ -26,7 +26,7 @@ public class ItemPickupArea : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log(item.name + " pickup area: " + Time.time);
+        //Debug.Log(item.name + " pickup area: " + Time.time);
         playerController.itemAwaitingPickup = item;
         playerController.isWalkingToPickUpItem = true;
 

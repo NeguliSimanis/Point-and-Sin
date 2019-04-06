@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour {
     /*
     /// <summary>
     /// Far from player:
-    ///     - regular enemy follows player if player visible
+    ///     - regular enemy follows player if player visible 
     ///     - minion follows player always
     /// Near player:
     ///     - minion does not move (unless detects enemy)
@@ -55,11 +55,15 @@ public class EnemyController : MonoBehaviour {
     
     #region SIGHT
     
-    public float sightRadius = 3f;              // if player moves closer than this, he will be noticed    
-    bool isPlayerVisible = false;        // if true, move towards player to attack. If false, patrol the area
-    bool isNearPlayer = false;           // if true, stop to attack the player
+    public float sightRadius = 3f;          // if player moves closer than this, he will be noticed    
+    bool isPlayerVisible = false;           // if true, move towards player to attack. If false, patrol the area
+    bool isNearPlayer = false;              // if true, stop to attack the player
     bool isPlayerInProjectileRange = false;
-    public bool isNearTargetEnemy = false; // used for minion targetting
+    public bool isNearTargetEnemy = false;  // used for minion targetting
+
+    bool forgotPlayerPosition = false; // 
+    float enemyMemory = 5f; // how long will the enemy chase the player if he's not visible
+    float enemyForgetsPlayerTime; // when will enemy forget to chase the player if it's not visible
     //RelativePosition enemyPosition;
     #endregion
 
@@ -102,7 +106,7 @@ public class EnemyController : MonoBehaviour {
     [SerializeField] AudioClip shootSFX;
     [SerializeField] AudioClip deathSFX;
     [SerializeField] AudioClip woundedSFX;
-    [SerializeField] AudioClip noticPlayerSFX;
+    [SerializeField] AudioClip noticePlayerSFX;
     [SerializeField] float shootSFXVolume;
     [SerializeField] float deathSFXVolume = 0.9f;
     [SerializeField] float woundedSFXVolume;
@@ -157,14 +161,22 @@ public class EnemyController : MonoBehaviour {
             return;
         }
         if (!isDying)
-        {   
-            CheckIfTargetVisible();
+        {
+            if (!isPlayerVisible || forgotPlayerPosition)
+            {
+                CheckIfTargetVisible();
+            }
+            else
+            {
+                ForgetTargetPosition();
+            }
 
             #region Movement behaviour
             CheckWhereEnemyIsFacing();
             // regular enemy follows player if it is visible
             if (isPlayerVisible && !isPlayerMinion)
             {
+                Debug.Log("following  " + Time.time);
                 FollowPlayer();
             }           
             else if (isPlayerMinion)
@@ -190,6 +202,15 @@ public class EnemyController : MonoBehaviour {
         if (type == EnemyType.SkullBoss && seenPlayerAtLeastOnce)
         {
             UpdateBossHPBar();
+        }
+    }
+
+
+    private void ForgetTargetPosition()
+    {
+        if (Time.time > enemyForgetsPlayerTime)
+        {
+            forgotPlayerPosition = true;
         }
     }
 
@@ -371,12 +392,18 @@ public class EnemyController : MonoBehaviour {
 
     void NoticePlayer()
     {
+        Debug.Log("NOTICING " + Time.time);
+        // enemy will chase player until this time and then stop if he's no longer visible
+        enemyForgetsPlayerTime = Time.time + enemyMemory;
+        forgotPlayerPosition = false;
+
         if (isPlayerVisible == false)
         {
+            Debug.Log("NOTICING 2 " + Time.time);
             isPlayerVisible = true;
             if (type == EnemyType.SkullBoss && !isPlayerMinion)
             {
-                enemyAudioSource.PlayOneShot(noticPlayerSFX, noticePlayerSFXVolume);
+                enemyAudioSource.PlayOneShot(noticePlayerSFX, noticePlayerSFXVolume);
                 if (seenPlayerAtLeastOnce == false)
                 {
                     seenPlayerAtLeastOnce = true;
@@ -409,8 +436,12 @@ public class EnemyController : MonoBehaviour {
 
     void FollowPlayer()
     {
+        Debug.Log("FOLLOWING " + Time.time);
         if (!isPlayerMinion && (isNearPlayer || isPlayerInProjectileRange))
+        {
+            Debug.Log("TEST 1  " + Time.time);
             return;
+        }
         targetPosition = playerTransform.position;
         GetTargetPositionAndDirection();
         MoveEnemy();
@@ -449,7 +480,13 @@ public class EnemyController : MonoBehaviour {
 
     public void TakeDamage(int damageAmount, DamageSource damageSource)
     {
+        Debug.Log("was");
         fatalBlowSource = damageSource;
+        if (damageSource == DamageSource.PlayerFireball || damageSource == DamageSource.PlayerMelee)
+        {
+            Debug.Log("NOTICE");
+            NoticePlayer();
+        }
         enemyAnimator.SetTrigger("damaged");
         enemyAudioSource.PlayOneShot(woundedSFX, woundedSFXVolume);
         currentHP = currentHP - damageAmount;
@@ -556,7 +593,11 @@ public class EnemyController : MonoBehaviour {
     private void HandleSkullDefeat()
     {
         if (isFinalBoss)
+        {
+            //bossLifeBar.transform.parent.gameObject.SetActive(false);
+            bossLifeBarObject.SetActive(false);
             victoryItem.gameObject.SetActive(true);
+        }
         if (!PlayerData.current.isPlayingBrutalMode)
         {
             PlayerData.current.sinTreePoints++;

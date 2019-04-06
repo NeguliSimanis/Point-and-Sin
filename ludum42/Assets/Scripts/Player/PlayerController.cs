@@ -271,7 +271,7 @@ public class PlayerController : MonoBehaviour
         // END SPELL CAST STATE
         if (isCastingSpell && Time.time > spellcastEndTime)
         {
-            Debug.Log("ended cast time " + Time.time);
+            //Debug.Log("ended cast time " + Time.time);
             isCastingSpell = false;
         }
         // MANA REGEN

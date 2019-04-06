@@ -143,7 +143,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 itemFlairTextPanel.GetComponent<SetUIText>().SetItemFlavorText(itemInSlot.flavorText);
             }
         }
-        slotBackgroundImage.color = highlightColor;
+        highlightItemBackground(true);
     }
 
     /// <summary>
@@ -158,7 +158,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             DisplayItemInfo(false);
             //itemFlairTextPanel.SetActive(false);
         }
-        slotBackgroundImage.color = defaultColor;
+        highlightItemBackground(false);
+        
     }
 
     /// <summary>
@@ -166,8 +167,25 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     /// equipped items of the same type in inventory
     /// </summary>
     /// <param name="highlight"></param>
-    private void highlightItemBackground(bool highlight)
+    public void highlightItemBackground(bool highlight)
     {
+        // highlight the background of item itself
+        if (highlight)
+        {
+            slotBackgroundImage.color = highlightColor;
+        }
+        else
+        {
+            slotBackgroundImage.color = defaultColor;
+        }
+        // highlight equipped items of the same type
+        if (isBackpackSlot)
+        {
+            // first item
+            playerInventory.GetInventorySlotOfType(itemInSlot.itemType).highlightItemBackground(highlight);
+            // second item (if it exists)
+            playerInventory.GetInventorySlotOfType(itemInSlot.itemType, false).highlightItemBackground(highlight);
+        }
 
     }
 

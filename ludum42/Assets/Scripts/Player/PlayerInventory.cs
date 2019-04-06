@@ -173,4 +173,26 @@ public class PlayerInventory : MonoBehaviour
         }
         return null;
     }
+
+    public InventorySlot GetInventorySlotOfType(ItemType type, bool returnFirstResult = true)
+    {
+        if (type == ItemType.Eye)
+        {
+            return equippedEyeSlot;
+        }
+        if (type == ItemType.Heart)
+        {
+            return equippedHeartSlot;
+        }
+        if (type == ItemType.Hand)
+        {
+            if (returnFirstResult)
+                return equippedLeftHandSlot;
+        }
+        if (type == ItemType.Hand)
+        {
+            return equippedRightHandSlot;
+        }
+        return null;
+    }
 }
