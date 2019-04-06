@@ -37,7 +37,6 @@ public class ItemPickupArea : MonoBehaviour
     {
         if (collision.gameObject.tag == playerTag)
         {
-            Debug.Log("entering");
             ManageItemPickupArea();
         }
     }
@@ -64,12 +63,10 @@ public class ItemPickupArea : MonoBehaviour
         // player was walking to pickup an item and this is that item
         if (playerController.isWalkingToPickUpItem && item == playerController.itemAwaitingPickup)
         {
-            Debug.Log("im here!");
             /// STEP 3
             // the last clicked thing was this item
             if (Mathf.Approximately(playerController.lastItemPickupCommandTime, playerController.lastClickedTime))
             {
-                Debug.Log("wjat atter,[t!");
                 // pick up item
                 item.AttemptPickUp();
                 playerController.isWalkingToPickUpItem = false;

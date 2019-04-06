@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HUDManager : MonoBehaviour
 {
+    public ItemInfoPanelManager itemInfoPanelManager;
+
     bool isAtLeastOneMenuActive = false;
     List<GameObject> activeHuds = new List<GameObject>();
     List<GameObject> openHudButtons = new List<GameObject>();
@@ -11,7 +13,6 @@ public class HUDManager : MonoBehaviour
     public void OpenHudMenu(GameObject hudMenu)
     {
         activeHuds.Add(hudMenu);
-        
         isAtLeastOneMenuActive = true;
     }
 

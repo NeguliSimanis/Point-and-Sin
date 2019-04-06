@@ -34,13 +34,13 @@ public class ItemInfoPanel : MonoBehaviour
 
             if (itemToDisplay.currentState == ItemState.Equipped)
             {
-                Debug.Log("item is equipped");
+                //Debug.Log("item is equipped");
                 itemEquippedLabel.SetActive(true);
                 itemNotEquippedLabel.SetActive(false);
             }
             else
             {
-                Debug.Log("item is NOT equipped");
+                //Debug.Log("item is NOT equipped");
                 itemEquippedLabel.SetActive(false);
                 itemNotEquippedLabel.SetActive(true);
             }

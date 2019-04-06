@@ -19,12 +19,15 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     Image itemImage;
     [SerializeField]
     ItemInfoPanel itemInfoPanel;
+    ItemInfoPanelManager itemInfoPanelManager;
+
     [SerializeField]
     CharacterPanel characterPanel;
     [SerializeField]
     GameObject itemFlairTextPanel;
 
     #region HIGHLIGHTING
+
     Color highlightColor = Color.yellow;
     Color defaultColor;
     Image slotBackgroundImage;
@@ -38,6 +41,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         slotBackgroundImage = gameObject.GetComponent<Image>();
         defaultColor = slotBackgroundImage.color;
+
+        itemInfoPanelManager = GameObject.FindGameObjectWithTag("HUDManager").GetComponent<HUDManager>().itemInfoPanelManager;
     }
 
     private void HandleButtonClick()
@@ -79,7 +84,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         itemImage.enabled = false;
         
         // hide additional window with item info
-        itemInfoPanel.DisplayItemInfo(itemInSlot, false);
+        //itemInfoPanel.DisplayItemInfo(itemInSlot, false);
+        DisplayItemInfo(false);
 
         // hide flair text panel
         itemFlairTextPanel.gameObject.SetActive(false);
@@ -90,6 +96,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             itemInSlot.AddStatBoost(-1);
             characterPanel.UpdateSinPointsText();
             itemInSlot.currentState = ItemState.InBackpack;
+            itemInSlot = null;
         }
     }
 
@@ -110,9 +117,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (isItemUnequipped)
         {
-            itemInfoPanel.DisplayItemInfo(itemInSlot, false);
-            itemFlairTextPanel.gameObject.SetActive(false);
-            
+            DisplayItemInfo(false);
         }
     }
 
@@ -128,11 +133,10 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     /// <param name="eventData"></param>
     public void OnPointerEnter(PointerEventData eventData)
     {
-        
         if (isFilled)
         {
-            Debug.Log("mouse over fille " + Time.time);
-            itemInfoPanel.DisplayItemInfo(itemInSlot);
+            //itemInfoPanel.DisplayItemInfo(itemInSlot);
+            DisplayItemInfo(true);
             if (itemInSlot.isUniqueItem)
             {
                 itemFlairTextPanel.SetActive(true);
@@ -150,9 +154,29 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (isFilled)
         {
-            itemInfoPanel.DisplayItemInfo(itemInSlot, false);
-            itemFlairTextPanel.SetActive(false);
+            //itemInfoPanel.DisplayItemInfo(itemInSlot, false);
+            DisplayItemInfo(false);
+            //itemFlairTextPanel.SetActive(false);
         }
         slotBackgroundImage.color = defaultColor;
+    }
+
+    /// <summary>
+    /// Highlight the background of the item where mouse is hovering +
+    /// equipped items of the same type in inventory
+    /// </summary>
+    /// <param name="highlight"></param>
+    private void highlightItemBackground(bool highlight)
+    {
+
+    }
+
+    private void DisplayItemInfo(bool display)
+    {
+        itemInfoPanelManager.DisplayItemInfo(itemInSlot, playerInventory, display, !isBackpackSlot);
+        //itemInfoPanel.DisplayItemInfo(itemInSlot, display);
+
+        if (!display)
+            itemFlairTextPanel.SetActive(false);
     }
 }

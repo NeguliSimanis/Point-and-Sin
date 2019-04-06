@@ -70,6 +70,27 @@ public class PlayerInventory : MonoBehaviour
         AddItemToBackpack(slotToEmpty.itemInSlot);
         slotToEmpty.RemoveItemFromSlot();
         slotToEmpty.isFilled = false;
+
+        /*if (slotToEmpty == equippedEyeSlot)
+        {
+            Debug.Log("eeeee");
+            equippedEyeSlot.itemInSlot = null;
+        }
+        else if (slotToEmpty == equippedHeartSlot)
+        {
+            Debug.Log("eeeee");
+            equippedHeartSlot.itemInSlot = null;
+        }
+        else if (slotToEmpty == equippedLeftHandSlot)
+        {
+            Debug.Log("eeeee");
+            equippedLeftHandSlot.itemInSlot = null;
+        }
+        else if (slotToEmpty == equippedRightHandSlot)
+        {
+            Debug.Log("eeeee");
+            equippedRightHandSlot.itemInSlot = null;
+        }*/
     }
 
     private void Start()
@@ -104,5 +125,52 @@ public class PlayerInventory : MonoBehaviour
     {
         //playerInventory.Add(itemToAdd);
         inventorySlots[FindNextFreeSlot()].GetComponent<InventorySlot>().AddItemInSlot(itemToAdd);
+    }
+
+    public int CountEquippedItemsOfType(ItemType type)
+    {
+        int itemCount = 0;
+
+        // go through all inventory slots
+        if (equippedEyeSlot.itemInSlot != null && equippedEyeSlot.itemInSlot.itemType == type)
+        {
+            itemCount++;
+        }
+        if (equippedHeartSlot.itemInSlot != null && equippedHeartSlot.itemInSlot.itemType == type)
+        {
+            itemCount++;
+        }
+        if (equippedLeftHandSlot.itemInSlot != null && equippedLeftHandSlot.itemInSlot.itemType == type)
+        {
+            itemCount++;
+        }
+        if (equippedRightHandSlot.itemInSlot != null && equippedRightHandSlot.itemInSlot.itemType == type)
+        {
+            itemCount++;
+        }
+        Debug.Log("equipped " + itemCount + " items of this type. Time: " + Time.time);
+        return itemCount;
+    }
+
+    public Item GetEquippedItemOfType(ItemType type, bool returnFirstResult = true)
+    {
+        if (equippedEyeSlot.itemInSlot != null && equippedEyeSlot.itemInSlot.itemType == type)
+        {
+            return equippedEyeSlot.itemInSlot;
+        }
+        if (equippedHeartSlot.itemInSlot != null && equippedHeartSlot.itemInSlot.itemType == type)
+        {
+            return equippedHeartSlot.itemInSlot;
+        }
+        if (equippedLeftHandSlot.itemInSlot != null && equippedLeftHandSlot.itemInSlot.itemType == type)
+        {
+            if (returnFirstResult)
+                return equippedLeftHandSlot.itemInSlot;
+        }
+        if (equippedRightHandSlot.itemInSlot != null && equippedRightHandSlot.itemInSlot.itemType == type)
+        {
+            return equippedRightHandSlot.itemInSlot;
+        }
+        return null;
     }
 }
