@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     #region CURRENT STATE
     private bool isAlive = true;
-    private bool isDeathAnimation = false;
+    public bool isDeathAnimation = false;
     private bool canPauseGame = true;
 
     #region MOVEMENT STATE

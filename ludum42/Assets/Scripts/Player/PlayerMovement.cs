@@ -131,6 +131,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private void MovePlayer()
     {
+        if (playerController.isDeathAnimation)
+            return;
         transform.position = new Vector2
             (transform.position.x, transform.position.y) +
             dirNormalized *

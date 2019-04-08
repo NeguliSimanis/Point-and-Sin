@@ -176,7 +176,6 @@ public class EnemyController : MonoBehaviour {
             // regular enemy follows player if it is visible
             if (isPlayerVisible && !isPlayerMinion)
             {
-                Debug.Log("following  " + Time.time);
                 FollowPlayer();
             }           
             else if (isPlayerMinion)
@@ -436,10 +435,11 @@ public class EnemyController : MonoBehaviour {
 
     void FollowPlayer()
     {
-        Debug.Log("FOLLOWING " + Time.time);
+        //Debug.Log("FOLLOWING " + Time.time);
         if (!isPlayerMinion && (isNearPlayer || isPlayerInProjectileRange))
         {
             Debug.Log("TEST 1  " + Time.time);
+            enemyAnimator.SetBool("isWalking", false);
             return;
         }
         targetPosition = playerTransform.position;
@@ -475,6 +475,7 @@ public class EnemyController : MonoBehaviour {
     void MoveEnemy()
     {
         //CheckWhereEnemyIsFacing();
+        enemyAnimator.SetBool("isWalking", true);
         transform.position = new Vector2(transform.position.x, transform.position.y) + dirNormalized * moveSpeed * Time.deltaTime;
     }
 
