@@ -224,7 +224,7 @@ public class PlayerController : MonoBehaviour
     private void GetAnimatorInfo()
     {
         player_CurrentClipInfo = this.playerAnimator.GetCurrentAnimatorClipInfo(0);
-        player_ClipName = player_CurrentClipInfo[0].clip.name;
+        //player_ClipName = player_CurrentClipInfo[0].clip.name;
     }
 
     void Update()

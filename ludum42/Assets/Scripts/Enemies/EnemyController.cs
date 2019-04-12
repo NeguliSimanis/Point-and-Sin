@@ -391,14 +391,14 @@ public class EnemyController : MonoBehaviour {
 
     void NoticePlayer()
     {
-        Debug.Log("NOTICING " + Time.time);
+        //Debug.Log("NOTICING " + Time.time);
         // enemy will chase player until this time and then stop if he's no longer visible
         enemyForgetsPlayerTime = Time.time + enemyMemory;
         forgotPlayerPosition = false;
 
         if (isPlayerVisible == false)
         {
-            Debug.Log("NOTICING 2 " + Time.time);
+            //Debug.Log("NOTICING 2 " + Time.time);
             isPlayerVisible = true;
             if (type == EnemyType.SkullBoss && !isPlayerMinion)
             {
@@ -438,7 +438,6 @@ public class EnemyController : MonoBehaviour {
         //Debug.Log("FOLLOWING " + Time.time);
         if (!isPlayerMinion && (isNearPlayer || isPlayerInProjectileRange))
         {
-            Debug.Log("TEST 1  " + Time.time);
             enemyAnimator.SetBool("isWalking", false);
             return;
         }

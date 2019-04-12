@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour {
     /// </summary>
     [HideInInspector]
     public Vector2 dirNormalized;
+    private Direction moveDirection;
     [HideInInspector]
     public bool isWalking = false;
 
@@ -49,6 +50,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update()
     {
+
         if (isWaitingToMove)
         {
             CheckIfPlayerIsWalking();
@@ -60,6 +62,178 @@ public class PlayerMovement : MonoBehaviour {
             MovePlayer();
         }
         //Debug.Log(dirNormalized + " " + Time.time);
+    }
+
+    /// <summary>
+    /// Determines current movement direction (East, West, etc.) from dirNormalized vector
+    /// </summary>
+    private void GetMoveDirection()
+    {
+        if (dirNormalized == null)
+            return;
+
+        float y = dirNormalized.y;
+        float x = dirNormalized.x;
+        bool directionFound = false;
+        //Debug.Log("x: " + x + ". y: " + y + ". Time: " + Time.time);
+
+        #region NOTES
+        /*
+        *                 (0x; 1y)
+        *         \     ↑     / 
+        *          \ North   /  
+        *           \   |   /   Not North
+        *  Not North \  |  / 
+        *             \ | /       
+        *         120° \|/  60°  
+        * - - - - - - - | - - - - - - - - → (1x; 0y)
+        *               | (0x; 0y)         
+        *     
+        *     
+        *   Relation between X and Y values is described by cotangent (cot)              
+        *   
+        *   X values for sector between 90° and 60°:
+        *      1) cot(30°) = y/x = sqrt(3)           
+        *      2) x(30°) < y / sqrt(3)  
+        *      3) sqrt(3) = ~1.73
+        *      4) y / 1.73 = y * (100/173) = y * ~0.58
+        *      5) x < 0.58y
+        *   
+        *   X values for sector between 90° and 30°:
+        *      1) cot(60°) = y/x = sqrt(3)/3          
+        *      2) x = 3/sqrt(3) * y  
+        *      3) 3/sqrt(3) = ~1.73
+        *      4) x > ~1.73
+        *   
+        *    X values for sector between 120° and 90°:
+        *      1) cot(30°) = y/x = sqrt(3)           
+        *      2) x(30°) > y / sqrt(3)  
+        *      3) sqrt(3) = ~1.73
+        *      4) y / 1.73 = y * (100/173) = y * ~0.58
+        *      5) -x > -0.58y
+        *      
+        *   Y values for sector between 30° and -30°
+        *       1) cot(30°) = y/x = sqrt(3)  
+        *       2) y = x * sqrt(3)
+        *       3) sqrt(3) = ~1.73
+        *       4) x / 1.73 = x * (100/173) = x * ~0.58
+        *       4) less than 30° => y < 0.58x
+        *       5) more than -30° = -y > 0.58x 
+        *   
+        *   000 WRONG calculations BELOW 000
+        *   X values for sector between 0° and 60°:
+        *      1) cot(60°) = y/x = sqrt(3)/3              
+        *      2) x = 3/sqrt(3) * y
+        *      3) 3/sqrt(3) = ~1.73
+        *      4) x > 0 && x < 1.73 y
+        *      
+        *   X values for sector between 120° and 0°:
+        *      1) cot(120°) = y/x = -sqrt(3)/3              
+        *      2) x = -3/sqrt(3) * y
+        *      3) 3/sqrt(3) = ~ -1.73
+        *      4) x < 0 && x > -1.73 y
+        *      
+        *     Final X values for pure NORTH (between 120° and 60°): 
+        *         -1.73y < x < 1.73 y 
+        *         
+        *     X values for sector NORTH-EAST (between 60° and 30°):
+        *          1) cot(30°) = y/x = sqrt(3)           
+        *          2) x(30°) = y / sqrt(3)  
+        *          3) sqrt(3) = ~1.73
+        *          4) y / 1.73 = y * (100/173) = y * ~0.58
+        *          5) x(30°) = 0.58y //1.73 y > x > 0.58y
+        *          
+        *      X values for sector NORTH-WEST (between 150° and 120°):
+        *          1) cot(150°) = y/x = -sqrt(3)           
+        *          2) x(150°) = y / -sqrt(3)  
+        *          3) sqrt(3) = ~-1.73
+        *          4) y / -1.73 = y * -(100/173) = y * -~0.58
+        *          5) x(150°) = -0.58*y //-0.58*y < x < -1.73*y
+        */
+        #endregion
+        // NORTH
+        if (y > 0)
+        {
+            #region pure NORTH
+            /* // (between 150° and 60°) 
+            if (x < 0.58 * y && // true if angle more than 60°
+                -x > -0.58 * y) // true if angle less than 150°
+            {
+                moveDirection = Direction.North;
+            }*/
+            #endregion
+            #region NORTH-EAST
+            // between 90° and 30° 
+            if (x < 1.73 * y && // true if angle more than 30°
+                x > 0)          // true if angle less than 90°
+            {
+                Debug.Log("moving ne " + Time.time);
+                moveDirection = Direction.NorthEast;
+                directionFound = true;
+            }
+            #endregion
+            #region NORTH-WEST
+            // between 150° and 90°
+            else if (x < 0 &&           // true if angle more than 90°
+                    -x > -1.73 * y)     // true if angle less than 150°
+            {
+                Debug.Log("moving nw " + Time.time);
+                moveDirection = Direction.NorthWest; 
+                directionFound = true;
+            }
+            #endregion
+        }
+        // SOUTH
+        else if (y < 0)
+        {
+            #region SOUTH-WEST
+            // between 210° and 270°
+            if (x < 0 &&            // true if angle less than 270°
+                x > 1.73 * y)     // true if angle more than 210°
+            {
+                Debug.Log("moving sw " + Time.time);
+                moveDirection = Direction.SouthWest;
+                directionFound = true;
+            }
+            #endregion
+            #region SOUTH-EAST
+            // between 270° and 330°
+            if (x > 0 &&            // true if angle more than 270°
+                -x > 1.73 * y)       // true if angle less than 330°
+            {
+                Debug.Log("moving se " + Time.time);
+                moveDirection = Direction.SouthEast;
+                directionFound = true;
+            }
+            #endregion
+        }
+        // WEST
+        if (x > 0)
+        {
+            // between 30° and -30°
+            if (y < 0.58 * x &&     // angle less than 30° 
+                -y > -0.58 * x)       // angle more than -30°
+            //if (!directionFound)
+            {
+                Debug.Log(y + "x: " + x + " moving w " + Time.time);
+                moveDirection = Direction.West;
+            }
+        }
+        // EAST
+        else if (x < 0)
+        {
+            // between 150° and 210°
+            if (y < -0.58 * x &&     // angle more than 150° 
+                y > 0.58 * x)       // angle less than -210°
+            {
+                Debug.Log("moving e " + Time.time);
+                moveDirection = Direction.East;
+            }
+
+        }
+
+
+        //Debug.Log("Moving " + moveDirection + ". Time: " + Time.time);
     }
 
     public void GetTargetPositionAndDirection()
@@ -133,6 +307,8 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (playerController.isDeathAnimation)
             return;
+        //Debug.Log("YES" + Time.time);
+        GetMoveDirection();
         transform.position = new Vector2
             (transform.position.x, transform.position.y) +
             dirNormalized *
@@ -253,7 +429,7 @@ public class PlayerMovement : MonoBehaviour {
         // LEFT BORDDER
         if (hit.transform.gameObject.layer == LayerIDs.leftBorder)
         {
-            Debug.Log("left: " + Time.time);
+            //Debug.Log("left: " + Time.time);
             // attempt to "slide around" the obstacle/border if going from right to left
             if ((targetPosition.y > transform.position.y || targetPosition.y < transform.position.y)
                 && !(targetPosition.x >= transform.position.x))
@@ -274,7 +450,7 @@ public class PlayerMovement : MonoBehaviour {
         // BOTTOM BORDER
         if (hit.transform.gameObject.layer == LayerIDs.bottomBorder)
         {
-            Debug.Log("bottom: " + Time.time);
+            //Debug.Log("bottom: " + Time.time);
             // attempt to "slide around" the obstacle/border if going from UP to DOWN
             if ((targetPosition.x > transform.position.x || targetPosition.x < transform.position.x)
                 && targetPosition.y <= transform.position.y)
@@ -438,13 +614,13 @@ public class PlayerMovement : MonoBehaviour {
                 // don't walk right if on east border
                 && !(isOnEastBorder && dirNormalized.x > 0))
             {
-                Debug.Log("IS MOVE");
+                //Debug.Log("IS MOVE");
                 dirNormalized = new Vector2(dirNormalized.x, 0);
             }
             else
             {
                 StopWalking();
-                Debug.Log("SHOULDNT MOVE");
+                //Debug.Log("SHOULDNT MOVE");
             }
         }
     }
