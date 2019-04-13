@@ -17,10 +17,14 @@ public class PlayerMovement : MonoBehaviour {
     /// </summary>
     [HideInInspector]
     public Vector2 dirNormalized;
-    private Direction moveDirection;
+    [HideInInspector]
+    public Direction moveDirection;
     [HideInInspector]
     public bool isWalking = false;
+    [HideInInspector]
+    public bool has6animations = false; // disabling placeholder animations
 
+    #region COLLISIONS 
     /// <summary>
     /// detected collision with background - player has to stop walking
     /// </summary>
@@ -41,6 +45,7 @@ public class PlayerMovement : MonoBehaviour {
     bool isOnSouthBorder = false;
     bool isOnWestBorder = false;
     bool isOnEastBorder = false;
+    #endregion
     #endregion
 
     void Start()
@@ -207,27 +212,28 @@ public class PlayerMovement : MonoBehaviour {
             }
             #endregion
         }
-        // WEST
+        // EAST
         if (x > 0)
         {
             // between 30° and -30°
             if (y < 0.58 * x &&     // angle less than 30° 
-                -y > -0.58 * x)       // angle more than -30°
-            //if (!directionFound)
+                -y > -0.58 * x      // angle more than -30°
+                && !directionFound)       
+            //if ()
             {
-                Debug.Log(y + "x: " + x + " moving w " + Time.time);
-                moveDirection = Direction.West;
+                Debug.Log(" moving e " + Time.time);
+                moveDirection = Direction.East;
             }
         }
-        // EAST
+        // WEST
         else if (x < 0)
         {
             // between 150° and 210°
             if (y < -0.58 * x &&     // angle more than 150° 
                 y > 0.58 * x)       // angle less than -210°
             {
-                Debug.Log("moving e " + Time.time);
-                moveDirection = Direction.East;
+                Debug.Log("moving w " + Time.time);
+                moveDirection = Direction.West;
             }
 
         }
