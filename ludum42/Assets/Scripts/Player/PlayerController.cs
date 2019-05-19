@@ -510,50 +510,7 @@ public class PlayerController : MonoBehaviour
     void LateUpdate()
     {
         // ANIMATIONEventSystem.current.IsPointerOverGameObject
-
         playerAnimator.SetBool("isWalking", playerMovement.isWalking);
-        if (playerMovement.isWalking)
-        {
-
-            int x = 1;
-            int y = 0;
-
-            if (playerMovement.has6animations)
-            {
-                if (playerMovement.moveDirection == Direction.East)
-                {
-                    x = 1;
-                    y = 0;
-                }
-                if (playerMovement.moveDirection == Direction.SouthEast)
-                {
-                    x = 1;
-                    y = -1;
-                }
-                if (playerMovement.moveDirection == Direction.SouthWest)
-                {
-                    x = 1;
-                    y = -1;
-                }
-                if (playerMovement.moveDirection == Direction.West)
-                {
-                    x = -1;
-                    y = 0;
-                }
-                if (playerMovement.moveDirection == Direction.NorthEast)
-                {
-                    x = 1;
-                    y = 1;
-                }
-                if (playerMovement.moveDirection == Direction.NorthWest)
-                {
-                    x = -1;
-                    y = 1;
-                }
-            }
-            playerAnimator.SetFloat("dirX", x);
-            playerAnimator.SetFloat("dirY", y);
-        }
 
         ManageIdleState();
         
