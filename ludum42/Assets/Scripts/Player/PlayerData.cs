@@ -120,7 +120,7 @@ public class PlayerData
     #endregion
 
     #region INVENTORY and CONSUMABLES
-    public int inventorySize = 15;
+    public int inventorySize = 11;
 
     public int lifeGainFromEatingHand = 20;
     public int lifeGainFromEatingHeart = 40;
