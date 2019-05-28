@@ -12,7 +12,7 @@ public class PlayerInventory : MonoBehaviour
     GameObject[] inventorySlots;
     [SerializeField]
     GameObject inventorySlotContainer;
-    int inventorySize = 16;
+    int inventorySize;
     #endregion
 
     #region EQUIPPED ITEMS
@@ -24,6 +24,10 @@ public class PlayerInventory : MonoBehaviour
     InventorySlot equippedRightHandSlot;
     [SerializeField]
     InventorySlot equippedHeartSlot;
+    #endregion
+
+    #region Eat item butto
+    public EatItemButton eatItemButton;
     #endregion
 
     public void EquipItem(Item itemToEquip)
@@ -100,6 +104,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void InitializeInventorySlots()
     {
+        inventorySize = PlayerData.current.inventorySize;
         inventorySlots = new GameObject[inventorySize];
         for (int i = 0; i < inventorySize; i++)
         {
@@ -195,4 +200,9 @@ public class PlayerInventory : MonoBehaviour
         }
         return null;
     }
+
+    /*public void ShowEatItemButton(bool show = true)
+    {
+        eatItemButton.SetActive(show);
+    }*/
 }

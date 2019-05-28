@@ -119,6 +119,14 @@ public class PlayerData
     public int killsRequiredForNextPoint = 1;   // if you die before killing this number of enemies, you don't get points
     #endregion
 
+    #region INVENTORY and CONSUMABLES
+    public int inventorySize = 15;
+
+    public int lifeGainFromEatingHand = 20;
+    public int lifeGainFromEatingHeart = 40;
+    public int manaGainFromEatingEye = 30;
+    #endregion
+
     public PlayerData()
     {
         if (SinTree.current == null)
@@ -292,10 +300,40 @@ public class PlayerData
     public void DamagePlayer(int damageAmount)
     {
         playerWoundDetected = true;
+        // kill player
         if (damageAmount > currentLife)
+        {
             currentLife = 0;
+        }
+        // heal player to max
+        else if (damageAmount < 0 && currentLife - damageAmount > maxLife)
+        {
+            currentLife = maxLife;
+        }
+        // heal or wound player
         else
+        {
             currentLife -= damageAmount;
+        }
+    }
+
+
+    public void DamagePlayerMana(int damageAmount)
+    {
+        if (damageAmount > currentMana)
+        {
+            currentMana = 0;
+        }
+        // heal player to max
+        else if (damageAmount < 0 && currentMana - damageAmount > maxMana)
+        {
+            currentMana = maxMana;
+        }
+        // heal or wound player
+        else
+        {
+            currentMana -= damageAmount;
+        }
     }
 
     // returns the cost of cheapest sin tree skill

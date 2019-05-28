@@ -49,15 +49,39 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (isFilled)
         {
-            if (isBackpackSlot)
+            if (playerInventory.eatItemButton.isHighlighted)
             {
-                EquipItemInSlot();
+                EatItem();
+                RemoveItemFromSlot();
             }
             else
             {
-                playerInventory.AddItemToBackpack(itemInSlot);
-                RemoveItemFromSlot();
+                if (isBackpackSlot)
+                {
+                    EquipItemInSlot();
+                }
+                else
+                {
+                    playerInventory.AddItemToBackpack(itemInSlot);
+                    RemoveItemFromSlot();
+                }
             }
+        }
+    }
+
+    private void EatItem()
+    {
+        if (itemInSlot.itemType == ItemType.Eye)
+        {
+            PlayerData.current.DamagePlayerMana(-PlayerData.current.manaGainFromEatingEye);
+        }
+        else if (itemInSlot.itemType == ItemType.Heart)
+        {
+            PlayerData.current.DamagePlayer(-PlayerData.current.lifeGainFromEatingHeart);
+        }
+        else if (itemInSlot.itemType == ItemType.Hand)
+        {
+            PlayerData.current.DamagePlayer(-PlayerData.current.lifeGainFromEatingHand);
         }
     }
 
@@ -182,6 +206,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (isBackpackSlot)
         {
             // first item
+            Debug.Log(gameObject.name);
             playerInventory.GetInventorySlotOfType(itemInSlot.itemType).highlightItemBackground(highlight);
             // second item (if it exists)
             playerInventory.GetInventorySlotOfType(itemInSlot.itemType, false).highlightItemBackground(highlight);
@@ -192,6 +217,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void DisplayItemInfo(bool display)
     {
         itemInfoPanelManager.DisplayItemInfo(itemInSlot, playerInventory, display, !isBackpackSlot);
+        //playerInventory.ShowEatItemButton(display);
         //itemInfoPanel.DisplayItemInfo(itemInSlot, display);
 
         if (!display)
