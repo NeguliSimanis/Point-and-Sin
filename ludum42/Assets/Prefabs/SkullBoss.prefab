@@ -319,7 +319,10 @@ MonoBehaviour:
   shootSFX: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
   deathSFX: {fileID: 8300000, guid: d5de0f042c6317742b737362c1fd5409, type: 3}
   woundedSFX: {fileID: 8300000, guid: 312b908824d2cdf4f93e767ab361a9c1, type: 3}
-  noticePlayerSFX: {fileID: 8300000, guid: 0e049a87601ee6c448e4402e80ce6076, type: 3}
+  noticePlayerSFX:
+  - {fileID: 8300000, guid: 5962994ca3e8da3469d4c3b409152a98, type: 3}
+  - {fileID: 8300000, guid: 9e1542bd0a6727d4cba4a9362d00b7de, type: 3}
+  - {fileID: 8300000, guid: 0e049a87601ee6c448e4402e80ce6076, type: 3}
   shootSFXVolume: 0.03
   deathSFXVolume: 1
   woundedSFXVolume: 1

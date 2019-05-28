@@ -100,13 +100,16 @@ public class EnemyController : MonoBehaviour {
     #endregion
 
     #region AUDIO
-    [Header("Audio")]
+   
     AudioSource enemyAudioSource;
     AudioSource audioControl;
+     [Header("Audio")]
     [SerializeField] AudioClip shootSFX;
     [SerializeField] AudioClip deathSFX;
     [SerializeField] AudioClip woundedSFX;
-    [SerializeField] AudioClip noticePlayerSFX;
+    [SerializeField] AudioClip[] noticePlayerSFX;
+    int noticePlayerSFXCount;
+    int lastPlayedNoticePlayerSFX_ID = -1;
     [SerializeField] float shootSFXVolume;
     [SerializeField] float deathSFXVolume = 0.9f;
     [SerializeField] float woundedSFXVolume;
@@ -143,6 +146,7 @@ public class EnemyController : MonoBehaviour {
         enemyID = EnemyData.current.GetEnemyID();
         enemyAudioSource = gameObject.GetComponent<AudioSource>();
         currentHP = maxHP;
+        noticePlayerSFXCount = noticePlayerSFX.Length;
 
         //  prepare a copy of this object in case it is neeeded to spawn a minion
         enemyCopy = this.gameObject;
@@ -402,7 +406,7 @@ public class EnemyController : MonoBehaviour {
             isPlayerVisible = true;
             if (type == EnemyType.SkullBoss && !isPlayerMinion)
             {
-                enemyAudioSource.PlayOneShot(noticePlayerSFX, noticePlayerSFXVolume);
+                PlaySFXBossNoticesPlayer();
                 if (seenPlayerAtLeastOnce == false)
                 {
                     seenPlayerAtLeastOnce = true;
@@ -414,6 +418,35 @@ public class EnemyController : MonoBehaviour {
         enemyAnimator.SetBool("isWalking", !isPlayerMinion);
         //enemyAnimator.SetBool("isWalking", isPlayerMinion);
         isIdleA = isPlayerMinion;
+    }
+
+    /// <summary>
+    /// Chooses one of the bosss voice lines and plays it when player is noticed
+    /// </summary>
+    void PlaySFXBossNoticesPlayer()
+    {
+        int currentSFX_ID = lastPlayedNoticePlayerSFX_ID;
+        // play the random line the first time the method is called
+        if (lastPlayedNoticePlayerSFX_ID == -1)
+        {
+            Debug.Log("case 1");
+            currentSFX_ID = Random.Range(0, (noticePlayerSFXCount-1));
+        }
+        // play the next line each time method is called
+        else if (lastPlayedNoticePlayerSFX_ID < noticePlayerSFXCount - 1)
+        {
+            Debug.Log("case 2");
+            currentSFX_ID = lastPlayedNoticePlayerSFX_ID + 1;
+        }
+        // start from the beginning of voice line array if last line reached
+        else if (lastPlayedNoticePlayerSFX_ID >= noticePlayerSFXCount - 1)
+        {
+            Debug.Log("case 3");
+            currentSFX_ID = 0;
+        }
+        enemyAudioSource.PlayOneShot(noticePlayerSFX[currentSFX_ID], noticePlayerSFXVolume);
+        lastPlayedNoticePlayerSFX_ID = currentSFX_ID;
+        Debug.Log("last played sfx - " + lastPlayedNoticePlayerSFX_ID + ". current sfx -  " + currentSFX_ID);
     }
 
     void ShowBossHPBar()
@@ -480,11 +513,10 @@ public class EnemyController : MonoBehaviour {
 
     public void TakeDamage(int damageAmount, DamageSource damageSource)
     {
-        Debug.Log("was");
         fatalBlowSource = damageSource;
         if (damageSource == DamageSource.PlayerFireball || damageSource == DamageSource.PlayerMelee)
         {
-            Debug.Log("NOTICE");
+            //Debug.Log("NOTICE");
             NoticePlayer();
         }
         enemyAnimator.SetTrigger("damaged");

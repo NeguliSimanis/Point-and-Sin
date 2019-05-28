@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour {
             if (x < 1.73 * y && // true if angle more than 30°
                 x > 0)          // true if angle less than 90°
             {
-                Debug.Log("moving ne " + Time.time);
+                //Debug.Log("moving ne " + Time.time);
                 moveDirection = Direction.NorthEast;
                 directionFound = true;
             }
@@ -177,7 +177,7 @@ public class PlayerMovement : MonoBehaviour {
             else if (x < 0 &&           // true if angle more than 90°
                     -x > -1.73 * y)     // true if angle less than 150°
             {
-                Debug.Log("moving nw " + Time.time);
+                //Debug.Log("moving nw " + Time.time);
                 moveDirection = Direction.NorthWest; 
                 directionFound = true;
             }
@@ -191,7 +191,7 @@ public class PlayerMovement : MonoBehaviour {
             if (x < 0 &&            // true if angle less than 270°
                 x > 1.73 * y)     // true if angle more than 210°
             {
-                Debug.Log("moving sw " + Time.time);
+                //Debug.Log("moving sw " + Time.time);
                 moveDirection = Direction.SouthWest;
                 directionFound = true;
             }
@@ -201,7 +201,7 @@ public class PlayerMovement : MonoBehaviour {
             if (x > 0 &&            // true if angle more than 270°
                 -x > 1.73 * y)       // true if angle less than 330°
             {
-                Debug.Log("moving se " + Time.time);
+               // Debug.Log("moving se " + Time.time);
                 moveDirection = Direction.SouthEast;
                 directionFound = true;
             }
@@ -215,7 +215,7 @@ public class PlayerMovement : MonoBehaviour {
                 -y > -0.58 * x)       // angle more than -30°
             //if (!directionFound)
             {
-                Debug.Log(y + "x: " + x + " moving w " + Time.time);
+                //Debug.Log(y + "x: " + x + " moving w " + Time.time);
                 moveDirection = Direction.West;
             }
         }
@@ -226,7 +226,7 @@ public class PlayerMovement : MonoBehaviour {
             if (y < -0.58 * x &&     // angle more than 150° 
                 y > 0.58 * x)       // angle less than -210°
             {
-                Debug.Log("moving e " + Time.time);
+                //Debug.Log("moving e " + Time.time);
                 moveDirection = Direction.East;
             }
 
