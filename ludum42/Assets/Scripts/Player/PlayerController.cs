@@ -83,7 +83,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     ToggleActiveState characterPanelToggle;
     [SerializeField]
+    ToggleActiveState characterPanelButtonToggle;
+    [SerializeField]
     ToggleActiveState inventoryPanelToggle;
+    [SerializeField]
+    ToggleActiveState inventoryPanelButtonToggle;
 
     [SerializeField]
     Image healthBar;
@@ -341,10 +345,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             characterPanelToggle.Toggle();
+            characterPanelButtonToggle.Toggle();
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
             inventoryPanelToggle.Toggle();
+            inventoryPanelButtonToggle.Toggle();
         }
     }
 
@@ -497,11 +503,18 @@ public class PlayerController : MonoBehaviour
     {
         while (PlayerData.current.maxMana > PlayerData.current.currentMana)
         {
-            PlayerData.current.currentMana += PlayerData.current.manaRegenPerInterval;
-            if (PlayerData.current.currentMana >= PlayerData.current.maxMana)
+            if (PlayerData.current.isGamePaused)
             {
-                PlayerData.current.currentMana = PlayerData.current.maxMana;
                 isRegeneratingMana = false;
+            }
+            else
+            {
+                PlayerData.current.currentMana += PlayerData.current.manaRegenPerInterval;
+                if (PlayerData.current.currentMana >= PlayerData.current.maxMana)
+                {
+                    PlayerData.current.currentMana = PlayerData.current.maxMana;
+                    isRegeneratingMana = false;
+                }
             }
             yield return new WaitForSeconds(PlayerData.current.manaRegenInterval);
         }

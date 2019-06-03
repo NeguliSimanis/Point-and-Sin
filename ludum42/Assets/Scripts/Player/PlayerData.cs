@@ -7,7 +7,7 @@ public class PlayerData
     public static PlayerData current;
 
     #region GAME MODE
-    public bool isBrutalUnlocked = true;
+    public bool isBrutalUnlocked = false;
     public bool isPlayingBrutalMode = false;
     #endregion
 
@@ -192,6 +192,15 @@ public class PlayerData
     public void Pause(bool isPaused)
     {
         isGamePaused = isPaused;
+        Debug.Log("Pausing!");
+        /*if (isPaused)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }*/
     }
 
     public void AddExp(int expGained)
@@ -299,7 +308,10 @@ public class PlayerData
 
     public void DamagePlayer(int damageAmount)
     {
-        playerWoundDetected = true;
+        // player is wounded
+        if (damageAmount > 0)
+            playerWoundDetected = true; // used for playing wounded effect
+
         // kill player
         if (damageAmount > currentLife)
         {
