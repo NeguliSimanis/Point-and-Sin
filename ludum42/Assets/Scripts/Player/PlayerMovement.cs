@@ -41,11 +41,19 @@ public class PlayerMovement : MonoBehaviour {
     bool isOnSouthBorder = false;
     bool isOnWestBorder = false;
     bool isOnEastBorder = false;
+
+    [Header("DEBUG")]
+    [SerializeField]
+    GameObject playerLineMarker;
+    [SerializeField]
+    GameObject playerDestinationMarker;
     #endregion
+
 
     void Start()
     {
         playerController = gameObject.GetComponent<PlayerController>();
+        transform.position = PixelPerfectClamp(transform.position);
     }
 
     void Update()
@@ -240,6 +248,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         targetPosition = Input.mousePosition;
         targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
+        Instantiate(playerDestinationMarker, targetPosition, Quaternion.identity);
         GetDirNormalized(targetPosition);
     }
 
@@ -309,11 +318,17 @@ public class PlayerMovement : MonoBehaviour {
             return;
         //Debug.Log("YES" + Time.time);
         GetMoveDirection();
-        transform.position = new Vector2
-            (transform.position.x, transform.position.y) +
-            dirNormalized *
+
+        Vector2 moveVector = dirNormalized*
             PlayerData.current.moveSpeed *
             Time.deltaTime;
+
+        moveVector = PixelPerfectClamp(moveVector);
+
+        transform.position = new Vector2
+            (transform.position.x, transform.position.y) + moveVector;
+
+        Instantiate(playerLineMarker, transform.position, Quaternion.identity);
     }
 
 
@@ -705,6 +720,57 @@ public class PlayerMovement : MonoBehaviour {
         {
             isWalking = true;
         }
+    }
+
+    /// <summary>
+    /// Code taken from https://www.youtube.com/watch?v=OBulUgXe7rA
+    /// </summary>
+    /// <param name="moveVector"></param>
+    /// <param name="pixelsPerUnit"></param>
+    /// <returns></returns>
+    private Vector2 PixelPerfectClamp(Vector2 moveVector)
+    {
+        Vector2 vectorInPixels = new Vector2(
+            Mathf.RoundToInt(moveVector.x * PlayerData.current.pixelsPerUnit),
+            Mathf.RoundToInt(moveVector.y * PlayerData.current.pixelsPerUnit));
+
+        Vector2 clampedVector = vectorInPixels / PlayerData.current.pixelsPerUnit;
+
+
+        // targetPosition = new Vector2(targetPositionWithoutOffset.x, targetPositionWithoutOffset.y + legYOffset);
+
+        // WEST
+        // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
+        if (clampedVector.x == 0 && targetPosition.x > transform.position.x + 1 / PlayerData.current.pixelsPerUnit)
+        {
+            clampedVector.x = 1 / PlayerData.current.pixelsPerUnit;
+        }
+
+        // EAST
+        // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
+        if (clampedVector.x == 0 && targetPosition.x < transform.position.x - 1 / PlayerData.current.pixelsPerUnit)
+        {
+            clampedVector.x = -1 / PlayerData.current.pixelsPerUnit;
+        }
+
+        // NORTH
+        // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
+
+        if (clampedVector.y == 0 && targetPosition.y > transform.position.y + 1 / PlayerData.current.pixelsPerUnit)
+        {
+            clampedVector.y = 1 / PlayerData.current.pixelsPerUnit;
+        }
+
+        // SOUTH
+        // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
+        if (clampedVector.y == 0 && targetPosition.y < transform.position.y - 1 / PlayerData.current.pixelsPerUnit)
+        {
+            clampedVector.y = -1 / PlayerData.current.pixelsPerUnit;
+        }
+
+
+
+        return clampedVector;
     }
 
 }

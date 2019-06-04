@@ -6,6 +6,8 @@ public class PlayerData
 {
     public static PlayerData current;
 
+    public float pixelsPerUnit = 32;
+
     #region GAME MODE
     public bool isBrutalUnlocked = false;
     public bool isPlayingBrutalMode = false;
