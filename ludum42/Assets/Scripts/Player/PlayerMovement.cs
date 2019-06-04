@@ -259,6 +259,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         // calculate direction without any restrictions
         dirNormalized = new Vector2(sourceVector.x - transform.position.x, sourceVector.y - transform.position.y);
+        dirNormalized = PixelPerfectClamp(dirNormalized);
         dirNormalized = dirNormalized.normalized;
         //Debug.Log("dirnormal " + dirNormalized);
 
@@ -316,7 +317,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (playerController.isDeathAnimation)
             return;
-        //Debug.Log("YES" + Time.time);
+        Debug.Log(targetPosition + " " + Time.time);
         GetMoveDirection();
 
         Vector2 moveVector = dirNormalized*
