@@ -137,6 +137,11 @@ public class PlayerData
         Reset();
     }
 
+    public float MovementUnit()
+    {
+        return 1f / pixelsPerUnit;
+    }
+
     public void Reset()
     {
         // RESET MINIONS

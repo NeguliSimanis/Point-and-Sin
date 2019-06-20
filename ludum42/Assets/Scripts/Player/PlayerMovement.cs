@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour {
     void Start()
     {
         playerController = gameObject.GetComponent<PlayerController>();
-        transform.position = PixelPerfectClamp(transform.position);
+        transform.position = ClampPlayerMoveVector(transform.position);
     }
 
     void Update()
@@ -253,15 +253,13 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     /// <summary>
-    /// get the direction in which the player should move to reach target pos
+    /// get the direction in which the player should move to reach target position
     /// </summary>
     void GetDirNormalized(Vector2 sourceVector)
     {
         // calculate direction without any restrictions
         dirNormalized = new Vector2(sourceVector.x - transform.position.x, sourceVector.y - transform.position.y);
-        dirNormalized = PixelPerfectClamp(dirNormalized);
         dirNormalized = dirNormalized.normalized;
-        //Debug.Log("dirnormal " + dirNormalized);
 
         // apply movement restrictions in 4 directions - this happens if character has walked onto the edge of the level
         // UP
@@ -317,14 +315,17 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (playerController.isDeathAnimation)
             return;
-        Debug.Log(targetPosition + " " + Time.time);
-        GetMoveDirection();
+        
+        //GetMoveDirection();
 
         Vector2 moveVector = dirNormalized*
             PlayerData.current.moveSpeed *
             Time.deltaTime;
 
-        moveVector = PixelPerfectClamp(moveVector);
+        moveVector = ClampPlayerMoveVector(moveVector);
+
+        //Debug.Log(moveVector.x + " - X. " + Time.time);
+        //Debug.Log(moveVector.y + " - Y. " + Time.time);
 
         transform.position = new Vector2
             (transform.position.x, transform.position.y) + moveVector;
@@ -724,32 +725,99 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     /// <summary>
-    /// Code taken from https://www.youtube.com/watch?v=OBulUgXe7rA
+    /// Base idea taken from https://www.youtube.com/watch?v=OBulUgXe7rA
+    /// 
+    /// Second, we analyze vector x, y components
+    /// 
     /// </summary>
     /// <param name="moveVector"></param>
     /// <param name="pixelsPerUnit"></param>
     /// <returns></returns>
-    private Vector2 PixelPerfectClamp(Vector2 moveVector)
+    private Vector2 ClampPlayerMoveVector(Vector2 moveVector)
     {
+
         Vector2 vectorInPixels = new Vector2(
             Mathf.RoundToInt(moveVector.x * PlayerData.current.pixelsPerUnit),
             Mathf.RoundToInt(moveVector.y * PlayerData.current.pixelsPerUnit));
 
         Vector2 clampedVector = vectorInPixels / PlayerData.current.pixelsPerUnit;
 
+        // Distance to target position
+        // X distance positive - target to the right, negative - to the left
+        // Y distance positive - target up, negative - down
+        float xDistance = targetPosition.x - transform.position.x;
+        float yDistance = targetPosition.y - transform.position.y;
+
+        // check if moving to the right won't bring you further from the target on Y axis
+        /*if (clampedVector.x > 0)
+        {
+            if (transform.position.x + clampedVector.x 
+        }*/
+
+        // NORTH-EAST
+        if (yDistance > 0 && xDistance > 0)
+        {
+            //Debug.Log("clampedVector 1 x " + clampedVector.x);
+            //Debug.Log("clampedVector  1 y " + clampedVector.y);
+            if (yDistance > xDistance && clampedVector.x > 0)
+            {
+                Debug.Log("CASE 1 ");
+                clampedVector = new Vector2(0,clampedVector.y);
+            }
+            if (xDistance > yDistance && clampedVector.y > 0)
+            {
+                Debug.Log("CASE 2 ");
+                clampedVector = new Vector2(clampedVector.x, 0);
+            }
+            //Debug.Log("GOING NE");
+            //Debug.Log(1f/ PlayerData.current.pixelsPerUnit);
+           // Debug.Log("clampedVector x " + clampedVector.x);
+            //Debug.Log("clampedVector y " + clampedVector.y);
+            //Debug.Log("clamp x " + clampedVector.x);
+            //Debug.Log("clamp y " + clampedVector.y);
+
+            //if (transform.position.x + clampedVector.x)
+
+        }
+        // SOUTH-EAST
+        if (yDistance < 0 && xDistance > 0)
+        {
+            Debug.Log("GOING SE");
+        }
+        // NORTH-WEST
+        if (yDistance > 0 && xDistance < 0)
+        {
+            Debug.Log("GOING NW");
+        }
+        // SOUTH-WEST
+        if (yDistance < 0 && xDistance < 0)
+        {
+            Debug.Log("GOING SW");
+        }
+
+        if (transform.position.x < targetPosition.x)
+        {
+
+        }
+
+
+
+
 
         // targetPosition = new Vector2(targetPositionWithoutOffset.x, targetPositionWithoutOffset.y + legYOffset);
-
+        
         // WEST
         // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
-        if (clampedVector.x == 0 && targetPosition.x > transform.position.x + 1 / PlayerData.current.pixelsPerUnit)
+        if (clampedVector.x == 0 &&
+            targetPosition.x > transform.position.x + 1 / PlayerData.current.pixelsPerUnit)
         {
             clampedVector.x = 1 / PlayerData.current.pixelsPerUnit;
         }
 
         // EAST
         // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
-        if (clampedVector.x == 0 && targetPosition.x < transform.position.x - 1 / PlayerData.current.pixelsPerUnit)
+        if (clampedVector.x == 0 &&
+            targetPosition.x < transform.position.x - 1 / PlayerData.current.pixelsPerUnit)
         {
             clampedVector.x = -1 / PlayerData.current.pixelsPerUnit;
         }
@@ -757,14 +825,16 @@ public class PlayerMovement : MonoBehaviour {
         // NORTH
         // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
 
-        if (clampedVector.y == 0 && targetPosition.y > transform.position.y + 1 / PlayerData.current.pixelsPerUnit)
+        if (clampedVector.y == 0 &&
+            targetPosition.y > transform.position.y + 1 / PlayerData.current.pixelsPerUnit)
         {
             clampedVector.y = 1 / PlayerData.current.pixelsPerUnit;
         }
 
         // SOUTH
         // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
-        if (clampedVector.y == 0 && targetPosition.y < transform.position.y - 1 / PlayerData.current.pixelsPerUnit)
+        if (clampedVector.y == 0 &&
+            targetPosition.y < transform.position.y - 1 / PlayerData.current.pixelsPerUnit)
         {
             clampedVector.y = -1 / PlayerData.current.pixelsPerUnit;
         }
