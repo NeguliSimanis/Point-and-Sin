@@ -463,7 +463,7 @@ public class EnemyController : MonoBehaviour {
 
     void PatrolArea()
     {
-
+        //Soon
     }
 
     void FollowPlayer()
@@ -500,8 +500,7 @@ public class EnemyController : MonoBehaviour {
 
     void GetTargetPositionAndDirection()
     {
-        dirNormalized = new Vector2(targetPosition.x - transform.position.x, targetPosition.y - transform.position.y);
-        dirNormalized = dirNormalized.normalized;
+        dirNormalized = new Vector2(targetPosition.x - transform.position.x, targetPosition.y - transform.position.y).normalized;
     }
 
     void MoveEnemy()

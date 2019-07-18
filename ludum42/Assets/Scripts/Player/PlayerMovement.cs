@@ -1,11 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Moves player in the following way:
+///     1) Gets target position from mouse input
+///     2) Determine whether further away from target pos on X or Y axis
+///     3) Evaluate per how many steps on furthest axis you need to take a step on the shortest axis
+///     4) Move along the longest distance at player speed, adding to the rate determined in 3)
+///     
+/// TODO:
+///     - Cleanup unused level border detection
+/// </summary>
 public class PlayerMovement : MonoBehaviour {
 
     #region VARIABLES
+
     [SerializeField]
     Transform playerLegTransform; // used to check level borders
     private PlayerController playerController;
@@ -18,6 +27,12 @@ public class PlayerMovement : MonoBehaviour {
     [HideInInspector]
     public Vector2 dirNormalized;
     private Direction moveDirection;
+    private float remainingDistanceX;
+    private float remainingDistanceY;
+    private bool xDistanceBiggerThanY = true;
+    private float bigDistanceSmallDistanceRatio; // e.g. movement units on X axis per movement units on Y axis
+    private float bigDistanceTravelled;
+
     [HideInInspector]
     public bool isWalking = false;
 
@@ -43,6 +58,8 @@ public class PlayerMovement : MonoBehaviour {
     bool isOnEastBorder = false;
 
     [Header("DEBUG")]
+    [SerializeField]
+    bool debugPlayerTrajectory = false;
     [SerializeField]
     GameObject playerLineMarker;
     [SerializeField]
@@ -248,8 +265,51 @@ public class PlayerMovement : MonoBehaviour {
     {
         targetPosition = Input.mousePosition;
         targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-        Instantiate(playerDestinationMarker, targetPosition, Quaternion.identity);
+
+        targetPosition = GetPixelPerfectTargetPos(targetPosition);
+        SetDistanceVariables();
+
         GetDirNormalized(targetPosition);
+    }
+
+    /// <summary>
+    /// Takes the current target position and clamps it to a pixel perfect position
+    /// </summary>
+    /// <param name="currTargetPos"></param>
+    /// <returns></returns>
+    private Vector2 GetPixelPerfectTargetPos(Vector2 currTargetPos)
+    {
+        Vector2 pixelPerfectTargetPos = new Vector2(PixelClamp.ClampValue(currTargetPos.x),
+             PixelClamp.ClampValue(currTargetPos.y));
+        return pixelPerfectTargetPos;
+    }
+
+    /// <summary>
+    /// <para>Sets remaining distance to target</para>
+    /// <para>Determines whether further away from target on X or Y axis</para>
+    /// Sets the ratio between furthest and closest distance
+    /// Resets big distance travelled
+    /// </summary>
+    private void SetDistanceVariables()
+    {
+        remainingDistanceX = Mathf.Abs(targetPosition.x - transform.position.x);
+        remainingDistanceY = Mathf.Abs(targetPosition.y - transform.position.y);
+
+        if (remainingDistanceX > remainingDistanceY)
+            xDistanceBiggerThanY = true;
+        else
+            xDistanceBiggerThanY = false;
+
+        if (xDistanceBiggerThanY)
+        {
+            bigDistanceSmallDistanceRatio = remainingDistanceX / remainingDistanceY;
+        }
+        else if (!xDistanceBiggerThanY)
+        {
+            bigDistanceSmallDistanceRatio = remainingDistanceY / remainingDistanceX;
+        }
+
+        bigDistanceTravelled = 0;
     }
 
     /// <summary>
@@ -266,25 +326,21 @@ public class PlayerMovement : MonoBehaviour {
         if ((moveUpDisabled || isOnNorthBorder) && dirNormalized.y > 0 )
         {
             dirNormalized = new Vector2(dirNormalized.x, 0);
-            //Debug.Log("up forbidden ");
         }
         // DOWN
         if ((moveDownDisabled || isOnSouthBorder) && dirNormalized.y < 0 )
         {
             dirNormalized = new Vector2(dirNormalized.x, 0);
-            //Debug.Log("down  forbidden ");
         }
         // LEFT
         if ((moveLeftDisabled || isOnWestBorder) && dirNormalized.x < 0 )
         {
             dirNormalized = new Vector2(0, dirNormalized.y);
-            //Debug.Log("left forbidden ");
         }
         // RIGHT
         if ((moveRightDisabled || isOnEastBorder) && dirNormalized.x > 0 )
         {
             dirNormalized = new Vector2(0, dirNormalized.y);
-            //Debug.Log("right forbidden ");
         }
     }
 
@@ -315,24 +371,60 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (playerController.isDeathAnimation)
             return;
-        
-        //GetMoveDirection();
 
+        // Working on this in my branch
+        /*
+        float xSpeed = 0;
+        float ySpeed = 0;
+        
+        // set longest distance speed
+        if (xDistanceBiggerThanY)
+        {
+            xSpeed = dirNormalized.x * PlayerData.current.moveSpeed * Time.deltaTime;
+            bigDistanceTravelled += Mathf.Abs(xSpeed);
+        }
+        else
+        {
+            ySpeed = dirNormalized.y * PlayerData.current.moveSpeed * Time.deltaTime;
+            bigDistanceTravelled += Mathf.Abs(ySpeed);
+        }
+        // set short distance speed
+        if (bigDistanceTravelled > bigDistanceSmallDistanceRatio)
+        {
+            bigDistanceTravelled = 0;
+
+            if (xDistanceBiggerThanY)
+            {
+                ySpeed = dirNormalized.y * PlayerData.current.moveSpeed * Time.deltaTime;
+            }
+            else
+            {
+                xSpeed = dirNormalized.x * PlayerData.current.moveSpeed * Time.deltaTime;
+            }
+        }
+
+
+        Vector2 moveVector = new Vector2(xSpeed, ySpeed);*/
         Vector2 moveVector = dirNormalized*
             PlayerData.current.moveSpeed *
             Time.deltaTime;
 
-        moveVector = ClampPlayerMoveVector(moveVector);
-
-        //Debug.Log(moveVector.x + " - X. " + Time.time);
-        //Debug.Log(moveVector.y + " - Y. " + Time.time);
+        //moveVector = ClampPlayerMoveVector(moveVector);
 
         transform.position = new Vector2
             (transform.position.x, transform.position.y) + moveVector;
 
-        Instantiate(playerLineMarker, transform.position, Quaternion.identity);
+        if (debugPlayerTrajectory)
+            DebugPlayerMoveTrajectory();
     }
 
+    private void DebugPlayerMoveTrajectory()
+    {
+        Instantiate(playerLineMarker, transform.position, Quaternion.identity);
+
+        // this can be used to debug target pos, but it should be called elsewhere
+        // Instantiate(playerDestinationMarker, targetPosition, Quaternion.identity); 
+    }
 
     /// <summary>
     /// Moves the main character if the player has clicked or is holding left mouse
@@ -382,7 +474,6 @@ public class PlayerMovement : MonoBehaviour {
 
     private bool CheckOnWhichBorderIsPlayer()
     {
-        //Debug.Log("LOOKING " + Time.time);
         RaycastHit2D[] hits = Physics2D.RaycastAll(playerLegTransform.position, Vector2.zero);
         bool topBorderFound = false;
         bool bottomBorderFound = false;
@@ -390,7 +481,6 @@ public class PlayerMovement : MonoBehaviour {
         bool rightBorderFound = false;
         for (int arrayID = 0; arrayID < hits.Length; arrayID++)
         {
-            //Debug.Log("CHYECK");
             if (hits[arrayID].transform.gameObject.layer == LayerIDs.topBorder)
             {
                 topBorderFound = true;
@@ -414,10 +504,8 @@ public class PlayerMovement : MonoBehaviour {
         isOnWestBorder = leftBorderFound;
         if (bottomBorderFound || leftBorderFound || rightBorderFound || topBorderFound)
         {
-            //Debug.Log("smth found");
             return true;
         }
-        //Debug.Log("nothing found");
         return false;
     }
 
@@ -513,7 +601,6 @@ public class PlayerMovement : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(playerLegTransform.position, Vector2.zero);
         // RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
-        //Debug.Log(hit.transform.gameObject.name);
         if (hit.collider != null)
         {
             if (CheckOnWhichBorderIsPlayer())
@@ -522,13 +609,11 @@ public class PlayerMovement : MonoBehaviour {
             }
             else
             {
-                //Debug.Log("2  " + Time.time);
                 ReEnableMovementDirection();
             }        
         }
         else
         {
-            //Debug.Log("1  " + Time.time);
             ReEnableMovementDirection();
         }
     }
@@ -624,20 +709,17 @@ public class PlayerMovement : MonoBehaviour {
         // YES - then move
         else if (!moveRightDisabled && !moveLeftDisabled)
         {
-
             // walk left/right BUT
             // don't walk left if on west border
             if (!(isOnWestBorder && dirNormalized.x < 0)
                 // don't walk right if on east border
                 && !(isOnEastBorder && dirNormalized.x > 0))
             {
-                //Debug.Log("IS MOVE");
                 dirNormalized = new Vector2(dirNormalized.x, 0);
             }
             else
             {
                 StopWalking();
-                //Debug.Log("SHOULDNT MOVE");
             }
         }
     }
@@ -668,9 +750,6 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Stop walking
-    /// </summary>
     private void StopWalking()
     {
         isWalking = false;
@@ -726,9 +805,6 @@ public class PlayerMovement : MonoBehaviour {
 
     /// <summary>
     /// Base idea taken from https://www.youtube.com/watch?v=OBulUgXe7rA
-    /// 
-    /// Second, we analyze vector x, y components
-    /// 
     /// </summary>
     /// <param name="moveVector"></param>
     /// <param name="pixelsPerUnit"></param>
@@ -761,38 +837,28 @@ public class PlayerMovement : MonoBehaviour {
             //Debug.Log("clampedVector  1 y " + clampedVector.y);
             if (yDistance > xDistance && clampedVector.x > 0)
             {
-                Debug.Log("CASE 1 ");
                 clampedVector = new Vector2(0,clampedVector.y);
             }
             if (xDistance > yDistance && clampedVector.y > 0)
             {
-                Debug.Log("CASE 2 ");
                 clampedVector = new Vector2(clampedVector.x, 0);
             }
-            //Debug.Log("GOING NE");
-            //Debug.Log(1f/ PlayerData.current.pixelsPerUnit);
-           // Debug.Log("clampedVector x " + clampedVector.x);
-            //Debug.Log("clampedVector y " + clampedVector.y);
-            //Debug.Log("clamp x " + clampedVector.x);
-            //Debug.Log("clamp y " + clampedVector.y);
-
-            //if (transform.position.x + clampedVector.x)
 
         }
         // SOUTH-EAST
         if (yDistance < 0 && xDistance > 0)
         {
-            Debug.Log("GOING SE");
+            //Debug.Log("GOING SE");
         }
         // NORTH-WEST
         if (yDistance > 0 && xDistance < 0)
         {
-            Debug.Log("GOING NW");
+            //Debug.Log("GOING NW");
         }
         // SOUTH-WEST
         if (yDistance < 0 && xDistance < 0)
         {
-            Debug.Log("GOING SW");
+            //Debug.Log("GOING SW");
         }
 
         if (transform.position.x < targetPosition.x)
@@ -800,12 +866,6 @@ public class PlayerMovement : MonoBehaviour {
 
         }
 
-
-
-
-
-        // targetPosition = new Vector2(targetPositionWithoutOffset.x, targetPositionWithoutOffset.y + legYOffset);
-        
         // WEST
         // Distance more than 1 pixel, but rounded movement vector is less than 1 pixel
         if (clampedVector.x == 0 &&
@@ -838,8 +898,6 @@ public class PlayerMovement : MonoBehaviour {
         {
             clampedVector.y = -1 / PlayerData.current.pixelsPerUnit;
         }
-
-
 
         return clampedVector;
     }
