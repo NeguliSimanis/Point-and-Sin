@@ -7,7 +7,7 @@ TextureImporter:
     21300004: necro-melee-attack-35x44_2
     21300006: necro-melee-attack-35x44_3
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -89,7 +89,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,7 +100,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -117,8 +117,8 @@ TextureImporter:
         y: 0
         width: 19
         height: 38
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5049996, y: 0.38423172}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -135,10 +135,10 @@ TextureImporter:
         serializedVersion: 2
         x: 34
         y: 0
-        width: 17
+        width: 19
         height: 36
       alignment: 9
-      pivot: {x: 0.5165737, y: 0.5313051}
+      pivot: {x: 0.5589961, y: 0.40750185}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -158,7 +158,7 @@ TextureImporter:
         width: 27
         height: 30
       alignment: 9
-      pivot: {x: 0.2912996, y: 0.63461185}
+      pivot: {x: 0.3615423, y: 0.46550184}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -178,7 +178,7 @@ TextureImporter:
         width: 21
         height: 29
       alignment: 9
-      pivot: {x: 0.35689253, y: 0.6586844}
+      pivot: {x: 0.413127, y: 0.46085346}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
