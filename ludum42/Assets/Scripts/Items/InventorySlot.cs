@@ -182,8 +182,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             DisplayItemInfo(false);
             //itemFlairTextPanel.SetActive(false);
         }
-        highlightItemBackground(false);
-        
+        highlightItemBackground(false);      
     }
 
     /// <summary>
@@ -203,10 +202,10 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             slotBackgroundImage.color = defaultColor;
         }
         // highlight equipped items of the same type
-        if (isBackpackSlot)
+        if ((isBackpackSlot && isFilled)
+            ||(isBackpackSlot && !isFilled && !highlight))
         {
             // first item
-            Debug.Log(gameObject.name);
             playerInventory.GetInventorySlotOfType(itemInSlot.itemType).highlightItemBackground(highlight);
             // second item (if it exists)
             playerInventory.GetInventorySlotOfType(itemInSlot.itemType, false).highlightItemBackground(highlight);

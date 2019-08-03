@@ -429,24 +429,20 @@ public class EnemyController : MonoBehaviour {
         // play the random line the first time the method is called
         if (lastPlayedNoticePlayerSFX_ID == -1)
         {
-            Debug.Log("case 1");
             currentSFX_ID = Random.Range(0, (noticePlayerSFXCount-1));
         }
         // play the next line each time method is called
         else if (lastPlayedNoticePlayerSFX_ID < noticePlayerSFXCount - 1)
         {
-            Debug.Log("case 2");
             currentSFX_ID = lastPlayedNoticePlayerSFX_ID + 1;
         }
         // start from the beginning of voice line array if last line reached
         else if (lastPlayedNoticePlayerSFX_ID >= noticePlayerSFXCount - 1)
         {
-            Debug.Log("case 3");
             currentSFX_ID = 0;
         }
         enemyAudioSource.PlayOneShot(noticePlayerSFX[currentSFX_ID], noticePlayerSFXVolume);
         lastPlayedNoticePlayerSFX_ID = currentSFX_ID;
-        Debug.Log("last played sfx - " + lastPlayedNoticePlayerSFX_ID + ". current sfx -  " + currentSFX_ID);
     }
 
     void ShowBossHPBar()
