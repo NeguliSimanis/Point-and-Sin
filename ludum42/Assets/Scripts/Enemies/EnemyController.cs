@@ -94,6 +94,7 @@ public class EnemyController : MonoBehaviour {
 
     #region ANIMATION
     [Header("Animations")]
+    [SerializeField] bool isOriginalSpriteFacingLeft = true;
     public Animator enemyAnimator;
     [SerializeField] AnimationClip deathAnimation;
     [SerializeField] AnimationClip attackAnimation;
@@ -222,25 +223,45 @@ public class EnemyController : MonoBehaviour {
         // check if isFacing right variable has correct value
         if (isFacingRight && transform.localScale.x < 0)
         {
-           // Debug.Log("mistake - isn't facing right");
-            isFacingRight = false;
+            if (!isOriginalSpriteFacingLeft)
+                isFacingRight = false;
+             else
+                isFacingRight = true;
         }
         else if (!isFacingRight && transform.localScale.x > 0)
         {
-           // Debug.Log("mistake - is facing right");
-            isFacingRight = true;
+            if (!isOriginalSpriteFacingLeft)
+                isFacingRight = true;
+            else
+                isFacingRight = false;
         }
 
         // modify local scale to fit the direction where enemy is facing
-        if (isFacingRight && dirNormalized.x < 0)
+        if (!isOriginalSpriteFacingLeft)
         {
-            isFacingRight = false;
-            gameObject.transform.localScale = new Vector2(-1f, 1f);
+            if (isFacingRight && dirNormalized.x < 0)
+            {
+                isFacingRight = false;
+                gameObject.transform.localScale = new Vector2(-1f, 1f);
+            }
+            else if (!isFacingRight && dirNormalized.x > 0)
+            {
+                isFacingRight = true;
+                gameObject.transform.localScale = new Vector2(1f, 1f);
+            }
         }
-        else if (!isFacingRight && dirNormalized.x > 0)
+        else
         {
-            isFacingRight = true;
-            gameObject.transform.localScale = new Vector2(1f, 1f);
+            if (isFacingRight && dirNormalized.x < 0)
+            {
+                isFacingRight = false;
+                gameObject.transform.localScale = new Vector2(1f, 1f);
+            }
+            else if (!isFacingRight && dirNormalized.x > 0)
+            {
+                isFacingRight = true;
+                gameObject.transform.localScale = new Vector2(-1f, 1f);
+            }
         }
     }
 
