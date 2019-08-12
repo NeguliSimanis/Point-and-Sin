@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338b82d4fade49f48b58943dba3d79d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 2
   isFinalBoss: 0
   moveSpeed: 0.23
   enemyID: 0
@@ -214,6 +214,7 @@ MonoBehaviour:
   attackAnimation: {fileID: 7400000, guid: 91c865fad7104cb41b5ad0dd71676222, type: 2}
   shootSFX: {fileID: 8300000, guid: 87ede033ded97fc459ede7cafa1eea65, type: 3}
   deathSFX: {fileID: 8300000, guid: 6ded98652fae664459ad0c0eb4e09ad2, type: 3}
+  deathSFX2: {fileID: 8300000, guid: 3fa8937119939984cab3813c31644721, type: 3}
   woundedSFX: {fileID: 8300000, guid: bb9a7cb1bfdeec34680c093d57d6a5a2, type: 3}
   noticePlayerSFX: []
   shootSFXVolume: 0.36

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour {
 
-    public enum EnemyType {Succubus, SkullBoss };
+    public enum EnemyType {Succubus, SkullBoss, Demon };
     public enum EnemyState { Idle, FollowPlayer, AttackPlayer, AttackEnemy, FollowEnemy, Dying}
 
     /*
@@ -107,6 +107,7 @@ public class EnemyController : MonoBehaviour {
      [Header("Audio")]
     [SerializeField] AudioClip shootSFX;
     [SerializeField] AudioClip deathSFX;
+    [SerializeField] AudioClip deathSFX2;
     [SerializeField] AudioClip woundedSFX;
     [SerializeField] AudioClip[] noticePlayerSFX;
     int noticePlayerSFXCount;
@@ -571,6 +572,8 @@ public class EnemyController : MonoBehaviour {
 
             // play death audio
             enemyAudioSource.PlayOneShot(deathSFX, deathSFXVolume);
+            if (type == EnemyType.Demon)
+                enemyAudioSource.PlayOneShot(deathSFX2, deathSFXVolume);
 
             // play death animation
             enemyAnimator.SetBool("isDead", true);
