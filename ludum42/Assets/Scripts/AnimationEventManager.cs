@@ -10,8 +10,6 @@ public class AnimationEventManager : MonoBehaviour
     [SerializeField]
     GameObject[] characterShadows;
     int previousShadowID = -1;
-   
-
     public void SetCharacterShadows(int activeShadowID)
     {
         if (characterShadows.Length == 0)
@@ -26,5 +24,12 @@ public class AnimationEventManager : MonoBehaviour
             characterShadows[previousShadowID].SetActive(false);
         }
         previousShadowID = activeShadowID;
+    }
+
+    [SerializeField]
+    GameObject[] gameObjectsToActivate;
+    public void ActivateGameObjects(int objectID)
+    {
+        gameObjectsToActivate[objectID].SetActive(true); 
     }
 }

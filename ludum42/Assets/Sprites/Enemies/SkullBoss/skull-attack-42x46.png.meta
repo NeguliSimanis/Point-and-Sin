@@ -1,17 +1,33 @@
 fileFormatVersion: 2
 guid: 6074d1b4a8cc8814696856339af3904d
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: skull-attack-42x46_0
-    21300002: skull-attack-42x46_1
-    21300004: skull-attack-42x46_2
-    21300006: skull-attack-42x46_3
-    21300008: skull-attack-42x46_4
-    21300010: skull-attack-42x46_5
-    21300012: skull-attack-42x46_6
-    21300014: skull-attack-42x46_7
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: skull-attack-42x46_0
+  - first:
+      213: 21300002
+    second: skull-attack-42x46_1
+  - first:
+      213: 21300004
+    second: skull-attack-42x46_2
+  - first:
+      213: 21300006
+    second: skull-attack-42x46_3
+  - first:
+      213: 21300008
+    second: skull-attack-42x46_4
+  - first:
+      213: 21300010
+    second: skull-attack-42x46_5
+  - first:
+      213: 21300012
+    second: skull-attack-42x46_6
+  - first:
+      213: 21300014
+    second: skull-attack-42x46_7
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -66,7 +82,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -77,7 +93,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -88,28 +105,31 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -117,18 +137,19 @@ TextureImporter:
       name: skull-attack-42x46_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 5
-        width: 28
-        height: 39
+        x: 7
+        y: 4
+        width: 30
+        height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 8f5b1ff8789658847859866bc0fec5e4
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -137,18 +158,19 @@ TextureImporter:
       name: skull-attack-42x46_1
       rect:
         serializedVersion: 2
-        x: 50
-        y: 4
-        width: 28
-        height: 40
+        x: 49
+        y: 3
+        width: 30
+        height: 42
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 559772f33f84b6b49b3fa4da83b4f013
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -157,18 +179,19 @@ TextureImporter:
       name: skull-attack-42x46_2
       rect:
         serializedVersion: 2
-        x: 92
-        y: 4
-        width: 28
-        height: 41
+        x: 91
+        y: 3
+        width: 30
+        height: 43
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 1bb448c97c83fde4fa0bc7a060ba1658
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -177,18 +200,19 @@ TextureImporter:
       name: skull-attack-42x46_3
       rect:
         serializedVersion: 2
-        x: 134
-        y: 4
-        width: 28
-        height: 41
+        x: 133
+        y: 3
+        width: 30
+        height: 43
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 80803144c1246224c8bfe1073e5e226a
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -197,18 +221,19 @@ TextureImporter:
       name: skull-attack-42x46_4
       rect:
         serializedVersion: 2
-        x: 176
-        y: 2
-        width: 28
-        height: 43
+        x: 175
+        y: 1
+        width: 30
+        height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 32e35111a1b4e084b92aee6dab551a1f
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -217,18 +242,19 @@ TextureImporter:
       name: skull-attack-42x46_5
       rect:
         serializedVersion: 2
-        x: 218
-        y: 2
-        width: 28
-        height: 43
+        x: 217
+        y: 1
+        width: 30
+        height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 10d3e830bb619164798de3a62c07ebd2
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -237,18 +263,19 @@ TextureImporter:
       name: skull-attack-42x46_6
       rect:
         serializedVersion: 2
-        x: 260
-        y: 2
-        width: 28
-        height: 43
+        x: 259
+        y: 1
+        width: 30
+        height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: ac216c828f33fed4d9a3478446e9876d
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -257,18 +284,19 @@ TextureImporter:
       name: skull-attack-42x46_7
       rect:
         serializedVersion: 2
-        x: 302
-        y: 2
-        width: 28
-        height: 43
+        x: 301
+        y: 1
+        width: 30
+        height: 45
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 273afb89f10ab6d4386b8e2e927ed501
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -277,10 +305,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 376ad1c08b292194fabcb93844fbde49
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

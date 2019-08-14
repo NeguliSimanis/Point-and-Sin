@@ -2046,10 +2046,10 @@ RectTransform:
   m_Father: {fileID: 547438295}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 54}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 82.3, y: -27}
+  m_SizeDelta: {x: 164.6, y: 54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &37567583
 MonoBehaviour:
@@ -4048,7 +4048,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &82705931
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4101,7 +4101,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Version 0.17.0\t"
+  m_Text: "Version 0.18.0\t"
 --- !u!222 &82705933
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8212,10 +8212,10 @@ RectTransform:
   m_Father: {fileID: 547438295}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 54}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 82.3, y: -175}
+  m_SizeDelta: {x: 164.6, y: 54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &174509019
 MonoBehaviour:
@@ -24614,7 +24614,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &674158973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32925,7 +32925,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &942311481
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34697,6 +34697,7 @@ GameObject:
   - component: {fileID: 992626654}
   - component: {fileID: 992626653}
   - component: {fileID: 992626655}
+  - component: {fileID: 992626656}
   m_Layer: 5
   m_Name: SkullIntro1
   m_TagString: Untagged
@@ -34780,6 +34781,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &992626656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992626651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cefe418cd12e9f1458bbd4e088e2fc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterShadows: []
+  gameObjectsToActivate:
+  - {fileID: 674158972}
+  - {fileID: 942311480}
+  - {fileID: 82705930}
 --- !u!1001 &992648443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37920,6 +37938,11 @@ PrefabInstance:
       propertyPath: bossLifeBarObject
       value: 
       objectReference: {fileID: 763590977}
+    - target: {fileID: 114710294991428286, guid: 2c58c7e2b40f8b84f96bddfa89dffabc,
+        type: 3}
+      propertyPath: isOriginalSpriteFacingLeft
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114809283346409870, guid: 2c58c7e2b40f8b84f96bddfa89dffabc,
         type: 3}
       propertyPath: playerController
@@ -46453,6 +46476,7 @@ MonoBehaviour:
   - {fileID: 1484324302}
   - {fileID: 1451618830}
   - {fileID: 1549214421}
+  gameObjectsToActivate: []
 --- !u!1 &1335152512
 GameObject:
   m_ObjectHideFlags: 0
@@ -46487,10 +46511,10 @@ RectTransform:
   m_Father: {fileID: 547438295}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 54}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 82.3, y: -101}
+  m_SizeDelta: {x: 164.6, y: 54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1335152514
 MonoBehaviour:
@@ -48556,7 +48580,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1402902979
 RectTransform:
   m_ObjectHideFlags: 0
@@ -76540,7 +76564,7 @@ PrefabInstance:
     - target: {fileID: 1849951020534987826, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}

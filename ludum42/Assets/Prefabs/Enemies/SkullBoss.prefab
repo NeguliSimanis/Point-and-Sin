@@ -130,6 +130,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -295,6 +296,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -351,11 +353,13 @@ MonoBehaviour:
   otherEnemyTransform: {fileID: 0}
   playerTransform: {fileID: 0}
   parentSpawnPoint: {fileID: 0}
+  isOriginalSpriteFacingLeft: 0
   enemyAnimator: {fileID: 95595780873388540}
   deathAnimation: {fileID: 7400000, guid: d586720ae9a483647bd181e92543adc9, type: 2}
   attackAnimation: {fileID: 7400000, guid: d158e120af0b87d449f9ec4e61942354, type: 2}
   shootSFX: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
   deathSFX: {fileID: 8300000, guid: d5de0f042c6317742b737362c1fd5409, type: 3}
+  deathSFX2: {fileID: 0}
   woundedSFX: {fileID: 8300000, guid: 312b908824d2cdf4f93e767ab361a9c1, type: 3}
   noticePlayerSFX:
   - {fileID: 8300000, guid: 5962994ca3e8da3469d4c3b409152a98, type: 3}
@@ -711,6 +715,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -790,6 +795,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

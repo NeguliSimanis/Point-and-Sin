@@ -1,18 +1,36 @@
 fileFormatVersion: 2
 guid: f9ae40dd4844a7447a46ecdc55211e9c
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: skull-death-35x44_0
-    21300002: skull-death-35x44_1
-    21300004: skull-death-35x44_2
-    21300006: skull-death-35x44_3
-    21300008: skull-death-35x44_4
-    21300010: skull-death-35x44_5
-    21300012: skull-death-35x44_6
-    21300014: skull-death-35x44_7
-    21300016: skull-death-35x44_8
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: skull-death-35x44_0
+  - first:
+      213: 21300002
+    second: skull-death-35x44_1
+  - first:
+      213: 21300004
+    second: skull-death-35x44_2
+  - first:
+      213: 21300006
+    second: skull-death-35x44_3
+  - first:
+      213: 21300008
+    second: skull-death-35x44_4
+  - first:
+      213: 21300010
+    second: skull-death-35x44_5
+  - first:
+      213: 21300012
+    second: skull-death-35x44_6
+  - first:
+      213: 21300014
+    second: skull-death-35x44_7
+  - first:
+      213: 21300016
+    second: skull-death-35x44_8
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -67,7 +85,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -78,7 +96,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -89,28 +108,31 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -118,18 +140,19 @@ TextureImporter:
       name: skull-death-35x44_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 3
-        width: 23
-        height: 39
+        x: 6
+        y: 2
+        width: 25
+        height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: e9793d2e988430b4880dc009346ba6b8
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -138,18 +161,19 @@ TextureImporter:
       name: skull-death-35x44_1
       rect:
         serializedVersion: 2
-        x: 42
-        y: 4
-        width: 23
-        height: 38
+        x: 41
+        y: 3
+        width: 25
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 28981d320a33c284fb12ce2faa34dad8
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -158,18 +182,19 @@ TextureImporter:
       name: skull-death-35x44_2
       rect:
         serializedVersion: 2
-        x: 77
-        y: 4
-        width: 23
-        height: 38
+        x: 76
+        y: 3
+        width: 25
+        height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 999fe0a1873deee4980a3ad3381c4bfa
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -178,18 +203,19 @@ TextureImporter:
       name: skull-death-35x44_3
       rect:
         serializedVersion: 2
-        x: 110
-        y: 4
-        width: 25
-        height: 39
+        x: 109
+        y: 3
+        width: 27
+        height: 41
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 13c1f41b42c3bb945a6afaaeda22d7cf
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -198,18 +224,19 @@ TextureImporter:
       name: skull-death-35x44_4
       rect:
         serializedVersion: 2
-        x: 149
-        y: 7
-        width: 19
-        height: 34
+        x: 148
+        y: 6
+        width: 21
+        height: 36
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 5de63672e6ac01a4cb5dd8329a3fc555
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -218,18 +245,19 @@ TextureImporter:
       name: skull-death-35x44_5
       rect:
         serializedVersion: 2
-        x: 188
-        y: 13
-        width: 11
-        height: 13
+        x: 187
+        y: 12
+        width: 13
+        height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: cfb277f579b027747a8f6297697332d1
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -243,13 +271,14 @@ TextureImporter:
         width: 11
         height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 3a907937b5755a049964677f622cf14b
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -263,13 +292,14 @@ TextureImporter:
         width: 11
         height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 01acac1a0b0c9884cad0cd6abf5722ad
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -283,13 +313,14 @@ TextureImporter:
         width: 11
         height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 721584b610f791541a3f5f3658918f7c
+      internalID: 21300016
       vertices: []
       indices: 
       edges: []
@@ -298,10 +329,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 28c88a26c752389429990afa9d786798
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

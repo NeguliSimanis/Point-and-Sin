@@ -80,7 +80,7 @@ public class FadeOut : MonoBehaviour
         }
     }
 
-        IEnumerator FadeOutImage()
+    IEnumerator FadeOutImage()
     {
         yield return new WaitForSeconds(3f);
         for (float f = 1f; f >= -0.05f; f-= fadeSpeed)
