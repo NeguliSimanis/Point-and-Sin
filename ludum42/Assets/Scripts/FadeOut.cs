@@ -58,7 +58,7 @@ public class FadeOut : MonoBehaviour
     {
         Debug.Log("corotine1!");
         yield return new WaitForSeconds(spriteFadeInterval);
-        Debug.Log("corotine!");
+        Debug.Log("corotine!" + gameObject.name);
         for (float f = 1f; f >= -0.05f; f -= spriteFadeSpeed)
         {
             Color c = spriteToFadeOut.color;

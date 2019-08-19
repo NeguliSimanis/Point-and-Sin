@@ -199,7 +199,6 @@ public class PlayerData
     public void Pause(bool isPaused)
     {
         isGamePaused = isPaused;
-        Debug.Log("Pausing!");
         /*if (isPaused)
         {
             Time.timeScale = 0f;

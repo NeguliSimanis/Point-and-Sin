@@ -30,6 +30,7 @@ public class AnimationEventManager : MonoBehaviour
     GameObject[] gameObjectsToActivate;
     public void ActivateGameObjects(int objectID)
     {
+        Debug.Log("activating " + gameObjectsToActivate[objectID].name);
         gameObjectsToActivate[objectID].SetActive(true); 
     }
 }
