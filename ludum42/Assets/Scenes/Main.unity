@@ -14739,7 +14739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &376993084
 Transform:
   m_ObjectHideFlags: 0
@@ -26733,6 +26733,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Demon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849951020534987826, guid: 51b8cff8677b16e4aae30136db586233,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
@@ -40422,6 +40427,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1849951020534987826, guid: 51b8cff8677b16e4aae30136db586233,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -48825,6 +48835,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Demon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849951020534987826, guid: 51b8cff8677b16e4aae30136db586233,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
@@ -73880,6 +73895,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Demon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1849951020534987826, guid: 51b8cff8677b16e4aae30136db586233,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
