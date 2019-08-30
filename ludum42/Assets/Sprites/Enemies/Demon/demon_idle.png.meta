@@ -110,10 +110,10 @@ TextureImporter:
       name: demon_idle_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 4
-        width: 34
-        height: 41
+        x: 0
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,7 +121,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd26820e8f37df141a77799eded1d16a
+      spriteID: f85f0aedd414e2a4d946e1a389da46a6
       internalID: 4077970662821584246
       vertices: []
       indices: 
@@ -131,10 +131,10 @@ TextureImporter:
       name: demon_idle_1
       rect:
         serializedVersion: 2
-        x: 58
-        y: 4
-        width: 35
-        height: 41
+        x: 50
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,7 +142,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d91339cc24dac154a91eba225914a466
+      spriteID: 421487a51b51bc844aea5ba89aa3ad96
       internalID: -7937081107465456045
       vertices: []
       indices: 
@@ -152,10 +152,10 @@ TextureImporter:
       name: demon_idle_2
       rect:
         serializedVersion: 2
-        x: 108
-        y: 4
-        width: 37
-        height: 41
+        x: 100
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,7 +163,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1fecf7665c442884e96a3e314c9544a7
+      spriteID: eb08ca8cabf7f9c48b8284e2d6c2495b
       internalID: -5248492772218218944
       vertices: []
       indices: 
@@ -173,10 +173,10 @@ TextureImporter:
       name: demon_idle_3
       rect:
         serializedVersion: 2
-        x: 158
-        y: 4
-        width: 38
-        height: 41
+        x: 150
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5d82d6ee0e01ec54a8e24d6a06852fed
+      spriteID: 0ebfa9b0a1e995d4cb72fed6d5323a7a
       internalID: 2347669280178783240
       vertices: []
       indices: 
@@ -194,10 +194,10 @@ TextureImporter:
       name: demon_idle_4
       rect:
         serializedVersion: 2
-        x: 208
-        y: 4
-        width: 39
-        height: 41
+        x: 200
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,7 +205,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a103f18711d4b74eb57d6523d297cb0
+      spriteID: ba3ea57cadf0bd647b050546b20fc11d
       internalID: -1773938125480817675
       vertices: []
       indices: 
@@ -215,10 +215,10 @@ TextureImporter:
       name: demon_idle_5
       rect:
         serializedVersion: 2
-        x: 258
-        y: 4
-        width: 37
-        height: 41
+        x: 250
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,7 +226,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c79284978eb9184409187068acb925f2
+      spriteID: de4e8c373456ba042b89691c73572de3
       internalID: -2691429391250314253
       vertices: []
       indices: 
@@ -236,10 +236,10 @@ TextureImporter:
       name: demon_idle_6
       rect:
         serializedVersion: 2
-        x: 308
-        y: 4
-        width: 34
-        height: 41
+        x: 300
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -247,7 +247,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b377c1894d4806468998d71fca32266
+      spriteID: 5cf552f83bed4d3408cc738d49222cc3
       internalID: -2583833181589761574
       vertices: []
       indices: 

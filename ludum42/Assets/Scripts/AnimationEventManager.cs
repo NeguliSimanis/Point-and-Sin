@@ -30,7 +30,20 @@ public class AnimationEventManager : MonoBehaviour
     GameObject[] gameObjectsToActivate;
     public void ActivateGameObjects(int objectID)
     {
-        Debug.Log("activating " + gameObjectsToActivate[objectID].name);
-        gameObjectsToActivate[objectID].SetActive(true); 
+        gameObjectsToActivate[objectID].SetActive(true);
+    }
+
+    [SerializeField]
+    AudioManager audioManager;
+    public void PlaySFX(SFXType type)
+    {
+        audioManager.PlaySFX(type);
+    }
+
+    public void DealMeleeDamageToPlayer()
+    {
+        EnemyController enemyController;
+        enemyController = transform.parent.gameObject.GetComponent<EnemyController>();
+        enemyController.MeleeDamagePlayer();
     }
 }

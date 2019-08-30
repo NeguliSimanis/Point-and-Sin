@@ -32,6 +32,24 @@ TextureImporter:
   - first:
       213: 3528540710141961345
     second: demon_attack_23
+  - first:
+      213: 4352364984390772515
+    second: demon_attack_0
+  - first:
+      213: -5394864523424270826
+    second: demon_attack_2
+  - first:
+      213: 7412989748033508825
+    second: demon_attack_4
+  - first:
+      213: -4392004950064736197
+    second: demon_attack_6
+  - first:
+      213: -8456988449806160272
+    second: demon_attack_7
+  - first:
+      213: 1135925113475911251
+    second: demon_attack_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -116,12 +134,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: demon_attack_1
+      name: demon_attack_0
       rect:
         serializedVersion: 2
-        x: 18
+        x: 0
         y: 0
-        width: 47
+        width: 75
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -130,8 +148,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ab0460fc5d7f5c43bda1a4cbbd4387e
+      spriteID: d83cc068de429c641bb3b1bd8a4125ad
+      internalID: 4352364984390772515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_attack_1
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 0
+        width: 75
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51f980c210b4f32459ac2e18f74b206e
       internalID: 6142507219135446958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_attack_2
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 75
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e82e2c2e3d3a72f4cb0e78116aeb233b
+      internalID: -5394864523424270826
       vertices: []
       indices: 
       edges: []
@@ -140,9 +200,9 @@ TextureImporter:
       name: demon_attack_3
       rect:
         serializedVersion: 2
-        x: 90
+        x: 225
         y: 0
-        width: 50
+        width: 75
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -151,8 +211,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb2aa8855fe5eac4ca9b44a715aaddfe
+      spriteID: 10a9e253fe714c7418448281adde2424
       internalID: 7224735382308435491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_attack_4
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 75
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 106627d86e9d73949aceb3e2e820716a
+      internalID: 7412989748033508825
       vertices: []
       indices: 
       edges: []
@@ -161,9 +242,9 @@ TextureImporter:
       name: demon_attack_5
       rect:
         serializedVersion: 2
-        x: 150
+        x: 375
         y: 0
-        width: 71
+        width: 75
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -172,8 +253,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c64484ef4bd59f741a3a7b8ffda51007
+      spriteID: cfcea832f88890b4fa90ccfe3b111fd4
       internalID: -2475229808770517719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_attack_6
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 0
+        width: 75
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 420666767079297479ea89f84fedbbc0
+      internalID: -4392004950064736197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_attack_7
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 0
+        width: 75
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8536140487987fe42a23c6c66bbe6b09
+      internalID: -8456988449806160272
       vertices: []
       indices: 
       edges: []
@@ -182,9 +305,9 @@ TextureImporter:
       name: demon_attack_8
       rect:
         serializedVersion: 2
-        x: 240
+        x: 600
         y: 0
-        width: 51
+        width: 75
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -193,19 +316,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7165301c6c9976b4682e5af95221d28f
+      spriteID: 6f89c004707f3004088f125ecaaf54c2
       internalID: 3842504088792336221
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: demon_attack_10
+      name: demon_attack_9
       rect:
         serializedVersion: 2
-        x: 300
+        x: 675
         y: 0
-        width: 70
+        width: 75
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -214,113 +337,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed6978f894d8b0247a32be45e91fcfc9
-      internalID: -1549150209498385811
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: demon_attack_13
-      rect:
-        serializedVersion: 2
-        x: 390
-        y: 0
-        width: 52
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 709a14eb59ab891449f1535a43244e3d
-      internalID: -3159829015075467695
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: demon_attack_15
-      rect:
-        serializedVersion: 2
-        x: 450
-        y: 0
-        width: 70
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cc9ad37ef2c10a346acd18d24148e5a7
-      internalID: -7383341817915107795
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: demon_attack_18
-      rect:
-        serializedVersion: 2
-        x: 540
-        y: 0
-        width: 50
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5a102c97327cede489535c1e450a7c6d
-      internalID: 9107134156559708378
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: demon_attack_20
-      rect:
-        serializedVersion: 2
-        x: 611
-        y: 0
-        width: 57
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8f92f87d4b3e90340bba8700c0f8e6b1
-      internalID: -7395167805922518129
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: demon_attack_23
-      rect:
-        serializedVersion: 2
-        x: 690
-        y: 0
-        width: 51
-        height: 50
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0c9552d3b1b6f6548bbb54fd9239ec95
-      internalID: 3528540710141961345
+      spriteID: 057a62aa9fae24d44aa939f7774aa067
+      internalID: 1135925113475911251
       vertices: []
       indices: 
       edges: []

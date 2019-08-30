@@ -82,10 +82,8 @@ public class AnimationManager : MonoBehaviour
     private void CallSkippedAnimationEvent()
     {
         animationEventManager = gameObject.GetComponent<AnimationEventManager>();
-        Debug.Log("begnning skip");
         for (int i = 0; i < skippedAnimationEventIDs.Length; i++)
         {
-            Debug.Log("calling " + i);
             animationEventManager.ActivateGameObjects(i);
         }
     }

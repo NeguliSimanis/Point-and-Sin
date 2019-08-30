@@ -323,6 +323,8 @@ MonoBehaviour:
   - {fileID: 8168336624713298691}
   - {fileID: 186029134018277007}
   - {fileID: 9024421248338947872}
+  gameObjectsToActivate: []
+  audioManager: {fileID: 0}
 --- !u!114 &3203111811051761261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +362,7 @@ GameObject:
   - component: {fileID: 114016969767847380}
   - component: {fileID: 82906024390542772}
   - component: {fileID: 114850045978786464}
+  - component: {fileID: 3312894486709682041}
   m_Layer: 10
   m_Name: Succubus
   m_TagString: Enemy
@@ -493,8 +496,9 @@ MonoBehaviour:
   enemyAnimator: {fileID: 95390630348827852}
   deathAnimation: {fileID: 7400000, guid: dbc688bd9eaca364aba5061e4f20ede9, type: 2}
   attackAnimation: {fileID: 7400000, guid: 2050afb7cc252a242a6414642ed109fb, type: 2}
-  shootSFX: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
+  attackSFX: {fileID: 8300000, guid: 59521ad0065af2e46b10769410e1e23b, type: 3}
   deathSFX: {fileID: 8300000, guid: 088385538c237ca4b81544bc14efbe22, type: 3}
+  deathSFX2: {fileID: 0}
   woundedSFX: {fileID: 8300000, guid: 63f96fca005d182489060cf8498837af, type: 3}
   noticePlayerSFX: []
   shootSFXVolume: 0.03
@@ -656,6 +660,20 @@ MonoBehaviour:
   eye: {fileID: 1470851104573380, guid: 9277fb0d7e37244489e774ba9309731f, type: 3}
   hand: {fileID: 1457315488172168, guid: b3d5e9a884fa1a3408f2b8620464e106, type: 3}
   heart: {fileID: 1114428370084442, guid: a91490a8dc1361a499a9ef2e953416ce, type: 3}
+--- !u!114 &3312894486709682041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1951207186085140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc44bdd32f799743aa343a3af35fb6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  deathSFX: {fileID: 0}
 --- !u!1 &186029134018277007
 GameObject:
   m_ObjectHideFlags: 0

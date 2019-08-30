@@ -14,6 +14,12 @@ TextureImporter:
   - first:
       213: -5117162496569328704
     second: demon_wounded_10
+  - first:
+      213: -5288983398868171248
+    second: demon_wounded_1
+  - first:
+      213: -3833176201020548970
+    second: demon_wounded_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -101,9 +107,9 @@ TextureImporter:
       name: demon_wounded_0
       rect:
         serializedVersion: 2
-        x: 20
+        x: 0
         y: 0
-        width: 39
+        width: 75
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -112,8 +118,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b0a71a7f379ff2d4197e2a826915089d
+      spriteID: 089a78b247e531348b4241600b3ba83f
       internalID: 7465208836358182233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: demon_wounded_1
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 0
+        width: 75
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79a9442d0674fce40b196e62200c3168
+      internalID: -5288983398868171248
       vertices: []
       indices: 
       edges: []
@@ -122,30 +149,9 @@ TextureImporter:
       name: demon_wounded_2
       rect:
         serializedVersion: 2
-        x: 100
+        x: 150
         y: 0
-        width: 43
-        height: 50
-      alignment: 9
-      pivot: {x: 0.39, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 92a01b64d583c644d84f53b5514caebc
-      internalID: 2786320934672710701
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: demon_wounded_6
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 0
-        width: 46
+        width: 75
         height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -154,29 +160,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a16a2d3c91446841b5c4af53794c5e6
-      internalID: -5764486023544909137
+      spriteID: ca0758c8639872443a2042b06ad63539
+      internalID: 2786320934672710701
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: demon_wounded_10
+      name: demon_wounded_3
       rect:
         serializedVersion: 2
-        x: 233
+        x: 225
         y: 0
-        width: 60
+        width: 75
         height: 50
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 697111dd45990fc4dac1e88b5d869efd
-      internalID: -5117162496569328704
+      spriteID: 3ac653a3cd571fa42ac65938039f4cbc
+      internalID: -3833176201020548970
       vertices: []
       indices: 
       edges: []

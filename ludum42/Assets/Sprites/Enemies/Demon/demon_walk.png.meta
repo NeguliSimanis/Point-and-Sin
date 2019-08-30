@@ -98,10 +98,10 @@ TextureImporter:
       name: demon_walk_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 5
-        width: 30
-        height: 41
+        x: 0
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -109,7 +109,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b78013db8075196439a355303208e27f
+      spriteID: a4eefa2eb98e8724abff8fd5d07ad4a6
       internalID: -730836575110126735
       vertices: []
       indices: 
@@ -119,10 +119,10 @@ TextureImporter:
       name: demon_walk_1
       rect:
         serializedVersion: 2
-        x: 61
-        y: 5
-        width: 31
-        height: 40
+        x: 50
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,7 +130,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e9f44cb459a3df842900992bbb427d17
+      spriteID: 539e10c32cc1bec4790e9232b609cb9a
       internalID: -7342051457459000336
       vertices: []
       indices: 
@@ -140,10 +140,10 @@ TextureImporter:
       name: demon_walk_2
       rect:
         serializedVersion: 2
-        x: 105
-        y: 4
-        width: 38
-        height: 42
+        x: 100
+        y: 0
+        width: 50
+        height: 50
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,7 +151,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2a8305af4eb6c240865bea463378fdc
+      spriteID: e885693ce32cecb4099bbb184288065d
       internalID: -7331085992193322307
       vertices: []
       indices: 
