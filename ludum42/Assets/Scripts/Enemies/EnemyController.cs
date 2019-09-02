@@ -156,6 +156,8 @@ public class EnemyController : MonoBehaviour {
         currentHP = maxHP;
         noticePlayerSFXCount = noticePlayerSFX.Length;
         audioManager = gameObject.GetComponent<AudioManager>();
+        if (isOriginalSpriteFacingLeft)
+            isFacingRight = false;
 
         //  prepare a copy of this object in case it is neeeded to spawn a minion
         enemyCopy = this.gameObject;
@@ -206,6 +208,8 @@ public class EnemyController : MonoBehaviour {
             #endregion
         }
 
+        Debug.Log(gameObject.name + " " + dirNormalized.x);
+
         if (isPlayerMinion)
         {
             return;
@@ -228,21 +232,6 @@ public class EnemyController : MonoBehaviour {
 
     void CheckWhereEnemyIsFacing()
     {
-        // check if isFacing right variable has correct value
-        if (isFacingRight && transform.localScale.x < 0)
-        {
-            if (!isOriginalSpriteFacingLeft)
-                isFacingRight = false;
-             else
-                isFacingRight = true;
-        }
-        else if (!isFacingRight && transform.localScale.x > 0)
-        {
-            if (!isOriginalSpriteFacingLeft)
-                isFacingRight = true;
-            else
-                isFacingRight = false;
-        }
 
         // modify local scale to fit the direction where enemy is facing
         if (!isOriginalSpriteFacingLeft)
@@ -459,7 +448,6 @@ public class EnemyController : MonoBehaviour {
 
     void NoticePlayer()
     {
-        //Debug.Log("NOTICING " + Time.time);
         // enemy will chase player until this time and then stop if he's no longer visible
         enemyForgetsPlayerTime = Time.time + enemyMemory;
         forgotPlayerPosition = false;

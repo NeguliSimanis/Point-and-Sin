@@ -38,12 +38,10 @@ public class AudioManager : MonoBehaviour
     {
         if (attackType == SFXType.DemonMeleeAttack1)
         {
-            Debug.Log("[lau");
             enemyAudioSource.PlayOneShot(attackSFXS[0], attackSFXVolume);
         }
         else if (attackType == SFXType.DemonMeleeAttack2)
         {
-            Debug.Log("[lau");
             enemyAudioSource.PlayOneShot(attackSFXS[1], attackSFXVolume);
         }
     }

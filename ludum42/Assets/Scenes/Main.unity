@@ -14324,7 +14324,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368055471}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -76438,15 +76438,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Demon
       objectReference: {fileID: 0}
+    - target: {fileID: 1849951020534987826, guid: 51b8cff8677b16e4aae30136db586233,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.278
+      value: -19.04
       objectReference: {fileID: 0}
     - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.54
+      value: -7.97
       objectReference: {fileID: 0}
     - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
@@ -76493,10 +76498,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1746809799482983928, guid: 51b8cff8677b16e4aae30136db586233,
+    - target: {fileID: 1848051501092281084, guid: 51b8cff8677b16e4aae30136db586233,
         type: 3}
-      propertyPath: woundedSFXVolume
-      value: 0.54
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51b8cff8677b16e4aae30136db586233, type: 3}
