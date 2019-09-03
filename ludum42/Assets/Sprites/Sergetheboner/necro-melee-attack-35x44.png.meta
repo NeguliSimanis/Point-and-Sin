@@ -1,13 +1,21 @@
 fileFormatVersion: 2
 guid: 6dae076b94d024849b6d841bb596c559
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: necro-melee-attack-35x44_0
-    21300002: necro-melee-attack-35x44_1
-    21300004: necro-melee-attack-35x44_2
-    21300006: necro-melee-attack-35x44_3
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: necro-melee-attack-35x44_0
+  - first:
+      213: 21300002
+    second: necro-melee-attack-35x44_1
+  - first:
+      213: 21300004
+    second: necro-melee-attack-35x44_2
+  - first:
+      213: 21300006
+    second: necro-melee-attack-35x44_3
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -62,7 +70,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -73,7 +81,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -84,7 +93,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -95,7 +105,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,6 +117,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -113,18 +125,19 @@ TextureImporter:
       name: necro-melee-attack-35x44_0
       rect:
         serializedVersion: 2
-        x: 2
+        x: 1
         y: 0
-        width: 19
-        height: 38
+        width: 21
+        height: 42
       alignment: 9
-      pivot: {x: 0.5049996, y: 0.38423172}
+      pivot: {x: 0.50133145, y: 0.374345}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 9611229a0213864439544fd1c379824c
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -133,18 +146,19 @@ TextureImporter:
       name: necro-melee-attack-35x44_1
       rect:
         serializedVersion: 2
-        x: 34
+        x: 33
         y: 0
-        width: 19
-        height: 36
+        width: 21
+        height: 42
       alignment: 9
-      pivot: {x: 0.5589961, y: 0.40750185}
+      pivot: {x: 0.5589961, y: 0.374345}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 02ae352525585dc4a8cd394f4be52be7
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -153,18 +167,19 @@ TextureImporter:
       name: necro-melee-attack-35x44_2
       rect:
         serializedVersion: 2
-        x: 68
+        x: 67
         y: 0
-        width: 27
-        height: 30
+        width: 29
+        height: 42
       alignment: 9
-      pivot: {x: 0.3615423, y: 0.46550184}
+      pivot: {x: 0.3615423, y: 0.374345}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 0c2f5f7b9aa357b4fbe635abdf60567b
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -173,18 +188,19 @@ TextureImporter:
       name: necro-melee-attack-35x44_3
       rect:
         serializedVersion: 2
-        x: 101
+        x: 100
         y: 0
-        width: 21
-        height: 29
+        width: 23
+        height: 42
       alignment: 9
-      pivot: {x: 0.413127, y: 0.46085346}
+      pivot: {x: 0.413127, y: 0.374345}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 39f42ae152179d749b8f8d345657b6c0
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -193,10 +209,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: f5211714d1d36ba45a99ffbfecc95db3
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

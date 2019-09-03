@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawnPoint : MonoBehaviour
 {
-   
+
     // spawn cooldown
     bool enemySpawned = false;
     bool isCooldown = false;
@@ -17,7 +17,7 @@ public class EnemySpawnPoint : MonoBehaviour
 
     // enemy types
     [SerializeField]
-    GameObject enemy;
+    GameObject[] enemies;
     [SerializeField]
     GameObject brutalEnemy;
 
@@ -26,16 +26,19 @@ public class EnemySpawnPoint : MonoBehaviour
     int maxAliveEnemyCount = 1;
     int totalSpawnedCount = 0;
 
-    // dificulty
+    #region dificulty
     [SerializeField]
     int spawnPointDifficulty;
 
+    float demonSpawnChance = 0.25f;
+    float brutalDemonChanceIncrease = 0.2f;
     float brutalEnemyChance = 0.4f;
     int brutalEnemyHP = 20;
 
     float enemyBrutalMoveSpeedBuffPerKill = 0.1f; // all enemies in brutal mode move faster by this amount
     int enemyBrutalDamageBuffPerKill = 1;
     float enemyBrutalSightBuff = 1.2f;
+    #endregion
 
     private void OnBecameVisible()
     {
@@ -53,10 +56,10 @@ public class EnemySpawnPoint : MonoBehaviour
     {
         //Debug.Log("I am awake " + Time.time);
         StartCoroutine(BeginSpawnLoopAfterXSeconds());
-       /* if (!isVisible)
-        {
-            SpawnEnemy();
-        } */  
+        /* if (!isVisible)
+         {
+             SpawnEnemy();
+         } */
     }
 
     private IEnumerator BeginSpawnLoopAfterXSeconds()
@@ -74,6 +77,21 @@ public class EnemySpawnPoint : MonoBehaviour
         }
     }
 
+    private GameObject RollChanceForSpawningDemonEnemy()
+    {
+        GameObject newEnemy = enemies[0];
+        float currentDemonSpawnChance = demonSpawnChance;
+        if (PlayerData.current.isPlayingBrutalMode)
+        {
+            currentDemonSpawnChance += brutalDemonChanceIncrease;
+        }
+        if (Random.Range(0f, 1f) < currentDemonSpawnChance)
+        {
+            newEnemy = enemies[1];
+        }
+        return newEnemy;
+    }
+
     void SpawnEnemy()
     {
         if (!isVisible)   
@@ -81,15 +99,14 @@ public class EnemySpawnPoint : MonoBehaviour
            // Debug.Log("Spawn point invisible " + Time.time);
             if (aliveEnemyCount < maxAliveEnemyCount)
             {
-                GameObject newEnemy = enemy;
-                //GameObject newEnemy = enemy;
-                // spawn miniboss in brutal mode
+                GameObject newEnemy = RollChanceForSpawningDemonEnemy();
+
                 if (PlayerData.current.isPlayingBrutalMode)
                 {
-                   // Debug.Log("IS PLAYING BRYTAL");
+
+                    // spawn miniboss in brutal mode
                     if (Random.Range(0f, 1f) < brutalEnemyChance)
                     {
-                       // Debug.Log("Should spawn BRUTAL");
                         newEnemy = brutalEnemy;
 
                         EnemyController newEnemyController = newEnemy.GetComponent<EnemyController>();

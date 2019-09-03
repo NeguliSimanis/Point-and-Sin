@@ -1,17 +1,33 @@
 fileFormatVersion: 2
 guid: a9fe288b2627def48b4e1c742f9d89ce
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: necro-death-32x39_0
-    21300002: necro-death-32x39_1
-    21300004: necro-death-32x39_4
-    21300006: necro-death-32x39_5
-    21300008: necro-death-32x39_6
-    21300010: necro-death-32x39_7
-    21300012: necro-death-32x39_8
-    21300014: necro-death-32x39_9
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: necro-death-32x39_0
+  - first:
+      213: 21300002
+    second: necro-death-32x39_1
+  - first:
+      213: 21300004
+    second: necro-death-32x39_4
+  - first:
+      213: 21300006
+    second: necro-death-32x39_5
+  - first:
+      213: 21300008
+    second: necro-death-32x39_6
+  - first:
+      213: 21300010
+    second: necro-death-32x39_7
+  - first:
+      213: 21300012
+    second: necro-death-32x39_8
+  - first:
+      213: 21300014
+    second: necro-death-32x39_9
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -66,7 +82,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -77,7 +93,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -88,28 +105,31 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -117,10 +137,10 @@ TextureImporter:
       name: necro-death-32x39_0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 7
         y: 0
-        width: 20
-        height: 29
+        width: 22
+        height: 31
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,6 +149,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 52ca2a5261cf0e443a852324429f88ed
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -137,11 +158,11 @@ TextureImporter:
       name: necro-death-32x39_1
       rect:
         serializedVersion: 2
-        x: 35
+        x: 34
         y: 0
-        width: 22
-        height: 30
-      alignment: 0
+        width: 24
+        height: 32
+      alignment: 9
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -149,6 +170,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 489cd059644b9a143a0a8a969fda535c
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -157,18 +179,19 @@ TextureImporter:
       name: necro-death-32x39_4
       rect:
         serializedVersion: 2
-        x: 131
+        x: 130
         y: 0
-        width: 26
-        height: 34
+        width: 28
+        height: 40
       alignment: 9
-      pivot: {x: 0.4999994, y: 0.4874759}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: b51606151c14dab4ea4be5a3ecbf119f
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -177,18 +200,19 @@ TextureImporter:
       name: necro-death-32x39_5
       rect:
         serializedVersion: 2
-        x: 195
+        x: 194
         y: 0
-        width: 26
-        height: 37
+        width: 28
+        height: 40
       alignment: 9
-      pivot: {x: 0.49181014, y: 0.44245735}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 2c4e47dce3dc61944bc724e099d03265
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -197,18 +221,19 @@ TextureImporter:
       name: necro-death-32x39_6
       rect:
         serializedVersion: 2
-        x: 67
+        x: 66
         y: 0
-        width: 24
-        height: 36
+        width: 26
+        height: 40
       alignment: 9
-      pivot: {x: 0.52661294, y: 0.434945}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 62e7dd5feeaa6114cb2a654536c32bb5
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -217,18 +242,19 @@ TextureImporter:
       name: necro-death-32x39_7
       rect:
         serializedVersion: 2
-        x: 99
+        x: 98
         y: 0
-        width: 26
-        height: 37
+        width: 28
+        height: 40
       alignment: 9
-      pivot: {x: 0.48362145, y: 0.42519462}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 081e503648c34324ab65b42b7068039e
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -237,18 +263,19 @@ TextureImporter:
       name: necro-death-32x39_8
       rect:
         serializedVersion: 2
-        x: 163
+        x: 162
         y: 0
-        width: 26
-        height: 36
+        width: 28
+        height: 40
       alignment: 9
-      pivot: {x: 0.4999994, y: 0.46451548}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 0250616ef880eb943be13fb2c63c8583
+      internalID: 21300012
       vertices: []
       indices: 
       edges: []
@@ -257,18 +284,19 @@ TextureImporter:
       name: necro-death-32x39_9
       rect:
         serializedVersion: 2
-        x: 227
+        x: 226
         y: 0
-        width: 26
-        height: 8
+        width: 28
+        height: 40
       alignment: 9
-      pivot: {x: 0.50818515, y: 2.070193}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 09e5b435f3e4ffc448b7de75e1db10e9
+      internalID: 21300014
       vertices: []
       indices: 
       edges: []
@@ -277,10 +305,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 04f7a106aa73b424fb7ec5d70b54657f
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

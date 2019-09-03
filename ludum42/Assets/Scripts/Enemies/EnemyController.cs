@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour {
 
-    public enum EnemyType {Succubus, SkullBoss };
+    public enum EnemyType {Succubus, SkullBoss, Demon };
     public enum EnemyState { Idle, FollowPlayer, AttackPlayer, AttackEnemy, FollowEnemy, Dying}
 
     /*
@@ -40,6 +40,7 @@ public class EnemyController : MonoBehaviour {
     [SerializeField] Transform projectileExitPoint;
     private float lastProjectileShootTime;
     private bool isShootingCoroutineLoop = false;
+    private bool isMeleeAttackingCoroutineLoop = false;
     #endregion
 
     #region STATE variables
@@ -94,6 +95,7 @@ public class EnemyController : MonoBehaviour {
 
     #region ANIMATION
     [Header("Animations")]
+    [SerializeField] bool isOriginalSpriteFacingLeft = true;
     public Animator enemyAnimator;
     [SerializeField] AnimationClip deathAnimation;
     [SerializeField] AnimationClip attackAnimation;
@@ -103,9 +105,11 @@ public class EnemyController : MonoBehaviour {
    
     AudioSource enemyAudioSource;
     AudioSource audioControl;
+    AudioManager audioManager;
      [Header("Audio")]
-    [SerializeField] AudioClip shootSFX;
+    [SerializeField] AudioClip attackSFX;
     [SerializeField] AudioClip deathSFX;
+    [SerializeField] AudioClip deathSFX2;
     [SerializeField] AudioClip woundedSFX;
     [SerializeField] AudioClip[] noticePlayerSFX;
     int noticePlayerSFXCount;
@@ -128,9 +132,13 @@ public class EnemyController : MonoBehaviour {
         {
             return "LESSER SKULL CLERIC";
         }
-        else
+        else if (type == EnemyType.Succubus)
         {
-            return "SUCCUBUS";
+            return "S U C C U B U S";
+        }
+        else //(type == EnemyType.Demon)
+        {
+            return "C L A W  D E M O N";
         }
     }
 
@@ -147,6 +155,9 @@ public class EnemyController : MonoBehaviour {
         enemyAudioSource = gameObject.GetComponent<AudioSource>();
         currentHP = maxHP;
         noticePlayerSFXCount = noticePlayerSFX.Length;
+        audioManager = gameObject.GetComponent<AudioManager>();
+        if (isOriginalSpriteFacingLeft)
+            isFacingRight = false;
 
         //  prepare a copy of this object in case it is neeeded to spawn a minion
         enemyCopy = this.gameObject;
@@ -197,6 +208,8 @@ public class EnemyController : MonoBehaviour {
             #endregion
         }
 
+        Debug.Log(gameObject.name + " " + dirNormalized.x);
+
         if (isPlayerMinion)
         {
             return;
@@ -219,28 +232,33 @@ public class EnemyController : MonoBehaviour {
 
     void CheckWhereEnemyIsFacing()
     {
-        // check if isFacing right variable has correct value
-        if (isFacingRight && transform.localScale.x < 0)
-        {
-           // Debug.Log("mistake - isn't facing right");
-            isFacingRight = false;
-        }
-        else if (!isFacingRight && transform.localScale.x > 0)
-        {
-           // Debug.Log("mistake - is facing right");
-            isFacingRight = true;
-        }
 
         // modify local scale to fit the direction where enemy is facing
-        if (isFacingRight && dirNormalized.x < 0)
+        if (!isOriginalSpriteFacingLeft)
         {
-            isFacingRight = false;
-            gameObject.transform.localScale = new Vector2(-1f, 1f);
+            if (isFacingRight && dirNormalized.x < 0)
+            {
+                isFacingRight = false;
+                gameObject.transform.localScale = new Vector2(-1f, 1f);
+            }
+            else if (!isFacingRight && dirNormalized.x > 0)
+            {
+                isFacingRight = true;
+                gameObject.transform.localScale = new Vector2(1f, 1f);
+            }
         }
-        else if (!isFacingRight && dirNormalized.x > 0)
+        else
         {
-            isFacingRight = true;
-            gameObject.transform.localScale = new Vector2(1f, 1f);
+            if (isFacingRight && dirNormalized.x < 0)
+            {
+                isFacingRight = false;
+                gameObject.transform.localScale = new Vector2(1f, 1f);
+            }
+            else if (!isFacingRight && dirNormalized.x > 0)
+            {
+                isFacingRight = true;
+                gameObject.transform.localScale = new Vector2(-1f, 1f);
+            }
         }
     }
 
@@ -258,11 +276,14 @@ public class EnemyController : MonoBehaviour {
         {
             return;
         }
-        if (!isAttacking)
+
+        if (!isAttacking && !isMeleeAttackingCoroutineLoop)
         {
+            currentState = EnemyState.AttackPlayer;
+
             isAttacking = true;
-            enemyAnimator.SetBool("isAttacking",true);
-            StartCoroutine(AttackTarget());
+            enemyAnimator.SetBool("isAttacking", true);
+            StartCoroutine(PlayMeleeAttackAnimation());
         }
     }
 
@@ -279,8 +300,7 @@ public class EnemyController : MonoBehaviour {
         {
             return;
         }
-        isAttacking = false;
-        enemyAnimator.SetBool("isAttacking", false);
+        EnterIdleState();
     }
 
     public void StandbyToShootTarget()
@@ -311,18 +331,51 @@ public class EnemyController : MonoBehaviour {
             return;
         }
         isPlayerInProjectileRange = false;
-        
+        EnterIdleState();
+    }
+
+    private void EnterIdleState()
+    {
         currentState = EnemyState.Idle;
         isAttacking = false;
         enemyAnimator.SetBool("isAttacking", false);
     }
 
-    private IEnumerator AttackTarget()
+    private IEnumerator PlayMeleeAttackAnimation()
     {
-        while (isAttacking)
+        yield return new WaitForSeconds(attackAnimation.length);
+        if (isAttacking && !isDying)
         {
-            yield return new WaitForSeconds(attackCooldown);
+            enemyAnimator.SetBool("isAttacking", false);
+            StartCoroutine(MeleeAttackCooldown());
+        }
+        else
+        {
+            isMeleeAttackingCoroutineLoop = false;
+        }
+    } 
+
+    /// <summary>
+    /// triggered by animation event
+    /// </summary>
+    public void MeleeDamagePlayer()
+    {
+        if (isNearPlayer)
             PlayerData.current.DamagePlayer(damagePerAttack);
+    }
+
+    private IEnumerator MeleeAttackCooldown()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        if (isAttacking)
+        {
+            isMeleeAttackingCoroutineLoop = true;
+            enemyAnimator.SetBool("isAttacking", true);
+            StartCoroutine(PlayMeleeAttackAnimation());
+        }
+        else
+        {
+            isMeleeAttackingCoroutineLoop = false;
         }
     }
 
@@ -359,7 +412,7 @@ public class EnemyController : MonoBehaviour {
 
     void ShootProjectile()
     {
-        enemyAudioSource.PlayOneShot(shootSFX, shootSFXVolume);
+        enemyAudioSource.PlayOneShot(attackSFX, shootSFXVolume);
         GameObject projectile = Instantiate(enemyProjectile, projectileExitPoint.position, projectileExitPoint.rotation, projectileExitPoint);
         EnemyProjectile projectileController = projectile.GetComponent<EnemyProjectile>();
         if (isPlayerMinion)
@@ -395,7 +448,6 @@ public class EnemyController : MonoBehaviour {
 
     void NoticePlayer()
     {
-        //Debug.Log("NOTICING " + Time.time);
         // enemy will chase player until this time and then stop if he's no longer visible
         enemyForgetsPlayerTime = Time.time + enemyMemory;
         forgotPlayerPosition = false;
@@ -549,7 +601,7 @@ public class EnemyController : MonoBehaviour {
             }
 
             // play death audio
-            enemyAudioSource.PlayOneShot(deathSFX, deathSFXVolume);
+            audioManager.PlayEnemyDeathSFX(type,deathSFX,deathSFXVolume,enemyAudioSource);
 
             // play death animation
             enemyAnimator.SetBool("isDead", true);

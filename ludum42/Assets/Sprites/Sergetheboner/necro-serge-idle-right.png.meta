@@ -1,13 +1,21 @@
 fileFormatVersion: 2
 guid: 3c1c50d894b85a84a8c5aeff908cdcf5
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: necro-serge-idle-right_0
-    21300002: necro-serge-idle-right_1
-    21300004: necro-serge-idle-right_2
-    21300006: necro-serge-idle-right_3
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: necro-serge-idle-right_0
+  - first:
+      213: 21300002
+    second: necro-serge-idle-right_1
+  - first:
+      213: 21300004
+    second: necro-serge-idle-right_2
+  - first:
+      213: 21300006
+    second: necro-serge-idle-right_3
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 10
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -62,7 +70,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -73,7 +81,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -84,7 +93,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -95,7 +105,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -106,6 +117,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -113,10 +125,10 @@ TextureImporter:
       name: necro-serge-idle-right_0
       rect:
         serializedVersion: 2
-        x: 11
+        x: 10
         y: 0
-        width: 22
-        height: 29
+        width: 24
+        height: 31
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,6 +137,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 0485516cd1401b741b6170e30fb0a10c
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -133,10 +146,10 @@ TextureImporter:
       name: necro-serge-idle-right_1
       rect:
         serializedVersion: 2
-        x: 50
+        x: 49
         y: 0
-        width: 20
-        height: 29
+        width: 22
+        height: 31
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,6 +158,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a1b86377275b1d54a88a3d538aa1b3a8
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -153,10 +167,10 @@ TextureImporter:
       name: necro-serge-idle-right_2
       rect:
         serializedVersion: 2
-        x: 88
+        x: 87
         y: 0
-        width: 20
-        height: 29
+        width: 22
+        height: 31
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,6 +179,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: b0482da3edda916448af44a5845fd6ed
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -173,10 +188,10 @@ TextureImporter:
       name: necro-serge-idle-right_3
       rect:
         serializedVersion: 2
-        x: 126
+        x: 125
         y: 0
-        width: 20
-        height: 29
+        width: 21
+        height: 31
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,6 +200,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 88f4ad2ccb934fb4892c3d6332ccc01f
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -193,10 +209,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 398f54ed1147ae643aafda242909e03d
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
