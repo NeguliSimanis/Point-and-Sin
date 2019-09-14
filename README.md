@@ -5,7 +5,7 @@
 - Resolution: 320x200
 - Engine:
 - - Unity 2018.2.2f (for original prototype)
-- - Unity 2019.2.0f1 (for latest version)
+- - Unity 2019.2.2f1 (for latest version)
 - Platforms: windows desktop
 
 ## Documentation
