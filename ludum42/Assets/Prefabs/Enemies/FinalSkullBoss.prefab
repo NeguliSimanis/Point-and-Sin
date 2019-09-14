@@ -525,6 +525,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   deathSFX: {fileID: 0}
+  attackSFXS: []
 --- !u!1 &1293955419855646
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,8 +595,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1540708991
-  m_SortingLayer: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 07f415c01cb4c264abd675f2634f8a9a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

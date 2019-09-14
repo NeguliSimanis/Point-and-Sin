@@ -1,0 +1,295 @@
+fileFormatVersion: 2
+guid: cf2c0367f59b92745a0b2c6f6bca6963
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1457515916847973326
+    second: elevated_tile_placeholder_sheet_0
+  - first:
+      213: 7397981958580674678
+    second: elevated_tile_placeholder_sheet_1
+  - first:
+      213: 6421793608608600124
+    second: elevated_tile_placeholder_sheet_2
+  - first:
+      213: 2671065403220121272
+    second: elevated_tile_placeholder_sheet_3
+  - first:
+      213: -8825397244803177857
+    second: elevated_tile_placeholder_sheet_4
+  - first:
+      213: 8901667384303720181
+    second: elevated_tile_placeholder_sheet_5
+  - first:
+      213: 5831265761495595542
+    second: elevated_tile_placeholder_sheet_6
+  - first:
+      213: 6046262876622903750
+    second: elevated_tile_placeholder_sheet_7
+  - first:
+      213: 2491987273985138380
+    second: elevated_tile_placeholder_sheet_8
+  - first:
+      213: -520044191898174313
+    second: elevated_tile_placeholder_sheet_9
+  - first:
+      213: 4436583921609938892
+    second: elevated_tile_placeholder_sheet_10
+  - first:
+      213: 8980107227187444819
+    second: elevated_tile_placeholder_sheet_11
+  - first:
+      213: -2829748224421511961
+    second: elevated_tile_placeholder_sheet_12
+  - first:
+      213: 9103004771057882984
+    second: elevated_tile_placeholder_sheet_13
+  - first:
+      213: -2023452068871199009
+    second: elevated_tile_placeholder_sheet_14
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: elevated_tile_placeholder_sheet_0
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 59
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a26a0590cbcb1643a3eec0ecd54ae24
+      internalID: -1457515916847973326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elevated_tile_placeholder_sheet_4
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 43
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ed3473ee50906f4dbfcfcdfe52b747e
+      internalID: -8825397244803177857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elevated_tile_placeholder_sheet_6
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 43
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ea17f86f18f39d4bbc7ebea13a65795
+      internalID: 5831265761495595542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elevated_tile_placeholder_sheet_7
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 36
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bffd2ec1006d06944afcc677e5f71106
+      internalID: 6046262876622903750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elevated_tile_placeholder_sheet_8
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 11
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3751b1a1e384f5e498a181bb406eeaf9
+      internalID: 2491987273985138380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elevated_tile_placeholder_sheet_9
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 11
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 131789450af56e649a703f02f7becdd1
+      internalID: -520044191898174313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: elevated_tile_placeholder_sheet_11
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 20
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bc3d5f884740f7459b07672a86289b2
+      internalID: 8980107227187444819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
