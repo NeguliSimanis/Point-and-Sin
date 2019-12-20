@@ -31,6 +31,7 @@ public class EnemySpawnPoint : MonoBehaviour
     int spawnPointDifficulty;
 
     float demonSpawnChance = 0.25f;
+    float skellySpawnChance = 0.5f;
     float brutalDemonChanceIncrease = 0.2f;
     float brutalEnemyChance = 0.4f;
     int brutalEnemyHP = 20;
@@ -77,9 +78,19 @@ public class EnemySpawnPoint : MonoBehaviour
         }
     }
 
-    private GameObject RollChanceForSpawningDemonEnemy()
+    private GameObject RollEnemyType()
     {
+        // succubus
         GameObject newEnemy = enemies[0];
+
+        // skelly
+        if (Random.Range(0f, 1f) < skellySpawnChance)
+        {
+            newEnemy = enemies[2];
+            return newEnemy;
+        }
+
+        // demon
         float currentDemonSpawnChance = demonSpawnChance;
         if (PlayerData.current.isPlayingBrutalMode)
         {
@@ -99,7 +110,7 @@ public class EnemySpawnPoint : MonoBehaviour
            // Debug.Log("Spawn point invisible " + Time.time);
             if (aliveEnemyCount < maxAliveEnemyCount)
             {
-                GameObject newEnemy = RollChanceForSpawningDemonEnemy();
+                GameObject newEnemy = RollEnemyType();
 
                 if (PlayerData.current.isPlayingBrutalMode)
                 {
